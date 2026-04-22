@@ -1,0 +1,1 @@
+This folder contains resources for the image-generation skill. It includes prompts.md with ready-to-use prompts for creating an AI CEO portrait and an icon, and a SKILL.md describing how to use the skill. Usage: integrate with Nanobana 2 and Gemini Flash 3.1 via OpenRouter API, then save outputs to ~/documents.
