@@ -1,0 +1,139 @@
+{
+  "campaign_slug": "REPLACE-ME",
+  "version": "1.0",
+  "created_at": "2026-05-06T00:00:00Z",
+
+  "goal": "Co má video docílit (1-2 věty lidsky)",
+  "platform": "youtube_preroll",
+  "aspect_ratio": "16:9",
+  "duration_total_s": 15,
+  "tier": "standard",
+
+  "brand": {
+    "name": "BRAND_NAME",
+    "voice_summary": "Brand voice in 1-2 sentences",
+    "color_palette": ["#hex", "#hex", "#hex"],
+    "primary_font": "Inter",
+    "logo_path": "/documents/brand/logo.png",
+    "brand_board": "/documents/brand/brand-board.png",
+    "brand_kit": "/documents/brand/brand-kit/04-mood-board.png"
+  },
+
+  "product": {
+    "slug": "product-slug",
+    "name": "Product Name",
+    "main_promise": "What the product promises",
+    "main_pain": "What pain it solves",
+    "hero_image": "/documents/ads/video/REPLACE-ME/images/hero.jpg",
+    "additional_images": [
+      "/documents/ads/video/REPLACE-ME/images/alternate-angle-1.jpg",
+      "/documents/ads/video/REPLACE-ME/images/alternate-angle-2.jpg",
+      "/documents/ads/video/REPLACE-ME/images/alternate-angle-3.jpg",
+      "/documents/ads/video/REPLACE-ME/images/alternate-angle-4.jpg"
+    ]
+  },
+
+  "product_visual_identity": "STRICT PRODUCT IDENTITY clause — describe the EXACT visual anatomy of the product (colors, proportions, branding placement, materials, key visual features). This text gets injected into the storyboard prompt to lock product fidelity. Include an ABSOLUTE NEGATIVE LIST of what the product is NOT (don't render as X, Y, Z).",
+
+  "shared_choices": {
+    "cut_count": 5,
+    "color_palette_label": "Short label (~5-10 words) describing the palette mood",
+    "environment_fingerprint": "1 sentence describing the location across all cuts",
+    "style_preset": "anamorphic-editorial",
+    "mood_keywords": ["wistful", "contemplative", "premium"],
+    "audio_tone": ["wind rush", "distant waves", "low warm guitar"],
+    "scene_continuity": "OPTIONAL — only when all cuts share the same location. Describe what stays constant across cuts (props in fixed positions, room layout, lighting direction, etc.) so the model doesn't shift the scene between shots."
+  },
+
+  "character": {
+    "description": "Detailed character description for consistency across cuts (age, ethnicity, hair, build, vibe). Pulled DYNAMICALLY into the Seedance prompt — no hardcoded fallback.",
+    "wardrobe": "What they wear",
+    "hero_props": ["prop 1", "prop 2"]
+  },
+
+  "cuts": [
+    {
+      "id": "cut-01",
+      "duration": 3,
+      "shot_type": "WIDE",
+      "focal_length": "35mm anamorphic",
+      "camera_move": "DOLLY-IN",
+      "lighting_mood": "Late golden hour, warm coral",
+      "subject_framing": "Where subject is in frame, what action they perform, product placement and orientation",
+      "depth_description": "Foreground / midground / background",
+      "environment_description": "Specific environment for this cut",
+      "video_prompt": "Full Seedance prompt — describes camera, action, mood, product anatomy. NO dialog."
+    },
+    {
+      "id": "cut-02",
+      "duration": 3,
+      "shot_type": "MEDIUM",
+      "focal_length": "50mm anamorphic",
+      "camera_move": "STATIC",
+      "lighting_mood": "...",
+      "subject_framing": "...",
+      "depth_description": "...",
+      "environment_description": "...",
+      "video_prompt": "..."
+    },
+    {
+      "id": "cut-03",
+      "duration": 3,
+      "shot_type": "CLOSE-UP",
+      "focal_length": "85mm anamorphic",
+      "camera_move": "STEADICAM",
+      "lighting_mood": "...",
+      "subject_framing": "...",
+      "depth_description": "...",
+      "environment_description": "...",
+      "video_prompt": "..."
+    },
+    {
+      "id": "cut-04",
+      "duration": 3,
+      "shot_type": "MACRO",
+      "focal_length": "100mm macro",
+      "camera_move": "SLOW PUSH-IN",
+      "lighting_mood": "...",
+      "subject_framing": "...",
+      "depth_description": "...",
+      "environment_description": "...",
+      "video_prompt": "..."
+    },
+    {
+      "id": "cut-05",
+      "duration": 3,
+      "shot_type": "MEDIUM",
+      "focal_length": "50mm anamorphic",
+      "camera_move": "DOLLY-OUT",
+      "lighting_mood": "...",
+      "subject_framing": "...",
+      "depth_description": "...",
+      "environment_description": "...",
+      "video_prompt": "..."
+    }
+  ],
+
+  "audio": {
+    "preset": "ambient-music",
+    "music_track": null,
+    "music_volume": -18,
+    "subtitles": "none",
+    "end_card": false
+  },
+
+  "voiceover": {
+    "backend": "gemini",
+    "language": "cs",
+    "voice": "Aoede",
+    "style_instructions": "Speak in Czech with a warm intimate tone. Continuous flowing delivery, NO pauses. PRONUNCIATION RULES: 'BrandName' is pronounced as 'PHONETIC-RESPELL' — write phonetic respell directly in the script field, not here. GRADUATION ARC: soft start → quiet conviction → calm landing. Female voice mid-30s/40s, warm, mature. NOT a commercial announcer voice.",
+    "temperature": 0.75,
+    "script": "Plný český text bez pauz. Brand name napiš foneticky (např. 'Akvýna' místo 'Aqueena')."
+  },
+
+  "options": {
+    "concurrent_seedance_requests": 1,
+    "image_backend": "fal_gpt_image_2",
+    "video_backend": "fal_seedance_v2_reference_to_video"
+  }
+}

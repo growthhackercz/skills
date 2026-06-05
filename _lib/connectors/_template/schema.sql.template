@@ -1,0 +1,75 @@
+-- <Provider> cache schema pro Netlify Database (Postgres).
+--
+-- REPLACE <provider> s lowercase názvem (např. pohoda, shoptet, mailerlite).
+--
+-- Pattern:
+--   1. Tables pro každý hlavní resource (1:1 s endpointy z operations.ts)
+--   2. Vždy uloží raw JSONB (= debug + future-proof)
+--   3. Extrahovaná klíčová pole jako native columns (= indexovatelné)
+--   4. Pre-aggregated views pro typické dashboard queries
+
+-- ─── Cache tables ─────────────────────────────────────────────────────────
+
+CREATE TABLE IF NOT EXISTS <provider>_invoices (
+  id BIGINT PRIMARY KEY,
+  -- ↓ Extrahuj klíčová pole z API response (= častí query předikáty)
+  number TEXT,
+  created_at TIMESTAMPTZ,
+  total NUMERIC,
+  currency TEXT,
+  paid BOOLEAN,
+  customer_id BIGINT,
+  -- ↑ Přidej / odeber podle reálných polí
+  raw JSONB NOT NULL,          -- Vždy uchovej raw — kdyby chyběl extrakt
+  cached_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_<provider>_invoices_created ON <provider>_invoices(created_at);
+CREATE INDEX IF NOT EXISTS idx_<provider>_invoices_paid ON <provider>_invoices(paid);
+CREATE INDEX IF NOT EXISTS idx_<provider>_invoices_customer ON <provider>_invoices(customer_id);
+
+CREATE TABLE IF NOT EXISTS <provider>_customers (
+  id BIGINT PRIMARY KEY,
+  email TEXT,
+  -- ... další pole
+  raw JSONB NOT NULL,
+  cached_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_<provider>_customers_email ON <provider>_customers(email);
+
+-- ... další resource tables podle endpointů providera
+
+-- ─── Refresh metadata ─────────────────────────────────────────────────────
+
+CREATE TABLE IF NOT EXISTS <provider>_refresh_log (
+  resource TEXT PRIMARY KEY,
+  last_refreshed_at TIMESTAMPTZ NOT NULL,
+  record_count INTEGER NOT NULL DEFAULT 0,
+  last_error TEXT,
+  last_success_at TIMESTAMPTZ
+);
+
+-- ─── Pre-aggregated views (= rychlé dashboard queries) ──────────────────
+
+-- Příklad: Tržby po měsících
+CREATE OR REPLACE VIEW v_<provider>_revenue_by_month AS
+SELECT
+  date_trunc('month', created_at)::date AS month,
+  SUM(total) AS revenue,
+  COUNT(*) AS invoice_count
+FROM <provider>_invoices
+WHERE paid = TRUE
+GROUP BY 1
+ORDER BY 1 DESC;
+
+-- Příklad: KPI snapshot (jedna row, 5+ metrik pro hero KPI cards)
+CREATE OR REPLACE VIEW v_<provider>_snapshot AS
+SELECT
+  (SELECT SUM(total) FROM <provider>_invoices
+     WHERE paid AND created_at >= date_trunc('month', CURRENT_DATE)) AS revenue_this_month,
+  (SELECT SUM(total) FROM <provider>_invoices
+     WHERE NOT paid) AS unpaid_total,
+  (SELECT COUNT(*) FROM <provider>_customers) AS total_customers;
+
+-- ... další views podle dashboard need

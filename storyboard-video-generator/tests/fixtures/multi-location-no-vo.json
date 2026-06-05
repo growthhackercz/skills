@@ -1,0 +1,32 @@
+{
+  "campaign_slug": "test-multi-location-no-vo",
+  "version": "1.0",
+  "created_at": "2026-05-08T00:00:00Z",
+  "goal": "Multi-location lifestyle ad without voiceover.",
+  "platform": "tiktok",
+  "aspect_ratio": "9:16",
+  "duration_total_s": 15,
+  "tier": "fast",
+  "brand": {"name": "Lifestyle Brand", "voice_summary": "Authentic UGC.", "color_palette": ["#000", "#FFF"], "primary_font": "Inter"},
+  "shared_choices": {
+    "cut_count": 5,
+    "color_palette_label": "neutral + accent",
+    "environment_fingerprint": "Multiple urban + outdoor settings.",
+    "style_preset": "handheld-ugc",
+    "mood_keywords": ["authentic", "candid", "intimate", "raw"],
+    "audio_tone": ["acoustic guitar", "lo-fi", "room tone"]
+  },
+  "character": {
+    "description": "Young creator in mid-20s, casual style, expressive face.",
+    "wardrobe": "Vintage tee, denim",
+    "hero_props": ["phone", "coffee cup"]
+  },
+  "cuts": [
+    {"id": "cut-01", "duration": 3, "shot_type": "WIDE", "focal_length": "28mm", "camera_move": "HANDHELD", "lighting_mood": "Outdoor daylight", "subject_framing": "Wide of subject walking outdoor.", "depth_description": "Deep DOF.", "environment_description": "City street.", "video_prompt": "Wide handheld outdoor."},
+    {"id": "cut-02", "duration": 3, "shot_type": "MEDIUM", "focal_length": "35mm", "camera_move": "HANDHELD", "lighting_mood": "Cafe warm", "subject_framing": "Medium in cafe.", "depth_description": "Subject sharp.", "environment_description": "Cafe interior.", "video_prompt": "Medium handheld cafe."},
+    {"id": "cut-03", "duration": 3, "shot_type": "CLOSE-UP", "focal_length": "50mm", "camera_move": "HANDHELD", "lighting_mood": "Window light", "subject_framing": "CU laughing.", "depth_description": "Face only.", "environment_description": "Apartment.", "video_prompt": "CU 50mm handheld."},
+    {"id": "cut-04", "duration": 3, "shot_type": "INSERT", "focal_length": "50mm", "camera_move": "STATIC", "lighting_mood": "Window light", "subject_framing": "Insert of phone screen.", "depth_description": "Macro phone.", "environment_description": "Apartment.", "video_prompt": "Insert of phone."},
+    {"id": "cut-05", "duration": 3, "shot_type": "WIDE", "focal_length": "28mm", "camera_move": "HANDHELD", "lighting_mood": "Sunset golden", "subject_framing": "Wide outro outdoor.", "depth_description": "Deep DOF sunset.", "environment_description": "Park.", "video_prompt": "Wide handheld park sunset."}
+  ],
+  "audio": {"preset": "ambient-music"}
+}

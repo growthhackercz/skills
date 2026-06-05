@@ -1,0 +1,139 @@
+/**
+ * <Provider> API operations.
+ *
+ * Pattern:
+ *   1. TypeScript interfaces pro response shapes (typed safety)
+ *   2. fetchHelper s retry + timeout
+ *   3. Funkce pro každý hlavní endpoint
+ *   4. High-level "recepty" — kombinace operací pro typické dashboard queries
+ *
+ * Reference: viz docs.md pro endpoint katalog + filtry.
+ */
+
+import { BASE_URL, standardHeaders, type Credentials } from './auth';
+
+// ─── Types (odvozeno z reálných API responses, NE z docs) ────────────────
+
+export interface Invoice {
+  id: number | string;
+  // ... další pole podle JSON shape z dokumentace
+  // Příklad:
+  // number: string;
+  // created_at: string;
+  // total: number;
+  // currency: string;
+  // paid: boolean;
+}
+
+export interface Customer {
+  id: number | string;
+  email: string;
+  // ...
+}
+
+// Další types per resource...
+
+// ─── Low-level fetch helper ──────────────────────────────────────────────
+
+const DEFAULT_TIMEOUT_MS = 30_000;
+const MAX_RETRIES = 3;
+
+async function apiFetch<T>(
+  path: string,
+  query: Record<string, string | number | undefined>,
+  creds: Credentials,
+): Promise<T> {
+  const url = new URL(BASE_URL + (path.startsWith('/') ? path : '/' + path));
+  for (const [key, value] of Object.entries(query)) {
+    if (value !== undefined && value !== '') {
+      url.searchParams.set(key, String(value));
+    }
+  }
+
+  let lastError: unknown;
+  for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), DEFAULT_TIMEOUT_MS);
+      const res = await fetch(url.toString(), {
+        headers: standardHeaders(creds),
+        signal: controller.signal,
+      });
+      clearTimeout(timeout);
+
+      if (res.status === 429 || (res.status >= 500 && res.status < 600)) {
+        // Retry s exponential backoff
+        await new Promise((r) => setTimeout(r, 500 * 2 ** (attempt - 1)));
+        lastError = new Error(`HTTP ${res.status} (retry ${attempt}/${MAX_RETRIES})`);
+        continue;
+      }
+
+      if (!res.ok) {
+        const body = await res.text().catch(() => '');
+        throw new Error(`<Provider> HTTP ${res.status} for ${path}: ${body.slice(0, 500)}`);
+      }
+
+      return (await res.json()) as T;
+    } catch (err) {
+      lastError = err;
+      if (attempt === MAX_RETRIES) throw err;
+      await new Promise((r) => setTimeout(r, 500 * 2 ** (attempt - 1)));
+    }
+  }
+  throw lastError;
+}
+
+// ─── Resource operations ─────────────────────────────────────────────────
+
+/**
+ * Příklad — list faktur. Adaptuj podle endpointu providera.
+ *
+ * @param opts.from — start date (ISO 8601 nebo provider-specific format)
+ * @param opts.to — end date
+ * @param opts.limit — max records
+ */
+export async function getInvoices(
+  creds: Credentials,
+  opts: { from?: string; to?: string; limit?: number } = {},
+): Promise<Invoice[]> {
+  const query: Record<string, string | number | undefined> = {
+    limit: opts.limit ?? 100,
+  };
+  // ↓ Upravit názvy podle docs (date_from, since, etc.)
+  if (opts.from) query.from = opts.from;
+  if (opts.to) query.to = opts.to;
+
+  const data = await apiFetch<Invoice[] | { invoices: Invoice[] }>('/invoices', query, creds);
+  // Některé APIs vrací array, jiné wrap do { invoices: [...] }
+  return Array.isArray(data) ? data : data.invoices ?? [];
+}
+
+export async function getCustomers(
+  creds: Credentials,
+  opts: { limit?: number } = {},
+): Promise<Customer[]> {
+  const data = await apiFetch<Customer[] | { customers: Customer[] }>('/customers', {
+    limit: opts.limit ?? 100,
+  }, creds);
+  return Array.isArray(data) ? data : data.customers ?? [];
+}
+
+// ... další endpointy
+
+// ─── High-level recipes (= typické dashboard queries) ────────────────────
+
+/**
+ * Recept: Tržby za období.
+ */
+export async function getRevenueForPeriod(
+  creds: Credentials,
+  dateRange: { from: string; to: string },
+): Promise<{ total: number; currency: string; count: number }> {
+  const invoices = await getInvoices(creds, dateRange);
+  // ↓ Adaptuj podle pole, které drží částku
+  const paid = invoices; // .filter(i => i.paid) — pokud existuje pole
+  const total = paid.reduce((sum, inv) => sum + (Number((inv as any).total) || 0), 0);
+  return { total, currency: 'CZK', count: paid.length };
+}
+
+// Další recepty per dashboard need...

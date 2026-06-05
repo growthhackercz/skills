@@ -1,0 +1,16 @@
+{
+  "name": "@cliqsales/connectors",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    "./fapi/auth": "./fapi/auth.ts",
+    "./fapi/operations": "./fapi/operations.ts",
+    "./fapi/refresh": "./fapi/refresh.ts",
+    "./fio/auth": "./fio/auth.ts",
+    "./fio/operations": "./fio/operations.ts",
+    "./fio/refresh": "./fio/refresh.ts",
+    "./package.json": "./package.json"
+  }
+}

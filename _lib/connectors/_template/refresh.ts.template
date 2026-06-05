@@ -1,0 +1,155 @@
+/**
+ * <Provider> background refresh worker.
+ *
+ * Volá se z:
+ *   - Netlify Scheduled Function (cron, např. každých 15 min)
+ *   - Manual on-demand (klient klikne "Refresh" v dashboardu)
+ *
+ * NEVOLÁ z browseru — server-side only.
+ *
+ * Pattern použití v Netlify Function:
+ *
+ * ```typescript
+ * // app/api/refresh/<provider>/route.ts
+ * import { neon } from '@neondatabase/serverless';
+ * import { refresh<Provider>All } from '@cliqsales/connectors/<provider>/refresh';
+ *
+ * const sql = neon(process.env.NETLIFY_DATABASE_URL!);
+ *
+ * export async function POST() {
+ *   const result = await refresh<Provider>All({
+ *     exec: async (q, p) => sql(q, p),
+ *   });
+ *   return Response.json(result);
+ * }
+ *
+ * export const config = { schedule: '@every 15m' };
+ * ```
+ */
+
+import { loadCredentials } from './auth';
+import { getInvoices, getCustomers } from './operations';
+// ... další imports per resource
+
+export interface SqlExecutor {
+  exec(sql: string, params?: unknown[]): Promise<unknown[]>;
+}
+
+export interface RefreshSummary {
+  resource: string;
+  ok: boolean;
+  recordCount: number;
+  durationMs: number;
+  error?: string;
+}
+
+// ─── Refresh per resource ────────────────────────────────────────────────
+
+export async function refresh<Provider>Invoices(
+  sql: SqlExecutor,
+  options: { daysBack?: number } = {},
+): Promise<RefreshSummary> {
+  const startMs = Date.now();
+  try {
+    const creds = loadCredentials();
+    const daysBack = options.daysBack ?? 90;
+    const today = new Date();
+    const from = new Date(today.getTime() - daysBack * 24 * 60 * 60 * 1000)
+      .toISOString().slice(0, 10);
+    const to = today.toISOString().slice(0, 10);
+
+    const invoices = await getInvoices(creds, { from, to, limit: 500 });
+
+    // Upsert per invoice
+    for (const inv of invoices) {
+      await sql.exec(
+        `INSERT INTO <provider>_invoices (
+          id, number, created_at, total, currency, paid, customer_id, raw, cached_at
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW())
+        ON CONFLICT (id) DO UPDATE SET
+          total = EXCLUDED.total,
+          paid = EXCLUDED.paid,
+          raw = EXCLUDED.raw,
+          cached_at = NOW()
+        `,
+        [
+          inv.id,
+          (inv as any).number ?? null,
+          (inv as any).created_at ?? null,
+          (inv as any).total ?? null,
+          (inv as any).currency ?? null,
+          (inv as any).paid ?? false,
+          (inv as any).customer_id ?? null,
+          JSON.stringify(inv),
+        ],
+      );
+    }
+
+    await logRefresh(sql, 'invoices', invoices.length);
+    return {
+      resource: 'invoices',
+      ok: true,
+      recordCount: invoices.length,
+      durationMs: Date.now() - startMs,
+    };
+  } catch (err) {
+    const error = err instanceof Error ? err.message : String(err);
+    await logRefreshError(sql, 'invoices', error);
+    return {
+      resource: 'invoices',
+      ok: false,
+      recordCount: 0,
+      durationMs: Date.now() - startMs,
+      error,
+    };
+  }
+}
+
+// ... další refresh<Provider>X funkce per resource
+
+/**
+ * Refresh všeho — pro cron nebo manual.
+ */
+export async function refresh<Provider>All(sql: SqlExecutor): Promise<{
+  ok: boolean;
+  results: RefreshSummary[];
+  durationMs: number;
+}> {
+  const start = Date.now();
+  const results = await Promise.all([
+    refresh<Provider>Invoices(sql),
+    // refresh<Provider>Customers(sql),
+    // ...
+  ]);
+  return {
+    ok: results.every((r) => r.ok),
+    results,
+    durationMs: Date.now() - start,
+  };
+}
+
+// ─── Logging helpers ─────────────────────────────────────────────────────
+
+async function logRefresh(sql: SqlExecutor, resource: string, recordCount: number): Promise<void> {
+  await sql.exec(
+    `INSERT INTO <provider>_refresh_log (resource, last_refreshed_at, record_count, last_success_at, last_error)
+     VALUES ($1, NOW(), $2, NOW(), NULL)
+     ON CONFLICT (resource) DO UPDATE SET
+       last_refreshed_at = NOW(),
+       record_count = EXCLUDED.record_count,
+       last_success_at = NOW(),
+       last_error = NULL`,
+    [resource, recordCount],
+  );
+}
+
+async function logRefreshError(sql: SqlExecutor, resource: string, error: string): Promise<void> {
+  await sql.exec(
+    `INSERT INTO <provider>_refresh_log (resource, last_refreshed_at, record_count, last_error)
+     VALUES ($1, NOW(), 0, $2)
+     ON CONFLICT (resource) DO UPDATE SET
+       last_refreshed_at = NOW(),
+       last_error = EXCLUDED.last_error`,
+    [resource, error.slice(0, 1000)],
+  );
+}

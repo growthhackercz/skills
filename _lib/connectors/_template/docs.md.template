@@ -1,0 +1,94 @@
+# <Provider> — quick reference pro CTO
+
+Vyplň po extrakci z API dokumentace.
+
+## API základ
+
+- **Base URL:** `https://api.<provider>.cz`
+- **Auth:** <Basic / Bearer / API key v header / OAuth2>
+- **Format:** JSON
+- **Rate limit:** <X req / min nebo "nedokumentován">
+- **Pagination:** <?page=N / ?offset=N / cursor-based>
+- **Read-only / Read-Write:** <read-only / oba>
+
+## Auth setup
+
+Env vars potřebné:
+```bash
+<PROVIDER>_USER=<email nebo app ID>
+<PROVIDER>_TOKEN=<API key>
+```
+
+Jak token získat:
+1. Přihlas se do <Provider> UI
+2. <URL nebo cesta v UI> → API klíče
+3. Vygeneruj nový token (read-only access)
+4. Zkopíruj do env vars
+
+## Klíčové endpointy
+
+| Endpoint | Co vrací | Použití v dashboardu |
+|---|---|---|
+| `GET /invoices` | List faktur | Tržby, splatnost |
+| `GET /invoices/{id}` | Detail faktury | Drilling |
+| `GET /customers` | List klientů | Top zákazníci |
+| `GET /products` | Catalog | Top produkty |
+| `GET /<...>` | ... | ... |
+
+## JSON shapes (klíčová pole)
+
+### Faktura
+```json
+{
+  "id": ...,
+  "number": "...",
+  "created_at": "...",
+  "total": ...,
+  "currency": "...",
+  "paid": true/false
+}
+```
+
+### Klient
+```json
+{
+  "id": ...,
+  "email": "...",
+  "company": "..."
+}
+```
+
+## Filtry a pagination
+
+- **Date range:** `?from=YYYY-MM-DD&to=YYYY-MM-DD` (nebo specific syntax)
+- **Pagination:** `?page=N` (page size: ~?)
+- **Sorting:** `?sort=created_at_desc` (pokud podporováno)
+
+## Edge cases a pasti
+
+- ⚠️ <Něco, co dokumentace neuvádí — např. „status field nemá enum,
+   musíš odvodit z bool flags"\>
+- ⚠️ <Datumové formáty se liší per endpoint>
+- ⚠️ <Pagination není konzistentní napříč zdroji>
+
+## Co API NEUMÍ (= nehledejte)
+
+- <MRR / churn analytika — ne, musíš spočítat ručně>
+- <Marketing attribution (UTM) — ne>
+- <Webhooks pro real-time eventy — <možná / ne>>
+
+## Použití TypeScript connectoru
+
+```typescript
+import { loadCredentials } from '@cliqsales/connectors/<provider>/auth';
+import { getInvoices, getCustomers } from '@cliqsales/connectors/<provider>/operations';
+
+const creds = loadCredentials();
+const invoices = await getInvoices(creds, { from: '2026-01-01', to: '2026-12-31' });
+```
+
+## Reference
+
+- API dokumentace: <URL>
+- (Volitelně) GitHub klient: <URL>
+- (Volitelně) Postman collection: <URL>

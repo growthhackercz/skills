@@ -1,0 +1,55 @@
+{
+  "campaign_slug": "test-single-location-product",
+  "version": "1.0",
+  "created_at": "2026-05-08T00:00:00Z",
+  "goal": "Premium wellness ad — single morning vanity location, female protagonist, hero device.",
+  "platform": "ig_reel",
+  "aspect_ratio": "9:16",
+  "duration_total_s": 15,
+  "tier": "standard",
+  "brand": {
+    "name": "Test Brand",
+    "voice_summary": "Premium wellness, calm, scientific.",
+    "color_palette": ["#F5F1EA", "#D4C7B8"],
+    "primary_font": "Crimson Text"
+  },
+  "product": {
+    "slug": "test-device",
+    "name": "Test Device",
+    "main_promise": "Improves skin quality.",
+    "main_pain": "Aging, fine lines.",
+    "hero_image": "/tmp/nonexistent-hero.jpg",
+    "additional_images": ["/tmp/nonexistent-alt1.jpg", "/tmp/nonexistent-alt2.jpg"]
+  },
+  "product_visual_identity": "STRICT — pistol-grip handheld biolamp, glossy white shell + dark grey grip + circular yellow lens. NEVER depict as flat pad, phone, hairdryer.",
+  "shared_choices": {
+    "cut_count": 5,
+    "color_palette_label": "warm cream + ivory + caramel",
+    "environment_fingerprint": "Quiet morning vanity, linen curtains, marble tray.",
+    "style_preset": "anamorphic-editorial",
+    "mood_keywords": ["serene", "premium", "intentional"],
+    "audio_tone": ["soft water sound", "linen rustle", "low warm piano with reverb"],
+    "scene_continuity": "All 5 cuts in same morning vanity. Device on tray. Linen curtains. Camera moves around space."
+  },
+  "character": {
+    "description": "Czech woman late 40s, naturally aged with grace, soft blonde-grey hair, no heavy makeup, calm presence.",
+    "wardrobe": "Cream silk slip top, no jewelry except gold studs",
+    "hero_props": ["device", "ceramic mug", "open book", "white orchid"]
+  },
+  "cuts": [
+    {"id": "cut-01", "duration": 3, "shot_type": "WIDE", "focal_length": "35mm anamorphic", "camera_move": "DOLLY-IN", "lighting_mood": "Soft morning light", "subject_framing": "Wide establishing of woman at vanity.", "depth_description": "FG marble + props sharp.", "environment_description": "Vanity area.", "video_prompt": "Wide 35mm anamorphic establishing shot."},
+    {"id": "cut-02", "duration": 3, "shot_type": "MEDIUM", "focal_length": "50mm anamorphic", "camera_move": "STATIC", "lighting_mood": "Soft morning light", "subject_framing": "Medium of woman holding device.", "depth_description": "Subject sharp, BG soft.", "environment_description": "Vanity.", "video_prompt": "Medium 50mm of woman with device."},
+    {"id": "cut-03", "duration": 3, "shot_type": "CLOSE-UP", "focal_length": "85mm anamorphic", "camera_move": "STEADICAM", "lighting_mood": "Warm window light", "subject_framing": "CU of hand using device on cheek.", "depth_description": "Macro hand + device.", "environment_description": "Vanity.", "video_prompt": "Close-up of hand using device."},
+    {"id": "cut-04", "duration": 3, "shot_type": "MACRO", "focal_length": "100mm macro", "camera_move": "PUSH-IN", "lighting_mood": "Warm specular", "subject_framing": "Macro of yellow emitter lens detail.", "depth_description": "Macro device detail.", "environment_description": "Vanity.", "video_prompt": "Macro 100mm push-in on device."},
+    {"id": "cut-05", "duration": 3, "shot_type": "MEDIUM", "focal_length": "50mm anamorphic", "camera_move": "DOLLY-OUT", "lighting_mood": "Soft morning light", "subject_framing": "Medium dolly-out of woman finishing routine.", "depth_description": "Wide environment.", "environment_description": "Vanity.", "video_prompt": "Medium 50mm dolly-out."}
+  ],
+  "audio": {"preset": "ambient-music"},
+  "voiceover": {
+    "backend": "gemini",
+    "language": "cs",
+    "voice": "Aoede",
+    "style_instructions": "Speak in Czech with warm intimate tone. NO pauses. Graduation arc.",
+    "temperature": 0.75,
+    "script": "Stárnutí se nezastaví. Ale zpomalí. Deset minut světla denně. Pleť, která zůstává sama sebou."
+  }
+}

@@ -1,0 +1,72 @@
+/**
+ * <Provider> authentication wrapper.
+ *
+ * REPLACE <Provider> s názvem služby (např. Pohoda, Shoptet, Stormware).
+ *
+ * Vyber správný auth pattern podle dokumentace:
+ *   - Basic auth (user + token)
+ *   - Bearer token
+ *   - API key v header
+ *   - OAuth2 (pre-existing access token)
+ *
+ * Env vars (set přes netlify-publisher env-set):
+ *   <PROVIDER>_USER   (nebo _EMAIL / _APP_ID)
+ *   <PROVIDER>_TOKEN  (nebo _API_KEY / _ACCESS_TOKEN)
+ *
+ * Token NIKDY nedávej do query stringu, shell argumentů ani logů.
+ */
+
+export const BASE_URL = 'https://api.<provider>.cz'; // ← upravit dle docs
+
+export interface Credentials {
+  user: string;
+  token: string;
+  // ... další pole specifická pro auth model (např. apiSecret, accountId)
+}
+
+export function loadCredentials(): Credentials {
+  const user = (process.env.<PROVIDER>_USER ?? '').trim();
+  const token = (process.env.<PROVIDER>_TOKEN ?? '').trim();
+  if (!user || !token) {
+    throw new Error(
+      '<PROVIDER>_USER nebo <PROVIDER>_TOKEN chybí v env vars. ' +
+        'Nastav přes netlify-publisher env-set.',
+    );
+  }
+  return { user, token };
+}
+
+// ─── Vyber JEDEN z patternů níže (smaž ostatní) ───────────────────────────
+
+// Pattern A: Basic auth (např. FAPI)
+export function authHeader(creds: Credentials): string {
+  const encoded = Buffer.from(`${creds.user}:${creds.token}`, 'utf8').toString('base64');
+  return `Basic ${encoded}`;
+}
+
+// Pattern B: Bearer token (např. Stripe, Meta Ads)
+// export function authHeader(creds: Credentials): string {
+//   return `Bearer ${creds.token}`;
+// }
+
+// Pattern C: API key v custom header (např. SendGrid)
+// export function headers(creds: Credentials): Record<string, string> {
+//   return {
+//     'X-API-Key': creds.token,
+//     'Accept': 'application/json',
+//   };
+// }
+
+// Pattern D: API key v query param (NEDOPORUČUJE SE — token v URL = leak v logs)
+// Jen pokud provider nepodporuje header auth.
+
+// ─── Standard headers pro každý request ───────────────────────────────────
+
+export function standardHeaders(creds: Credentials): Record<string, string> {
+  return {
+    Accept: 'application/json',
+    Authorization: authHeader(creds),       // ← pokud Pattern A nebo B
+    'User-Agent': 'cliqsales-<provider>-connector/1.0',
+    // 'X-API-Key': creds.token,             // ← pokud Pattern C (smaž Authorization výše)
+  };
+}
