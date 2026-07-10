@@ -15,7 +15,7 @@ Tento skill je GHL/CliqSales adapter pro draft email kampane. Nepise copy a nepr
 Preferovany vstup:
 
 ```text
-/documents/brand/content/email/{campaign-slug}/email-manifest.json
+/documents/content/email/{campaign-slug}/email-manifest.json
 ```
 
 Podporuje i jeden `.html` soubor s `EMAIL METADATA` komentarem.

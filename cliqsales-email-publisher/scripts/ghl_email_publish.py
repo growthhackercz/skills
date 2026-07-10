@@ -68,7 +68,59 @@ def load_env_file(path: str | None) -> None:
         return
 
 
+def _resolve_ghl_credentials() -> dict[str, str] | None:
+    """Resolve GHL creds via the shared cc_credentials resolver (CliqSales profile
+    in credentials.json, env fallback). Returns None when unavailable."""
+    script_path = Path(__file__).resolve()
+    candidates: list[Path] = [script_path.parents[1].parent / "_lib"]
+    for env_name in ("OPENCLAW_HOME", "CC_OPENCLAW_HOME"):
+        raw_home = os.environ.get(env_name, "").strip()
+        if raw_home:
+            home = Path(raw_home).expanduser()
+            candidates.append(home / "cs-skills" / "_lib")
+            candidates.append(home / ".openclaw" / "cs-skills" / "_lib")
+    candidates.append(Path.home() / ".openclaw" / "cs-skills" / "_lib")
+    candidates.extend(parent / "cs-skills" / "_lib" for parent in script_path.parents)
+    seen: set[str] = set()
+    for lib_dir in candidates:
+        key = str(lib_dir)
+        if key in seen or not (lib_dir / "cc_credentials.py").exists():
+            continue
+        seen.add(key)
+        if key not in sys.path:
+            sys.path.insert(0, key)
+        try:
+            from cc_credentials import ghl_credentials  # type: ignore
+        except Exception:
+            continue
+        creds = ghl_credentials()
+        if creds and creds.get("api_key") and creds.get("location_id"):
+            return creds
+        return None
+    return None
+
+
+_GHL_CREDS_CACHE: dict[str, str] | None = None
+_GHL_CREDS_LOADED = False
+_GHL_KEY_MAP = {"GHL_API_KEY": "api_key", "GHL_LOCATION_ID": "location_id", "GHL_USER": "user"}
+
+
+def _ghl_creds() -> dict[str, str] | None:
+    global _GHL_CREDS_CACHE, _GHL_CREDS_LOADED
+    if not _GHL_CREDS_LOADED:
+        _GHL_CREDS_LOADED = True
+        _GHL_CREDS_CACHE = _resolve_ghl_credentials()
+    return _GHL_CREDS_CACHE
+
+
 def require_env(name: str) -> str:
+    # GHL keys resolve via the credential profile first (fáze 2), then env.
+    if name in _GHL_KEY_MAP:
+        creds = _ghl_creds()
+        if creds:
+            resolved = str(creds.get(_GHL_KEY_MAP[name], "")).strip()
+            if resolved:
+                return resolved
     value = os.environ.get(name, "").strip()
     if not value:
         raise GHLMailError(f"Missing required environment variable: {name}")

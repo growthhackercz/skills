@@ -24,6 +24,8 @@ NPM_INSTALL_TIMEOUT = 300  # 5 min
 BUILD_TIMEOUT = 600  # 10 min
 DNS_POLL_TIMEOUT = 300  # 5 min
 DNS_POLL_INTERVAL = 15  # sekund
+DEPLOY_URL_VERIFY_TIMEOUT = 45
+DEPLOY_URL_VERIFY_INTERVAL = 3
 DEFAULT_CREATED_VIA = "control-center-netlify-publisher"
 SITE_NAME_RE = re.compile(r"^[a-z0-9](?:[a-z0-9-]{1,61}[a-z0-9])$")
 DOMAIN_RE = re.compile(r"^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,}$")
@@ -654,6 +656,12 @@ def cleanup_build_artifacts(project_dir: Path, framework: dict[str, Any]) -> dic
     """Smaže node_modules + relevantní cache po buildu. Vrátí stats."""
     removed = {"node_modules": 0, "cache": 0}
 
+    # SSR deploy uses `netlify deploy` build mode, which needs the local project
+    # dependencies/config to bundle functions and framework routes. Static exports
+    # upload `out/` directly and can be cleaned aggressively.
+    if framework.get("ssr"):
+        return removed
+
     node_modules = project_dir / "node_modules"
     if node_modules.is_dir():
         size = _dir_size(node_modules)
@@ -869,7 +877,10 @@ def command_build(args: argparse.Namespace) -> dict[str, Any]:
 
     # Cleanup
     cleanup_stats = {"node_modules": 0, "cache": 0}
+    cleanup_skipped = ""
     if not args.keep_cache:
+        if framework["ssr"]:
+            cleanup_skipped = "SSR deploy needs dependencies/cache for Netlify build mode"
         cleanup_stats = cleanup_build_artifacts(project_dir, framework)
 
     return {
@@ -879,6 +890,7 @@ def command_build(args: argparse.Namespace) -> dict[str, Any]:
             "nodeModulesBytes": cleanup_stats["node_modules"],
             "cacheBytes": cleanup_stats["cache"],
         },
+        **({"cleanupSkipped": cleanup_skipped} if cleanup_skipped else {}),
         "deprecationWarnings": deprecation_warnings,
     }
 
@@ -958,6 +970,97 @@ def command_update_deps(args: argparse.Namespace) -> dict[str, Any]:
     }
 
 
+def _write_project_state(project_dir: Path, fields: dict[str, Any]) -> None:
+    """Best-effort: zapiš deterministický deploy stav do <project>/.netlify-state.json.
+
+    Control Center čte tento soubor přímo (sdílený /documents volume) a slije ho do
+    CC-vlastněného .web-builder.json — takže nemusí hádat Netlify site name. Merge:
+    zachová existující pole a přepíše jen nově předaná. Selhání zápisu nikdy nesmí
+    shodit deploy.
+    """
+    try:
+        state_path = project_dir / ".netlify-state.json"
+        existing: dict[str, Any] = {}
+        if state_path.is_file():
+            try:
+                loaded = json.loads(state_path.read_text("utf-8"))
+                if isinstance(loaded, dict):
+                    existing = loaded
+            except Exception:
+                existing = {}
+        existing.update({k: v for k, v in fields.items() if v})
+        existing["updatedAt"] = int(time.time())
+        state_path.write_text(json.dumps(existing, ensure_ascii=False, indent=2), "utf-8")
+    except Exception:
+        pass
+
+
+def ensure_next_ssr_netlify_config(project_dir: Path, framework: dict[str, Any]) -> dict[str, Any] | None:
+    """Create minimal Netlify build config for generated Next SSR sites when absent."""
+    if framework.get("type") != "nextjs-ssr":
+        return None
+
+    config_path = project_dir / "netlify.toml"
+    if config_path.is_file():
+        return {"path": str(config_path), "created": False}
+
+    config_path.write_text(
+        '[build]\n'
+        '  command = "npm run build"\n'
+        '  publish = ".next"\n',
+        encoding="utf-8",
+    )
+    return {"path": str(config_path), "created": True}
+
+
+def should_verify_deploy_url() -> bool:
+    raw = str(os.environ.get("NETLIFY_PUBLISH_SKIP_URL_CHECK") or "").strip().lower()
+    return raw not in {"1", "true", "yes", "on"}
+
+
+def verify_deploy_url(url: str) -> None:
+    """Poll the published URL and fail before state write if Netlify returned a 404/5xx URL."""
+    import urllib.error
+    import urllib.request
+
+    if not url:
+        raise NetlifyPublishError("Netlify CLI nevrátil deploy URL")
+
+    timeout = int(os.environ.get("NETLIFY_PUBLISH_URL_VERIFY_TIMEOUT_SECONDS") or DEPLOY_URL_VERIFY_TIMEOUT)
+    deadline = time.time() + max(1, timeout)
+    last_error = ""
+    headers = {"User-Agent": "cliqsales-netlify-publisher/1.0"}
+
+    while True:
+        try:
+            req = urllib.request.Request(url, headers=headers, method="HEAD")
+            with urllib.request.urlopen(req, timeout=10) as response:
+                if 200 <= int(response.status) < 400:
+                    return
+                last_error = f"HTTP {response.status}"
+        except urllib.error.HTTPError as exc:
+            if exc.code == 405:
+                try:
+                    req = urllib.request.Request(url, headers=headers, method="GET")
+                    with urllib.request.urlopen(req, timeout=10) as response:
+                        if 200 <= int(response.status) < 400:
+                            return
+                        last_error = f"HTTP {response.status}"
+                except Exception as inner:
+                    last_error = str(inner)
+            else:
+                last_error = f"HTTP {exc.code}"
+        except Exception as exc:
+            last_error = str(exc)
+
+        if time.time() >= deadline:
+            raise NetlifyPublishError(
+                f"Deploy URL není dostupná ({url}): {last_error or 'bez detailu'}. "
+                "State nebyl zapsán; neopakuj starou 404 URL jako úspěšný deploy."
+            )
+        time.sleep(DEPLOY_URL_VERIFY_INTERVAL)
+
+
 def command_deploy(args: argparse.Namespace) -> dict[str, Any]:
     """Deploy projekt (static nebo SSR). Default = production, --draft pro náhled.
 
@@ -970,14 +1073,18 @@ def command_deploy(args: argparse.Namespace) -> dict[str, Any]:
     # Detekuj framework, abychom věděli, kterou složku deployovat
     framework = detect_framework(project_dir)
     ssr = args.ssr or framework["ssr"]
+    netlify_config: dict[str, Any] | None = None
 
     if ssr:
-        # SSR: deploy projekt root, Netlify Runtime detekuje .next/
+        # SSR: deploy z rootu projektu přes Netlify build mode, aby CLI připravilo
+        # framework runtime, functions a routing. Manual `--no-build --dir <root>`
+        # umí skončit jako "ready" deploy s 404 URL.
         deploy_dir = project_dir
         if not (project_dir / ".next").is_dir():
             raise NetlifyPublishError(
                 "SSR deploy vyžaduje .next/ složku (nejdřív spusť `build`)"
             )
+        netlify_config = ensure_next_ssr_netlify_config(project_dir, framework)
     else:
         # Static: deploy output_dir
         output_dir = project_dir / framework["output_dir"]
@@ -999,9 +1106,11 @@ def command_deploy(args: argparse.Namespace) -> dict[str, Any]:
         "path": str(deploy_dir),
         "framework": framework["type"],
         "ssr": ssr,
+        "deployMode": "ssr-build" if ssr else "static-upload",
         "files": len(files),
         "bytes": total_bytes,
         "draft": draft_mode,
+        **({"netlifyConfig": netlify_config} if netlify_config else {}),
     }
     if args.dry_run:
         return {**summary, "dryRun": True}
@@ -1028,20 +1137,30 @@ def command_deploy(args: argparse.Namespace) -> dict[str, Any]:
             )
 
     title = args.title or f"CC publish: {deploy_dir.name}"
-    command = [
-        "deploy",
-        "--dir",
-        str(deploy_dir),
-        "--site",
-        site_id,
-        "--json",
-        "--no-build",
-        "--message",
-        title,
-    ]
+    if ssr:
+        command = [
+            "deploy",
+            "--site",
+            site_id,
+            "--json",
+            "--message",
+            title,
+        ]
+    else:
+        command = [
+            "deploy",
+            "--dir",
+            str(deploy_dir),
+            "--site",
+            site_id,
+            "--json",
+            "--no-build",
+            "--message",
+            title,
+        ]
     if not draft_mode:
         command.append("--prod")
-    payload = run_netlify_cli(command, credentials)
+    payload = run_netlify_cli(command, credentials, cwd=project_dir if ssr else None)
     deploy_url = (
         payload.get("deploy_ssl_url")
         or payload.get("ssl_url")
@@ -1050,10 +1169,17 @@ def command_deploy(args: argparse.Namespace) -> dict[str, Any]:
         or payload.get("url")
         or ""
     )
+    if should_verify_deploy_url():
+        verify_deploy_url(deploy_url)
+    resolved_site_id = payload.get("site_id") or payload.get("siteId") or site_id
+    if draft_mode:
+        _write_project_state(project_dir, {"siteId": resolved_site_id, "draftUrl": deploy_url})
+    else:
+        _write_project_state(project_dir, {"siteId": resolved_site_id, "prodUrl": payload.get("ssl_url") or deploy_url})
     return {
         **summary,
         "dryRun": False,
-        "siteId": payload.get("site_id") or payload.get("siteId") or site_id,
+        "siteId": resolved_site_id,
         "deployId": payload.get("id") or payload.get("deploy_id") or payload.get("deployId") or "",
         "state": payload.get("state") or "",
         "url": deploy_url,

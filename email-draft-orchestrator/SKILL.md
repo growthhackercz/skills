@@ -51,7 +51,7 @@ Orchestrator prijima bud zadani kampane, nebo uz hotove podklady:
 Vychozi slozka:
 
 ```text
-/documents/brand/content/email/{campaign-slug}/
+/documents/content/email/{campaign-slug}/
 ```
 
 ## Povinne handoff soubory
@@ -82,8 +82,8 @@ Manifest schema:
       "fromEmail": "",
       "replyTo": "",
       "audience": "new leads",
-      "htmlPath": "/documents/brand/content/email/campaign/email-001.html",
-      "textPath": "/documents/brand/content/email/campaign/email-001.txt",
+      "htmlPath": "/documents/content/email/campaign/email-001.html",
+      "textPath": "/documents/content/email/campaign/email-001.txt",
       "status": "draft"
     }
   ]
@@ -107,8 +107,8 @@ Manifest schema:
 ## CLI helper
 
 ```bash
-python3 scripts/email_prepare.py prepare --input /documents/brand/content/email/welcome --campaign welcome
-python3 scripts/email_prepare.py validate --manifest /documents/brand/content/email/welcome/email-manifest.json
+python3 scripts/email_prepare.py prepare --input /documents/content/email/welcome --campaign welcome
+python3 scripts/email_prepare.py validate --manifest /documents/content/email/welcome/email-manifest.json
 ```
 
 ## Bezpecnostni pravidla

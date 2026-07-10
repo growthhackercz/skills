@@ -15,7 +15,7 @@ Tento skill je SmartEmailing adapter pro email drafty. Nepise copy a neposila ka
 Preferovany vstup:
 
 ```text
-/documents/brand/content/email/{campaign-slug}/email-manifest.json
+/documents/content/email/{campaign-slug}/email-manifest.json
 ```
 
 Podporuje i jeden `.html` soubor s `EMAIL METADATA` komentarem.

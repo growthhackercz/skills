@@ -1,86 +1,102 @@
 ---
 name: email-writer
-description: "Pište e-maily týkající se prodeje, podpory, uvítání, newsletteru, sledování, spouštění, reaktivace a kampaní konverzačním stylem zaměřeným na konverzi."
+description: "Píše krátké, úderné e-maily s jediným cílem: klik. Prodejní, pečující, newsletter, follow-up, reaktivační i kampaňové — konverzační styl, maximální curiosity gap, oslovení a tón z brand DNA."
 category: content
 status: ready
-version: "1.0"
-publishedAt: "2026-05-08"
+version: "2.0"
+publishedAt: "2026-07-08"
 ---
 # Email Writer
 
-Uživatel zadá typ emailu a kontextu. Agent napíše hotový email, který zní jako osobní zpráva, ne jako marketing.
+Uživatel zadá typ e-mailu a kontext. Agent napíše hotový e-mail, který zní jako osobní zpráva (ne jako marketing) a jehož jediným úkolem je **dostat čtenáře na klik**.
 
-Tento skill muze fungovat samostatne, kdyz uzivatel chce jen text emailu nebo sekvence. Pokud uzivatel chce kampan, strategii, draft v GHL/SmartEmailingu nebo nahrani do platformy, vstupnim bodem ma byt `email-draft-orchestrator`, ktery si tento writer zavola jako copywritingovy krok.
+Skill funguje samostatně (jen text e-mailu nebo sekvence) i jako copywriting krok, který si zavolá `email-draft-orchestrator` (kampaně, strategie, draft v GHL/SmartEmailingu). Content Strategist volá tento writer napřímo.
+
+---
+
+## Cíl e-mailu: KLIK (nejdůležitější pravidlo)
+
+E-mail neprodává. Má jediný úkol: **dostat čtenáře na klik.** Prodává až stránka za odkazem. Každé rozhodnutí (předmět, délka, formát, CTA) slouží tomuhle jednomu cíli.
+
+**Curiosity gap na maximum, ale z reálného obsahu.** Otevři smyčku, kterou jde zavřít jedině klikem. Napětí ber z **nejsilnějšího skutečného prvku** e-mailu (překvapivé číslo, ostrý kontrast, konkrétní věta z příběhu, nečekané zjištění), ne z vymyšlené dramatické šablony. Otevření musí být poctivé a klik musí pointu doručit; žádný bait-and-switch.
+- Předmět nakousne, náhled rozšíří, tělo vygraduje napětí. Pointa je až za odkazem.
+- Nikdy neprozraď odpověď v e-mailu. Kdyby ji čtenář znal, neklikne.
+
+**Krátké a úderné.** Default **50–150 slov**. Jde-li to říct kratší, řekni to kratší. Žádný warm-up, žádná vata, rovnou do napětí.
+
+**Vzdušné a přehledné (mobil first).**
+- Jedna myšlenka = jeden řádek nebo krátký odstavec (1–2 řádky), pak prázdný řádek.
+- Hodně bílého místa. Čte se to palcem při skrolování.
+- Věty krátké. Občas jednoslovný odstavec pro důraz.
+- Klíčová věta a CTA na samostatném řádku, ať „vydechnou".
+
+**Oslovení a tón z brand DNA.** Ty/vy, formálnost i energii **přebírej z `brandDNA.md` klienta** (řada B2B značek vyká, neformální B2C tyká). Vzorové e-maily v tomto skillu ilustrují STYL, ne oslovení.
 
 ---
 
 ## Vstup
 
-Uživatel zadá co potřebuje. Minimální vstup: typ emailu + kontext.
+Uživatel zadá co potřebuje. Minimální vstup: typ e-mailu + kontext.
 
 Pokud uživatel nespecifikuje, agent se zeptá:
-- **Typ emailu** — jaký (viz typy níže)
-- **Cíl** — co má příjemce udělat po přečtení
+- **Typ e-mailu** — jaký (viz typy níže)
+- **Cíl** — kam má klik vést (jaká stránka nebo akce)
 - **Komu** — kdo je příjemce (nebo odvoď z brandDNA)
-- **Kontext** — o čem email je, co mu předcházelo
+- **Kontext** — o čem e-mail je, co mu předcházelo, na co odkazuje
 
 Volitelně:
 - Produkt/nabídka (jinak odvoď z productDNA)
-- Tón (jinak odvoď z brandDNA)
-- Délka (výchozí: krátký — 150-300 slov)
+- Tón + oslovení ty/vy (jinak odvoď z brandDNA)
+- Délka (výchozí: 50–150 slov)
 - Jméno odesílatele
 
 ---
 
-## Typy emailů
+## Typy e-mailů
 
-### Jednotlivé emaily
+### Jednotlivé e-maily
 
-| Typ | Kdy použít | Cíl |
+| Typ | Kdy použít | Cíl (klik) |
 |-----|-----------|-----|
-| **Prodejní** | Představení nabídky, promo, spuštění | Klikněte na prodejní stránku / nákup |
-| **Pečující** | Budování důvěry, edukace | Čtenář získá hodnotu, zůstane v kontaktu |
-| **Zpravodaj** | Pravidelný obsah, novinky | Klikněte na článek, zapojení |
-| **Navazující informace** | Po akci (webinář, stažení, konzultace) | Další krok v prodejní cestě |
+| **Prodejní** | Představení nabídky, promo, spuštění | Klik na prodejní stránku / nákup |
+| **Pečující** | Budování důvěry, edukace | Klik na hodnotu, zůstat v kontaktu |
+| **Zpravodaj** | Pravidelný obsah, novinky | Klik na článek |
+| **Navazující informace** | Po akci (webinář, stažení, konzultace) | Klik na další krok v cestě |
 | **Reaktivační** | Neaktivní kontakty | Znovu zapojit, klik |
-| **Oznámení** | Událost, novinka, aktualizace | Informovat + akce |
-| **Studený oslovení** | První kontakt, B2B | Odpověď / schůzka |
+| **Oznámení** | Událost, novinka, aktualizace | Informovat + klik na akci |
+| **Studené oslovení** | První kontakt, B2B | Odpověď / schůzka |
 
-### Sekvence (série emailů)
+### Sekvence (série e-mailů)
 
-| Typ | Počet emailů | Struktura |
+| Typ | Počet e-mailů | Struktura |
 |-----|-------------|-----------|
-| **Uvítací** | 3-5 emailů | Seznámení → hodnota → hodnota → jemná nabídka → nabídka |
-| **Promo** | 5-7 emailů | Upoutávka → edukace → příběh → nabídka → naléhavost → poslední šance → výsledky |
-| **Pečující** | 5-7 emailů | Hodnota → hodnota → hodnota → jemná nabídka → hodnota → nabídka → hodnota |
-| **Opuštěný košík** | 3 emaily | Připomínka → námitka → naléhavost/bonus |
-| **Reaktivační** | 3 emaily | Chybíš nám → hodnota/novinka → poslední šance |
+| **Uvítací** | 3–5 e-mailů | Seznámení → hodnota → hodnota → jemná nabídka → nabídka |
+| **Promo** | 5–7 e-mailů | Upoutávka → edukace → příběh → nabídka → naléhavost → poslední šance → výsledky |
+| **Pečující** | 5–7 e-mailů | Hodnota → hodnota → hodnota → jemná nabídka → hodnota → nabídka → hodnota |
+| **Opuštěný košík** | 3 e-maily | Připomínka → námitka → naléhavost/bonus |
+| **Reaktivační** | 3 e-maily | Chybíš nám → hodnota/novinka → poslední šance |
 
-Při sekvenci napíše všechny emaily najednou s jasným označením pořadí a doporučeným časováním.
+Při sekvenci napiš všechny e-maily najednou s jasným označením pořadí a doporučeným časováním.
 
 ---
 
 ## Workflow
 
 ### Krok 1: Načti kontext
-1. Načti `/documents/brand/brandDNA.md` — hlas značky, tón, poslatel
-2. Pokud email souvisí s produktem → načti `/documents/brand/products/{slug}/productDNA.md`
-3. Pokud existuje podklad z průzkumu nebo článek, na který email navazuje → načti ho
+1. `/documents/brand/brandDNA.md` — hlas, tón, **oslovení (ty/vy)**, odesílatel
+2. Souvisí-li s produktem → `/documents/brand/products/{slug}/productDNA.md`
+3. Existuje-li podklad z průzkumu nebo obsah/článek, na který e-mail odkazuje → načti ho (z něj bereš **reálný hook** do předmětu i těla)
 
-### Krok 2: Napiš email
-Napiš kompletní email najednou. Výstup v. Markdown.
+### Krok 2: Napiš e-mail
+Napiš kompletní e-mail najednou. Výstup v Markdownu.
 
 ### Krok 3: Ulož
-- Jednotlivý email: `/documents/brand/content/email/[slug].md`
-- Sekvence: `/documents/brand/content/email/[nazev-sekvence]/[cislo]-[slug].md`
+- Jednotlivý e-mail: `/documents/content/email/{slug}.md`
+- Sekvence: `/documents/content/email/{nazev-sekvence}/{cislo}-{slug}.md`
 
-Pokud má email pokračovat do `email-draft-orchestrator`, ulož vedle Markdownu také platform-ready soubory:
+Nové výstupy piš do `/documents/content/email/` (sjednocené s Content Engine). Starší flow ukládal do `/documents/brand/content/email/` — ten zůstává čitelný jako fallback.
 
-- `email-001.html` - review-ready HTML email
-- `email-001.txt` - plain-text fallback
-- `email-manifest.json` - seznam emailů a metadata pro publishery
-
-U starších výstupů bez HTML stačí uložit Markdown; `email-draft-orchestrator` umí HTML/TXT doplnit.
+Pokud e-mail pokračuje do `email-draft-orchestrator`, ulož vedle Markdownu i platform-ready soubory: `email-001.html`, `email-001.txt`, `email-manifest.json`. U starších výstupů bez HTML stačí Markdown; orchestrator HTML/TXT doplní.
 
 ---
 
@@ -89,15 +105,16 @@ U starších výstupů bez HTML stačí uložit Markdown; `email-draft-orchestra
 ```markdown
 # [TYP]: [Krátký popis]
 
-**Předmět:** [předmět emailu]
-**Náhled textu:** [40-90 znaků — text viditelný v doručené poště za předmětem]
+**Předmět:** [hlavní předmět]
+**Varianty předmětu:** [2–4 alternativy různých archetypů pro A/B]
+**Náhled textu:** [40–90 znaků — text za předmětem v doručené poště]
 **Odesílatel:** [jméno z brandDNA]
-**Cíl:** [co má příjemce udělat]
-**Hlavní spouštěč:** [který psychologický spouštěč email používá]
+**Cíl (klik):** [kam má klik vést]
+**Hlavní spouštěč:** [který psychologický spouštěč e-mail používá]
 
 ---
 
-[Tělo emailu — čistý text, žádné HTML, žádné formátování kromě odřádkování]
+[Tělo e-mailu — čistý text, žádné HTML, jen odřádkování a vzdušné odstavce]
 
 [CTA]
 
@@ -107,7 +124,7 @@ U starších výstupů bez HTML stačí uložit Markdown; `email-draft-orchestra
 
 **Poznámky pro nasazení:**
 - Personalizace: [kde vložit {first_name} nebo jiné proměnné]
-- Časování: [kdy odeslat — den, čas, nebo rozestup od předchozího emailu]
+- Časování: [kdy odeslat — den, čas, nebo rozestup od předchozího e-mailu]
 - Příjemci: [komu poslat — celý seznam / segment / automaticky po události]
 ```
 
@@ -137,118 +154,95 @@ Status: draft
 </html>
 ```
 
-HTML ma byt jednoduche a email-safe: inline odkazy, kratke odstavce, zadne skripty, zadne externi CSS. Pokud nejsou `From email` nebo `Reply to` zname, nehalucinuj je; publisher je muze doplnit z env.
+HTML jednoduché a email-safe: inline odkazy, krátké odstavce, žádné skripty, žádné externí CSS. Pokud `From email` / `Reply to` neznáš, nehalucinuj je; publisher je doplní z env.
 
 ---
 
-## Principy psaní emailů
+## Principy psaní e-mailů
 
-### Předmět
+### Předmět (rozhoduje o otevření — extrémně důležité)
 
-Předmět rozhoduje jestli email vůbec někdo otevře. Pravidla:
+Předmět má **jediný úkol: otevření.** Je to první curiosity gap a **nesmí jít uhodnout ze sebe sama** — kdyby čtenář znal z předmětu pointu, neotevře (a neklikne).
 
-- Max 50 znaků (ideálně 30-40)
-- Vyvolává zvědavost — čtenář MUSÍ otevřít aby zjistil víc
-- Nesmí znít marketingově — žádné "SLEVA", "Exkluzivní nabídka", "Nenechte si ujít"
-- Osobní a konverzační — jako by psal kamarád
-- Narušení očekávání — něco neočekávaného
+**Zdroj předmětu = obsah e-mailu, ne šablona.** Vytáhni **nejsilnější reálný prvek** (překvapivé číslo, ostrý kontrast, konkrétní věta z příběhu, nečekané zjištění) a z něj postav předmět. Když e-mail odkazuje na obsah, který **už má silný titulek** (článek v newsletteru, landing page), **pracuj s tím titulkem** — zauzluj ho do zvědavosti, nevymýšlej vedle náhodnou clickbait větu.
 
-Dobré předměty:
-- "udělal jsem chybu"
-- "tohle jsem nečekal"
-- "rychlá otázka"
-- "přestal jsem s tím"
-- "3 věci, které bych udělala jinak"
-- "špatná zpráva"
-- "měl jsi pravdu"
-- "nečti tohle (pokud...)"
+Pravidla:
+- **Max 50 znaků** (ideál 30–40). Mobil ukáže ~30–40 → **hook nacpi na začátek**.
+- **Malá písmena = osobní** (ne „broadcast"). Vědomá taktika.
+- **Nesmí znít marketingově** (žádné „SLEVA", „Exkluzivní nabídka", „Nenechte si ujít").
+- **Ke každému e-mailu dodej 3–5 variant předmětu**, a to **různých archetypů** — ať A/B testuje odlišné úhly, ne obměny jedné věty.
 
-Špatné předměty:
-- "Exkluzivní nabídka jen pro vás!"
-- "5 tipů jak zlepšit váš marketing"
-- "Newsletter #47 — březen 2026"
-- "Nový článek na blogu"
-- "Nenechte si ujít naši akci!"
+Archetypy (jen styling; obsah vždy z reálného hooku):
+konkrétní číslo/výsledek · ostrý kontrast (před/po) · přímá otázka · nečekané zjištění · otevřená smyčka · pattern-interrupt.
 
-Ke každému emailu dodej 3 varianty předmětů — hlavní + 2 alternativy pro A/B test.
+Špatné předměty (nikdy): „Exkluzivní nabídka jen pro vás!", „5 tipů jak zlepšit marketing", „Newsletter #47 — březen 2026", „Nový článek na blogu", „Nenechte si ujít naši akci!".
 
-### Náhled textu
+### Náhledový text
 
 40–90 znaků. Doplňuje předmět — nepopisuje ho, rozšiřuje zvědavost. Nikdy neopakuj předmět.
-
-- Předmět: "udělal jsem chybu" → Náhled: "a stálo mě to 3 měsíce práce"
-- Předmět: "rychlá otázka" → Náhled: "zabere ti to 10 sekund"
+- Předmět: „stálo mě to 3 měsíce" → Náhled: „a nemuselo, kdybych věděl tohle"
+- Předmět: „rychlá otázka" → Náhled: „zabere vám to 10 sekund"
 
 ### Úvodní věta
 
-První věta rozhoduje jestli čtenář dočte zbytek. Pravidla:
-
-- Okamžitě zaujmi — žádné "Doufám, že se máte dobře"
-- Buď konkrétní, ne obecný
-- Vytvořit okamžité spojení — čtenář se musí poznat
-- Vyprávěj — začni uprostřed příběhu
+První věta rozhoduje, jestli čtenář dočte. Pravidla:
+- Okamžitě zaujmi — žádné „Doufám, že se máte dobře".
+- Buď konkrétní, ne obecný.
+- Vytvoř okamžité spojení — čtenář se musí poznat.
+- Vyprávěj — začni uprostřed příběhu.
 
 Dobré úvody:
-- "Včera jsem dostal email, který mě zastavil uprostřed oběda."
-- "Řeknu ti něco, co většina lidí v mém oboru nepřizná."
-- "Znáš ten pocit, když víš, že děláš něco špatně — ale nevíš co?"
-- "Před 6 měsíci jsem měl zavřel firmu."
-- "Tohle mi řekl klient minulý týden a od té doby na to myslím."
+- „Včera mi přišel e-mail, který mě zastavil uprostřed oběda."
+- „Řeknu vám něco, co většina lidí v mém oboru nepřizná."
+- „Znáte ten pocit, když víte, že děláte něco špatně, ale nevíte co?"
 
-Špatné úvody:
-- "Doufám, že se máte skvěle!"
-- "V dnešním emailu se podíváme na..."
-- "Rádi bychom vám představili..."
-- "Jak jistě víte, umělá inteligence mění svět..."
+Špatné úvody: „Doufám, že se máte skvěle!", „V dnešním e-mailu se podíváme na…", „Rádi bychom vám představili…", „Jak jistě víte, umělá inteligence mění svět…".
 
-### Tělo emailu
+### Tělo e-mailu
 
-- **Krátké odstavce** — max 2-3 řádky, pak prázdný řádek
-- **Střídej délku vět** — krátká. Pak delší, která rozvine myšlenku. Pak zase krátká.
-- **Jedna myšlenka na odstavec** — nikdy nemíchej víc témat
-- **Jeden hlavní psychologický spouštěč na email** (viz sekce níže)
-- **Max 150-300 slov** — email není článek. Pokud potřebuješ víc slov, rozděl na 2 emaily.
-- **Žádné formátování** — žádné tučné, kurzíva, podtržení, odrážky. Čistý text jako osobní zpráva. Výjimka: odkaz na žádost k akci může být na vlastním řádku.
+- **Krátké odstavce** — max 2–3 řádky, pak prázdný řádek. Vzdušné, mobil-first.
+- **Střídej délku vět.** Krátká. Pak delší, která myšlenku rozvine. Pak zase krátká.
+- **Jedna myšlenka na odstavec.**
+- **Jeden hlavní psychologický spouštěč** na e-mail.
+- **50–150 slov** default. E-mail není článek; potřebuješ-li víc, rozděl na 2.
+- **Bez formátování** (žádné tučné, kurzíva, odrážky). Čistý text jako osobní zpráva. Výjimka: odkaz CTA na vlastním řádku.
+- **Neprozrazuj pointu** — ta patří za odkaz.
 
 ### CTA
 
-- Jeden email = jedna CTA. NIKDY víc.
-- Výzva je přirozená součást textu, není oddělené tlačítko
-- Formuluj jako osobní doporučení, ne jako marketing
+- **Jeden e-mail = jedna CTA. NIKDY víc.**
+- CTA = jediné místo, kde se smyčka zavře.
+- Výzva je přirozená součást textu, ne oddělené tlačítko.
+- Formuluj jako osobní tip („tady zjistíte zbytek"), ne jako marketing („kupte").
 
-dobré výzvy:
-- "Tady se můžeš podívat, jak to funguje: [odkaz]"
-- "Jestli tě to zaujalo, mrkni sem: [odkaz]"
-- "Odpověz mi na tento email — zajímá mě tvůj názor."
-- "Zaregistruj se tady, trvá do 30 sekund: [odkaz]"
+Dobré výzvy:
+- „Tady se můžete podívat, jak to funguje: [odkaz]"
+- „Jestli vás to zaujalo, mrkněte sem: [odkaz]"
+- „Odpovězte mi na tento e-mail — zajímá mě váš názor."
 
-Špatné výzvy:
-- "KLIKNĚTE ZDE PRO VÍCE INFORMACÍ"
-- "Neváhejte a dodejte naši nabídku ještě dnes!"
-- "Zaregistrujte se nyní a získejte exkluzivní přístup!"
+Špatné výzvy: „KLIKNĚTE ZDE PRO VÍCE INFORMACÍ", „Neváhejte a využijte naši nabídku ještě dnes!".
 
 ### Podpis
 
-Krátký, osobní. Jméno + případně role/firma. Žádné "S pozdravem" nebo "S přátelským pozdravem".
+Krátký, osobní. Jméno + případně role/firma. Žádné „S pozdravem".
 
-Formát:
 ```
 [Jméno]
 
-P.S. [volitelný postscript — často nejčtenější část emailu]
+P.S. [volitelný postscript — často nejčtenější část e-mailu]
 ```
 
-P.S. použij strategicky — shrň hlavní přínos, přidej naléhavost, nebo zmíň bonus. Ne v každém emailu.
+P.S. použij strategicky — shrň hlavní přínos, přidej naléhavost, nebo zopakuj odkaz. Ne v každém e-mailu.
 
 ---
 
 ## Psychologické spouštěče
 
-V každém emailu použij JEDEN hlavní spouštěč. Nech ho působit přirozeně — žádná manipulace.
+V každém e-mailu použij JEDEN hlavní spouštěč. Nech ho působit přirozeně, žádná manipulace.
 
 | Spouštěč | Jak funguje | Kdy použít |
 |---------|------------|-----------|
-| **Zvědavost** | Otevři smyčku, zavři ji až za k akci | Úvod, předmět |
+| **Zvědavost** | Otevři smyčku, zavři ji až za klikem | Úvod, předmět |
 | **Sociální důkaz** | Příběh/výsledek jiného zákazníka | Pečující, prodejní |
 | **Reciprocita** | Dej hodnotu zdarma, pak požádej | Newsletter, pečující |
 | **Nedostatek** | Omezený čas/místa (jen pokud je reálný) | Spouštěcí, promo |
@@ -257,36 +251,44 @@ V každém emailu použij JEDEN hlavní spouštěč. Nech ho působit přirozen�
 | **Ztotožnění** | Čtenář se pozná v problému | Úvod, pečující |
 | **Kontrast** | Před/po, staré vs. nové | Prodejní, případová studie |
 | **Mezera zvědavosti** | Naznač odpověď, dodej ji za klikem | Newsletter, promo |
-| **Strach ze ztráty** | Co ztrácíš když neřeš | Následný, opuštěný košík |
+| **Strach ze ztráty** | Co ztrácíte, když nejednáte | Navazující, opuštěný košík |
 
 ---
 
 ## Pravidla pro sekvenci
 
-Při psaní záznamu dodržuj:
+- **Každý e-mail stojí sám** — čtenář nemusel číst předchozí.
+- **Narůstající intenzita** — od hodnoty k nabídce, ne naopak.
+- **Max 1 prodejní e-mail na 3 hodnotové** — poměr 3:1.
+- **Variabilní délka** — střídej kratší (50–80 slov) a delší (do 150).
+- **Variabilní formát** — střídej příběh, tip, otázku, data, osobní sdělení.
+- **Konzistentní hlas** — celá sekvence zní jako jeden člověk.
+- **Časování** — navrhni konkrétní rozestupy (den 0, 1, 3, 5…).
 
-- **Každý email stojí sám** — čtenář nemusel číst předchozí
-- **Narůstající intenzita** — od hodnoty k nabídce, ne naopak
-- **Max 1 prodejní email na 3 hodnotové** — poměr 3:1
-- **Variabilní délka** — střídej kratší (100 slov) a delší (300 slov) emaily
-- **Variabilní formát** — střídej příběh, tip, otázka, data, osobní sdělení
-- **Konzistentní hlas** — celá sekvence zní jako jeden člověk
-- **Časování** — navrhni konkrétní rozestupy mezi emaily (den 0, den 1, den 3, den 5...)
+---
+
+## Anti-slop (jazyk — povinné)
+
+E-mail nesmí znít jako od AI. Před odesláním projdi:
+- **Pomlčka „—" střídmě** (řádově 1 na e-mail). Přemíra je typický AI tell — většinou stačí čárka, dvojtečka, závorka nebo tečka.
+- **Žádná CZ AI klišé:** „v dnešní digitální/uspěchané době", „posuňte to na další úroveň", „nejen…, ale i", „v neposlední řadě", „změna hry".
+- **Ne trojice do foroty** — max jeden výčet „X, Y a Z" na e-mail.
+- **Konkrétnost > obecnost** — číslo, jméno, situace místo frází.
+- **Test nahlas** — přečti e-mail nahlas; kde se zadrhneš nebo to zní jako leták, přepiš.
 
 ---
 
 ## Zakázané vzory
 
 NIKDY nepoužívej:
-- "Doufám, že se máte dobře / skvěle"
-- "Rádi bychom vám oznámili..."
-- "V dnešním emailu se podíváme na..."
-- "Jak jistě víte..."
-- "Nenechte si tuto jedinečnou příležitost"
-- "Exkluzivní / limitovaná / poslední šance" (pokud to není pravda)
-- "Klikněte zde" jako textové výzvy
-- Více než 1 CTA v emailu
+- „Doufám, že se máte dobře / skvěle"
+- „Rádi bychom vám oznámili…" / „V dnešním e-mailu se podíváme na…" / „Jak jistě víte…"
+- „Nenechte si ujít tuto jedinečnou příležitost"
+- „Exkluzivní / limitovaná / poslední šance" (pokud to není pravda)
+- „Klikněte zde" jako text výzvy
+- Více než 1 CTA v e-mailu
 - HTML formátování (tučné, kurzíva, barvy, tlačítka) — piš čistý text
 - Emotikony v předmětu (pokud to není hlas značky)
 - Předmět delší než 50 znaků
-- Email delší než 400 slov (výjimka: spouštěcí/příběhový email max 500)
+- E-mail delší než 300 slov (výjimka: příběhový/uvítací max 500); default 50–150
+- **Prozrazení pointy přímo v e-mailu** — zabíjí klik, pointa patří za odkaz

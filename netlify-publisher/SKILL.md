@@ -146,6 +146,18 @@ python3 scripts/netlify_publish.py ensure-site --slug <slug> --json
 python3 scripts/netlify_publish.py deploy /documents/sites/<slug> --site-id <id> --json
 ```
 
+Deploy helper rozlišuje static a SSR:
+
+- Static export (`output: 'export'`, `out/`, Vite `dist/`, vanilla HTML) se
+  uploaduje jako hotový adresář přes `--no-build`.
+- Next.js SSR/hybrid (`.next/`) se deployuje přes Netlify build mode z rootu
+  projektu, aby Netlify CLI připravilo framework runtime, functions a routing.
+  Nepřepisuj to na ruční `--no-build --dir <root>`.
+
+Helper po deployi ověřuje výslednou URL. Pokud vrátí 404/5xx nebo URL chybí,
+nezapíše `.netlify-state.json` a agent má chybu opravit místo hlášení staré
+nefunkční preview URL.
+
 Po úspěšném buildu a deploy vrať klientovi:
 
 - Stable URL: `https://<site-name>.netlify.app` (= production)

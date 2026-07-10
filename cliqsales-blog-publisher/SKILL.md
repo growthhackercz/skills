@@ -123,17 +123,17 @@ Upload obrázků z image manifestu do GHL Media:
 
 ```bash
 python3 /home/node/.openclaw/cs-skills/cliqsales-blog-publisher/scripts/ghl_publish.py assets \
-  --image-manifest /documents/brand/content/blog/nazev-clanku/image-manifest.json \
-  --output /documents/brand/content/blog/nazev-clanku/asset-manifest.json
+  --image-manifest /documents/content/blog/nazev-clanku/image-manifest.json \
+  --output /documents/content/blog/nazev-clanku/asset-manifest.json
 ```
 
 Vytvoření draftu z hotového HTML:
 
 ```bash
 python3 /home/node/.openclaw/cs-skills/cliqsales-blog-publisher/scripts/ghl_publish.py draft \
-  --input /documents/brand/content/blog/nazev-clanku/article.html \
-  --metadata /documents/brand/content/blog/nazev-clanku/article-metadata.json \
-  --asset-manifest /documents/brand/content/blog/nazev-clanku/asset-manifest.json \
+  --input /documents/content/blog/nazev-clanku/article.html \
+  --metadata /documents/content/blog/nazev-clanku/article-metadata.json \
+  --asset-manifest /documents/content/blog/nazev-clanku/asset-manifest.json \
   --blog-id BLOG_ID \
   --status DRAFT
 ```

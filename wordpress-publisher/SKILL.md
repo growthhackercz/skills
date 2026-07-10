@@ -135,24 +135,24 @@ Upload obrázků z image manifestu do WordPress Media Library:
 
 ```bash
 python3 /home/node/.openclaw/cs-skills/wordpress-publisher/scripts/wp_publish.py --profile default assets \
-  --image-manifest /documents/brand/content/blog/nazev-clanku/image-manifest.json \
-  --output /documents/brand/content/blog/nazev-clanku/asset-manifest.json
+  --image-manifest /documents/content/blog/nazev-clanku/image-manifest.json \
+  --output /documents/content/blog/nazev-clanku/asset-manifest.json
 ```
 
 Převod HTML do Gutenbergu a vložení obrázků z asset manifestu:
 
 ```bash
 python3 /home/node/.openclaw/cs-skills/wordpress-publisher/scripts/wp_publish.py convert \
-  --input /documents/brand/content/blog/nazev-clanku/article.html \
-  --asset-manifest /documents/brand/content/blog/nazev-clanku/asset-manifest.json \
-  --output /documents/brand/content/blog/nazev-clanku/article-gutenberg.html
+  --input /documents/content/blog/nazev-clanku/article.html \
+  --asset-manifest /documents/content/blog/nazev-clanku/asset-manifest.json \
+  --output /documents/content/blog/nazev-clanku/article-gutenberg.html
 ```
 
 Vytvoření draftu z hotového HTML:
 
 ```bash
 python3 /home/node/.openclaw/cs-skills/wordpress-publisher/scripts/wp_publish.py --profile default draft \
-  --input /documents/brand/content/blog/clanek.html \
+  --input /documents/content/blog/clanek.html \
   --title "Název článku" \
   --slug "nazev-clanku" \
   --category "Blog" \
@@ -163,9 +163,9 @@ Vytvoření draftu rovnou s asset manifestem:
 
 ```bash
 python3 /home/node/.openclaw/cs-skills/wordpress-publisher/scripts/wp_publish.py --profile default draft \
-  --input /documents/brand/content/blog/nazev-clanku/article.html \
-  --metadata /documents/brand/content/blog/nazev-clanku/article-metadata.json \
-  --asset-manifest /documents/brand/content/blog/nazev-clanku/asset-manifest.json \
+  --input /documents/content/blog/nazev-clanku/article.html \
+  --metadata /documents/content/blog/nazev-clanku/article-metadata.json \
+  --asset-manifest /documents/content/blog/nazev-clanku/asset-manifest.json \
   --title "Název článku" \
   --slug "nazev-clanku"
 ```

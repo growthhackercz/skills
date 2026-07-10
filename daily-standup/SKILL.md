@@ -1,39 +1,34 @@
 ---
 name: daily-standup
-description: Vygeneruje krátký ranní standup shrnující včerejší progres, dnešní priority a blockers. Použij, když tým začíná pracovat nebo se někdo ptá "co je dnes na řadě?"
-status: ready
-version: "1.0"
-publishedAt: "2026-04-25"
-category: internal
+description: Generate a quick morning standup summarizing yesterday's progress, today's priorities, and blockers. Use when the team starts working or someone asks "what's on today?"
 ---
 
 # Skill: Daily Standup
 
-Krátký ranní standup pro rychlé soustředění. Zabere 2 minuty. Drží poctivý
-přehled o progresu.
+A quick morning standup to get focused. Takes 2 minutes. Keeps you honest about progress.
 
-## Kdy ho spustit
+## When to Run
 
-- Každé ráno, když tým začíná pracovat (manuálně nebo přes cron)
-- Lze spustit i triggerem "standup" nebo "what's on today?"
+- Every morning when the team starts working (trigger manually or via cron)
+- Can also be triggered with "standup" or "what's on today?"
 
 ## Workflow
 
-### 1. Shromáždi kontext
+### 1. Gather Context
 
-Přečti tyto soubory:
-- `memory/YYYY-MM-DD.md` (včerejšek), abys věděl, co se stalo
-- `memory/YYYY-MM-DD.md` (dnešek), jestli už je tam něco zapsané
-- `USER.md` pro aktuální cíle a targety
+Read these files:
+- `memory/YYYY-MM-DD.md` (yesterday) for what happened
+- `memory/YYYY-MM-DD.md` (today) for anything already logged
+- `USER.md` for current goals and targets
 
-Zároveň zjisti:
-- assigned tasks přes `mc-task-api`
-- shared context přes wiki/documents/memory tools
-- `MEMORY.md` jen pokud jde o persistent C-level workspace a soubor existuje
+Also gather:
+- assigned tasks via `mc-task-api`
+- shared context via wiki/documents/memory tools
+- `MEMORY.md` only if this is a persistent C-level workspace and the file exists
 
-### 2. Vygeneruj standup
+### 2. Generate the Standup
 
-Formát:
+Format:
 
 ```
 ☀️ **Standup - [Day, Month Date]**
@@ -58,19 +53,18 @@ Formát:
 **Quick Note:** [One sentence of encouragement, observation, or gentle nudge]
 ```
 
-### 3. Pravidla
+### 3. Rules
 
-- Drž to KRÁTKÉ. Je to standup, ne report. Max 15 řádků.
-- Priority ber nejdřív z assigned tasks a instrukcí team leada, potom z aktuální shared documents/wiki context a teprve nakonec z `MEMORY.md`, pokud ten soubor existuje.
-- Pokud je dostupné MRR data, vždy ho zahrň. Tým by měl své číslo vidět každý den.
-- `Quick Note` má být upřímná. Může znít třeba: "Day 3 of the launch streak, keep it going." Nebo: "That bug from Monday is still open, worth a look?" Nebo: "You shipped 4 features this week. Solid."
-- Pokud nejsou data za včerejšek, nevymýšlej si je. Prostě napiš "No log from yesterday."
-- Po vygenerování standupu zaloguj dnešní priority do `memory/YYYY-MM-DD.md`.
+- Keep it SHORT. This is a standup, not a report. Max 15 lines.
+- Priorities come first from assigned tasks and team lead instructions, then from current shared documents/wiki context, and only lastly from `MEMORY.md` when that file exists.
+- If MRR data is available, always include it. The team should see their number every day.
+- The "Quick Note" should be genuine. Could be: "Day 3 of the launch streak, keep it going." Or: "That bug from Monday is still open, worth a look?" Or: "You shipped 4 features this week. Solid."
+- If there's no yesterday data, don't fake it. Just say "No log from yesterday."
+- After generating the standup, log today's priorities to `memory/YYYY-MM-DD.md`.
 
 ### 4. Follow-Up
 
-Na konci dne (nebo druhý den ráno) může standup odkázat na to, co se skutečně
-udělalo vs. co bylo plánované. Tím se časem buduje accountability.
+At the end of the day (or next morning), the standup can reference what actually got done vs. what was planned. This builds accountability over time.
 
 ## Output Template
 
@@ -122,6 +116,7 @@ udělalo vs. co bylo plánované. Tím se časem buduje accountability.
 **Uses:**
 - `mc-task-api` — pull task status and priorities from Control Center
 - Native memory/wiki tools plus shared documents — retrieve active project context, recent decisions, and shared metrics context
+- `revenue-tracker` — fetch latest MRR figures for metrics pulse
 
 **Used by:**
 - `mc-standup` — Control Center-level standup aggregates data from daily standups

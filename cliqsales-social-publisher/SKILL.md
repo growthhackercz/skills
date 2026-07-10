@@ -15,7 +15,7 @@ Tento skill publikuje nebo plánuje social posty do GHL Social Planner API. Nep�
 Preferovaný vstup je výstup ze `social-post-writer`:
 
 ```text
-/documents/brand/content/social/{campaign-slug}/social-posts.json
+/documents/content/social/{campaign-slug}/social-posts.json
 ```
 
 ## Bezpečnostní pravidla
@@ -99,11 +99,11 @@ python3 scripts/social_publish.py accounts
 python3 scripts/social_publish.py users
 python3 scripts/social_publish.py draft --summary "..." --account-id ACC --schedule-local "2026-05-01 09:00"
 python3 scripts/social_publish.py draft --summary "..." --account-id ACC --user owner@example.com
-python3 scripts/social_publish.py draft --summary "..." --account-id ACC --media-file /documents/brand/content/social/campaign/images/post.png --media-required yes
-python3 scripts/social_publish.py batch-draft --input /documents/brand/content/social/campaign/social-posts.json --mode continue
-python3 scripts/social_publish.py batch-draft --input /documents/brand/content/social/campaign/social-posts.json --mode continue --account-map facebook:ACC_FB,instagram:ACC_IG
-python3 scripts/social_publish.py upload-media --file /documents/brand/content/social/campaign/images/post.png
-python3 scripts/social_publish.py attach-media --post-id POST_ID --file /documents/brand/content/social/campaign/images/post.png
+python3 scripts/social_publish.py draft --summary "..." --account-id ACC --media-file /documents/content/social/campaign/images/post.png --media-required yes
+python3 scripts/social_publish.py batch-draft --input /documents/content/social/campaign/social-posts.json --mode continue
+python3 scripts/social_publish.py batch-draft --input /documents/content/social/campaign/social-posts.json --mode continue --account-map facebook:ACC_FB,instagram:ACC_IG
+python3 scripts/social_publish.py upload-media --file /documents/content/social/campaign/images/post.png
+python3 scripts/social_publish.py attach-media --post-id POST_ID --file /documents/content/social/campaign/images/post.png
 python3 scripts/social_publish.py publish --post-id POST_ID --confirm-publish yes
 ```
 

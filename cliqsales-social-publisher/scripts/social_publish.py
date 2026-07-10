@@ -96,6 +96,39 @@ def require_env(name: str) -> str:
     return value
 
 
+def _resolve_ghl_credentials() -> dict[str, str] | None:
+    """Resolve GHL creds via the shared cc_credentials resolver (CliqSales profile
+    in credentials.json, env fallback). Returns None when unavailable so callers
+    fall back to require_env (legacy env-only)."""
+    script_path = Path(__file__).resolve()
+    candidates: list[Path] = [script_path.parents[1].parent / "_lib"]
+    for env_name in ("OPENCLAW_HOME", "CC_OPENCLAW_HOME"):
+        raw_home = os.environ.get(env_name, "").strip()
+        if raw_home:
+            home = Path(raw_home).expanduser()
+            candidates.append(home / "cs-skills" / "_lib")
+            candidates.append(home / ".openclaw" / "cs-skills" / "_lib")
+    candidates.append(Path.home() / ".openclaw" / "cs-skills" / "_lib")
+    candidates.extend(parent / "cs-skills" / "_lib" for parent in script_path.parents)
+    seen: set[str] = set()
+    for lib_dir in candidates:
+        key = str(lib_dir)
+        if key in seen or not (lib_dir / "cc_credentials.py").exists():
+            continue
+        seen.add(key)
+        if key not in sys.path:
+            sys.path.insert(0, key)
+        try:
+            from cc_credentials import ghl_credentials  # type: ignore
+        except Exception:
+            continue
+        creds = ghl_credentials()
+        if creds and creds.get("api_key") and creds.get("location_id"):
+            return creds
+        return None
+    return None
+
+
 def sanitize_location_id(raw: str) -> str:
     value = raw.strip()
     if value.startswith("loc_"):
@@ -343,8 +376,13 @@ def upload_media_files(client: "SocialClient", media_files: list[str]) -> list[d
 
 class SocialClient:
     def __init__(self) -> None:
-        self.token = require_env("GHL_API_KEY")
-        self.location_id = sanitize_location_id(require_env("GHL_LOCATION_ID"))
+        creds = _resolve_ghl_credentials()
+        if creds:
+            self.token = creds["api_key"]
+            self.location_id = sanitize_location_id(creds["location_id"])
+        else:
+            self.token = require_env("GHL_API_KEY")
+            self.location_id = sanitize_location_id(require_env("GHL_LOCATION_ID"))
         if not self.location_id:
             raise SocialError("GHL_LOCATION_ID is empty after sanitization")
 

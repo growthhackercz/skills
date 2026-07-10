@@ -1,20 +1,16 @@
 ---
 name: seo-strategy
-description: "Navrhuje SEO strategii, témata a prioritizaci."
-category: content
-status: ready
-version: "1.0"
-publishedAt: "2026-04-25"
+description: Systematic SEO — keyword research, content mapping, backlink strategy, technical health. Tracks keywords in memory/seo-keywords.json with cluster, volume, difficulty, and target rank. Use when planning organic traffic, finding content gaps, or auditing site SEO.
 ---
 
-# SEO strategie
+# Skill: SEO Strategy
 
-Systematické SEO, které se časem spojuje. Klíčová slova, obsah, zpětné odkazy a technické zdraví. Žádné černé hattricky, žádné vycpávání klíčových slov. Prostě solidní základy, které budují organickou návštěvnost měsíc po měsíci.
+Systematic SEO that compounds over time. Keywords, content, backlinks, and technical health. No black hat tricks, no keyword stuffing. Just solid fundamentals that build organic traffic month after month.
 
-## Datové soubory
+## Data Files
 
-### Seznam priorit klíčových slov
-Udržujte v `memory/seo-keywords.json`:
+### Keyword Priority List
+Maintain in `memory/seo-keywords.json`:
 
 ```json
 {
@@ -45,8 +41,8 @@ Udržujte v `memory/seo-keywords.json`:
 }
 ```
 
-### Sledování pořadí
-Sledovat v `memory/seo-rankings.json`:
+### Rank Tracking
+Track in `memory/seo-rankings.json`:
 
 ```json
 {
@@ -61,34 +57,34 @@ Sledovat v `memory/seo-rankings.json`:
 }
 ```
 
-## Výzkum a seskupování klíčových slov
+## Keyword Research & Clustering
 
-Když chce uživatel prozkoumat nová klíčová slova nebo plánovat obsah:
+When the user wants to explore new keywords or plan content:
 
-1. **Základní klíčová slova** – Začněte tím, co produkt dělá a pro koho je určen
-2. **Rozbalit** – Použijte vyhledávání na webu k nalezení souvisejících výrazů, otázek, dlouhých variací
-3. **Cluster** – Seskupte klíčová slova podle tématu. Každý klastr má jednu hlavní stránku a podpůrný obsah.
-4. **Vyhodnoťte** – Pro každé klíčové slovo: objem vyhledávání (pokud je k dispozici), konkurence, záměr vyhledávání
-5. **Upřednostnit** – skóre podle: obchodní relevance, obtížnosti, záměru (záměr kupujícího > informační), objemu
+1. **Seed keywords** - Start with what the product does and who it's for
+2. **Expand** - Use web search to find related terms, questions, long-tail variations
+3. **Cluster** - Group keywords by topic. Each cluster gets one pillar page and supporting content.
+4. **Evaluate** - For each keyword: search volume (if available), competition, search intent
+5. **Prioritize** - Score by: business relevance, difficulty, intent (buyer intent > informational), volume
 
-**Vyhledat kategorie záměru:**
-– **Informační** – „Jak napsat fakturu“ (horní část cesty, buduje autoritu)
-– **Komerční** – „nejlepší fakturační software“ (uprostřed cesty, porovnávající zákazníci)
-– **Transakční** – „cena fakturačního softwaru“ (spodní část trychtýře, připraveno k nákupu)
-- **Navigační** - "[název značky] přihlášení" (stávající uživatelé)
+**Search Intent Categories:**
+- **Informational** - "how to write an invoice" (top of funnel, builds authority)
+- **Commercial** - "best invoicing software" (mid-funnel, comparison shoppers)
+- **Transactional** - "invoicing software pricing" (bottom of funnel, ready to buy)
+- **Navigational** - "[brand name] login" (existing users)
 
-**Upřednostňujte obchodní a transakční klíčová slova jako první.** Jsou blíže k výnosům. Vyplňte informační obsah a vytvořte si aktuální autoritu.
+**Prioritize commercial and transactional keywords first.** They're closer to revenue. Fill in informational content to build topical authority.
 
-## Analýza obsahových mezer
+## Content Gap Analysis
 
-Porovnejte svůj obsah s konkurencí:
+Compare your content to competitors:
 
-1. Seznam konkurenčních stránek hodnocení pro vaše cílová klíčová slova
-2. Identifikujte klíčová slova, která hodnotí, a která nepokrýváte
-3. Najděte témata, jejichž obsah je tenký nebo zastaralý
-4. Stanovte priority mezer podle: obchodní relevance, obtížnosti klíčových slov, objemu vyhledávání
+1. List competitor pages ranking for your target keywords
+2. Identify keywords they rank for that you don't cover
+3. Find topics where their content is thin or outdated
+4. Prioritize gaps by: business relevance, keyword difficulty, search volume
 
-**Výstupní formát:**
+**Output format:**
 ```
 🔍 Content Gap Analysis
 
@@ -103,59 +99,59 @@ Porovnejte svůj obsah s konkurencí:
 - [keyword/topic]: no competitor covers this well. Volume: X/mo, difficulty: low
 ```
 
-## Možnosti zpětných odkazů
+## Backlink Opportunities
 
-Identifikujte realistické příležitosti pro budování odkazů:
+Identify realistic link-building opportunities:
 
-- **Stránky zdrojů** - Stránky, které obsahují seznam nástrojů/resources ve vašem výklenku
-- **Nefunkční odkazy** - Zpětné odkazy konkurence směřující na 404 stránek, které byste mohli nahradit
-- **Hostující příspěvky** - Relevantní blogy, které přijímají příspěvky
-– **Nepropojené zmínky** – Weby, které zmiňují vaši značku bez propojení
-– **Data/research** – Původní data, průzkumy nebo srovnávací hodnoty, které lidé citují
-– **Integrace nástrojů** – Partneři a integrace, které by vás mohly propojit
+- **Resource pages** - Pages that list tools/resources in your niche
+- **Broken links** - Competitor backlinks pointing to 404 pages you could replace
+- **Guest posting** - Relevant blogs that accept contributions
+- **Unlinked mentions** - Sites that mention your brand without linking
+- **Data/research** - Original data, surveys, or benchmarks that people cite
+- **Tool integrations** - Partners and integrations that could link to you
 
-**Nespamujte.** Zaměřte se na vysoce kvalitní a relevantní odkazy. Jeden dobrý odkaz z respektovaného webu překoná 50 z adresářů.
+**Don't spam.** Focus on high-quality, relevant links. One good link from a respected site beats 50 from directories.
 
-## Technický SEO audit
+## Technical SEO Audit
 
-Pravidelné kontroly (měsíčně nebo když jsou problémy označeny):
+Periodic checks (monthly or when issues are flagged):
 
-**Procházení:**
-- [ ] Soubor Sitemap existuje a je odeslán do služby Search Console
-- [ ] Robots.txt neblokuje důležité stránky
-- [ ] Žádné osiřelé stránky (stránky bez interních odkazů)
-- [ ] Kanonické značky jsou správné
+**Crawlability:**
+- [ ] Sitemap exists and is submitted to Search Console
+- [ ] Robots.txt isn't blocking important pages
+- [ ] No orphan pages (pages with no internal links)
+- [ ] Canonical tags are correct
 
-**Výkon:**
-- [ ] Předávání Core Web Vitals (LCP, FID, CLS)
-- [ ] Stránky se načítají za méně než 3 sekundy
-- [ ] Obrázky jsou optimalizovány (WebP, líné načítání)
-- [ ] Žádné zdroje blokující vykreslování
+**Performance:**
+- [ ] Core Web Vitals passing (LCP, FID, CLS)
+- [ ] Pages load in under 3 seconds
+- [ ] Images are optimized (WebP, lazy loading)
+- [ ] No render-blocking resources
 
-**Na stránce:**
-- [ ] Tagy názvu jsou jedinečné a zahrnují cílové klíčové slovo
-- [ ] Popisy metadat jsou přesvědčivé (ovlivňují CTR, nikoli přímo hodnocení)
-- [ ] Značky H1 jsou přítomny a relevantní
-- [ ] Interní propojení spojuje související obsah
-- [ ] URL jsou čisté a popisné
+**On-Page:**
+- [ ] Title tags are unique and include target keyword
+- [ ] Meta descriptions are compelling (they affect CTR, not ranking directly)
+- [ ] H1 tags are present and relevant
+- [ ] Internal linking connects related content
+- [ ] URLs are clean and descriptive
 
-**Indexování:**
-- [ ] Klíčové stránky jsou indexovány (zkontrolujte u `site:yourdomain.com`)
-- [ ] Žádné problémy s duplicitním obsahem
-- [ ] 301 přesměrování pro změněné adresy URL
-- [ ] Žádné měkké 404
+**Indexing:**
+- [ ] Key pages are indexed (check with `site:yourdomain.com`)
+- [ ] No duplicate content issues
+- [ ] 301 redirects in place for changed URLs
+- [ ] No soft 404s
 
-Výsledky auditu protokolu v `memory/seo-audit-YYYY-MM-DD.md`.
+Log audit results in `memory/seo-audit-YYYY-MM-DD.md`.
 
-## Sledování pořadí
+## Rank Tracking
 
-Během heartbeatů (jednou denně):
-1. Pokud jsou nástroje SEO dostupné, zkontrolujte pořadí prioritních klíčových slov
-2. Zaznamenejte změny v `memory/seo-rankings.json`
-3. Označte významné pohyby (skok nebo pokles o 5+ pozic)
-4. Všimněte si nových klíčových slov, která se objevují v top 50
+During heartbeats (once daily):
+1. If SEO tools are accessible, check rankings for priority keywords
+2. Log changes in `memory/seo-rankings.json`
+3. Flag significant moves (jumped or dropped 5+ positions)
+4. Note new keywords appearing in top 50
 
-**Formát zprávy:**
+**Report format:**
 ```
 📈 SEO Ranking Update - [date]
 
@@ -169,12 +165,12 @@ Během heartbeatů (jednou denně):
 **No change:** [X keywords stable]
 ```
 
-## Pravidla
+## Rules
 
-- **Kvalita obsahu na prvním místě.** Žádné přeplňování klíčovými slovy. Pište pro lidi, optimalizujte pro vyhledávače. V tomto pořadí.
-- **Jedno primární klíčové slovo na stránku.** Podpůrná klíčová slova jsou v pořádku, ale každá stránka by měla mít jasný cíl.
-- **Aktualizujte stávající obsah před vytvořením nového.** Obnovená stránka v top 10 má větší cenu než nová stránka od nuly.
-- **Interní odkazování je bezplatné SEO.** Každý nový obsah by měl odkazovat na související stránky a ze souvisejících stránek.
-- **Sledujte, na čem záleží.** Pořadí je hlavním ukazatelem. Provoz je indikátorem zpoždění. Konverze z organické návštěvnosti jsou skutečně důležité číslo.
-- **Buďte trpěliví.** Sloučeniny SEO. Výsledky za 1. měsíc budou zklamáním. V šestém měsíci se to začíná vyplácet. Měsíc 12 je místo, kde to začíná být vzrušující.
-- **Aktualizujte měsíčně seznam priorit klíčových slov.** Priority se mění, jak se zaměřujete na věci a objevujete nové příležitosti.
+- **Content quality first.** No keyword stuffing. Write for humans, optimize for search engines. In that order.
+- **One primary keyword per page.** Supporting keywords are fine, but each page should have a clear target.
+- **Update existing content before creating new.** A refreshed top-10 page is worth more than a new page starting from zero.
+- **Internal linking is free SEO.** Every new piece of content should link to and from related pages.
+- **Track what matters.** Rankings are a leading indicator. Traffic is a lagging indicator. Conversions from organic traffic is the number that actually matters.
+- **Be patient.** SEO compounds. Month 1 results will be disappointing. Month 6 is where it starts paying off. Month 12 is where it gets exciting.
+- **Update the keyword priority list monthly.** Priorities shift as you rank for things and discover new opportunities.
