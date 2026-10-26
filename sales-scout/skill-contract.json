@@ -1,0 +1,36 @@
+{
+  "contractVersion": 1,
+  "taskCheckpoints": {
+    "brief-review": {
+      "requires": [
+        {
+          "file": "/documents/sales/scout-review/{taskId}-brief.md"
+        }
+      ]
+    },
+    "brief-actions": {
+      "requires": [
+        {
+          "salesGhlPlanArtifact": {
+            "path": "/documents/sales/ghl-plans/scout/{taskId}-brief.json",
+            "skillVersion": "1.3",
+            "sourceAgent": "cso",
+            "taskContract": "sales-scout:brief-actions"
+          }
+        }
+      ]
+    },
+    "brief-actions-v1-4": {
+      "requires": [
+        {
+          "salesGhlPlanArtifact": {
+            "path": "/documents/sales/ghl-plans/scout/{taskId}-brief.json",
+            "skillVersion": "1.4",
+            "sourceAgent": "cso",
+            "taskContract": "sales-scout:brief-actions-v1-4"
+          }
+        }
+      ]
+    }
+  }
+}

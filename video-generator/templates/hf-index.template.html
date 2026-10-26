@@ -1,0 +1,115 @@
+<!doctype html>
+<!-- ŠABLONA HyperFrames finishing (video-generator). Nahraď [PLACEHOLDERY] podle briefu.
+     Pravidla: references/finishing-hyperframes.md (titulky verbatim pod tváří, flash-to-white, punch).
+     Časy: data-start klipů = kumulativní délky z trim-clips.py; řečová okna tamtéž. -->
+<html lang="cs" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      /* Font: vendoruj woff2 lokálně, VŽDY latin + latin-ext (česká diakritika). Váhy 500/800/900. */
+      @font-face { font-family:"Poppins"; font-weight:500; font-display:block; src:url("assets/vendor/fonts/poppins-500-latin.woff2") format("woff2");
+        unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+      @font-face { font-family:"Poppins"; font-weight:500; font-display:block; src:url("assets/vendor/fonts/poppins-500-latinext.woff2") format("woff2");
+        unicode-range:U+0100-02AF,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+      @font-face { font-family:"Poppins"; font-weight:800; font-display:block; src:url("assets/vendor/fonts/poppins-800-latin.woff2") format("woff2");
+        unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+      @font-face { font-family:"Poppins"; font-weight:800; font-display:block; src:url("assets/vendor/fonts/poppins-800-latinext.woff2") format("woff2");
+        unicode-range:U+0100-02AF,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+      @font-face { font-family:"Poppins"; font-weight:900; font-display:block; src:url("assets/vendor/fonts/poppins-900-latin.woff2") format("woff2");
+        unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+      @font-face { font-family:"Poppins"; font-weight:900; font-display:block; src:url("assets/vendor/fonts/poppins-900-latinext.woff2") format("woff2");
+        unicode-range:U+0100-02AF,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+      body { font-family: "Poppins", sans-serif; }
+      .clipvid { position: absolute; inset: 0; width: 1080px; height: 1920px; object-fit: cover; }
+
+      /* scrim pro čitelnost titulků */
+      #scrim { position: absolute; left: 0; right: 0; bottom: 0; height: 640px; z-index: 15;
+               background: linear-gradient(to top, rgba(1,7,26,.74) 0%, rgba(1,7,26,.34) 48%, rgba(1,7,26,0) 100%); }
+
+      /* Titulky: běžná slova normální váhy v utaženém bloku, VELKÉ gradientové slovo na VLASTNÍM řádku.
+         NIKDY přes obličej — bottom uprav podle kompozice, kontroluj proof framem. */
+      .sub { position: absolute; left: 0; right: 0; bottom: [BOTTOM_PX]px; padding: 0 44px; z-index: 20;
+             display: flex; flex-direction: column; align-items: center; gap: 6px; }
+      .sub .line { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 16px; line-height: 0.98; }
+      .sub .line .word { font-weight: 500; font-size: 74px; letter-spacing: -1.5px; color: #fff;
+                         text-shadow: 0 4px 24px rgba(0,0,0,.9); will-change: transform, opacity; }
+      .sub .big { font-weight: 800; font-size: 172px; letter-spacing: -6px; line-height: 1.06; padding-bottom: 0.06em;
+                  background: linear-gradient(150deg,[GRAD_LIGHT] 0%,[GRAD_MID] 50%,[GRAD_DARK] 100%);
+                  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+                  filter: drop-shadow(0 6px 24px rgba(23,198,255,.5)); will-change: transform, opacity; }
+
+      .flash { position: absolute; inset: 0; background: #fff; opacity: 0; z-index: 40; }
+
+      /* Punch slovo (volitelné) — brand gradient, pop přesně na vyslovené slovo */
+      #punch { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+               z-index: 50; font-weight: 900; font-size: 340px; letter-spacing: -10px; will-change: transform, opacity; }
+      #punch span { background: linear-gradient(150deg,[GRAD_LIGHT] 0%,[GRAD_MID] 50%,[GRAD_DARK] 100%);
+                    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+                    filter: drop-shadow(0 8px 30px rgba(0,120,200,.35)); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="[TOTAL_S]" data-width="1080" data-height="1920">
+
+      <div data-layout-ignore>
+        <!-- Klipy z _shots_trim/, data-start = kumulativně (výstup trim-clips.py). KAŽDÉ video MUSÍ mít id! -->
+        <video id="v-s1a" class="clip clipvid" src="assets/clips/s1a.mp4" data-start="0" data-duration="[D1]" data-track-index="0" muted playsinline></video>
+        <!-- … další scény … -->
+      </div>
+
+      <div id="scrim"></div>
+
+      <!-- Verbatim titulky: data-start/duration = řečové okno scény (trim-clips.py výstup).
+           .line = běžná slova; .big = klíčové slovo na vlastním řádku. -->
+      <div id="sub1" class="sub clip" data-start="[T_SPEECH_START]" data-duration="[T_SPEECH_DUR]" data-track-index="2">
+        <div class="line"><span class="word">[Slovo]</span><span class="word">[slovo]</span></div>
+        <div class="big">[klíčové slovo]</div>
+      </div>
+      <!-- … titulek per scéna s replikou … -->
+
+      <!-- Flash na každý hrubý střih (data-start = cut - 0.7, duration ~1.55; hlavní klidně 2.1) -->
+      <div id="flash1" class="flash clip" data-start="[CUT1-0.7]" data-duration="1.55" data-track-index="3"></div>
+
+      <!-- Punch (volitelné) -->
+      <div id="punch" class="clip" data-start="[PUNCH_T-0.4]" data-duration="1.15" data-track-index="5"><span>[SLOVO!]</span></div>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      // Titulky: slova naskakují postupně přes řečové okno (kineticky po slovech)
+      document.querySelectorAll(".sub").forEach((sub) => {
+        const s = parseFloat(sub.dataset.start), d = parseFloat(sub.dataset.duration);
+        const words = sub.querySelectorAll(".line .word");
+        const big = sub.querySelector(".big");
+        const n = Math.max(words.length, 1);
+        const stagger = Math.min(0.34, Math.max(0.13, (d - 1.0) / (n + 1)));
+        tl.fromTo(words, { opacity: 0, y: 42, filter: "blur(8px)" },
+                  { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.28, stagger, ease: "power3.out" }, s);
+        if (big) tl.fromTo(big, { opacity: 0, scale: 0.68, y: 18 },
+                  { opacity: 1, scale: 1, y: 0, duration: 0.34, ease: "back.out(1.8)" }, s + 0.10 + n * stagger);
+        tl.to(sub, { opacity: 0, duration: 0.22, ease: "power2.in" }, s + d - 0.20);
+      });
+
+      // Flashe: plynulý fade do PLNÉ bílé přes střih (luma check ~250!)
+      // CUTS = časy střihů z trim-clips.py; první flash klidně delší (viz komentované hodnoty)
+      [/* CUT1, CUT2, … */].forEach((cut, i) => {
+        const f = "#flash" + (i + 1);
+        tl.fromTo(f, { opacity: 0 }, { opacity: 1, duration: 0.50, ease: "sine.inOut" }, cut - 0.54);
+        tl.to(f, { opacity: 0, duration: 0.58, ease: "sine.inOut" }, cut + 0.10);
+      });
+
+      // Punch: rychlý pop PŘESNĚ na vyslovené slovo (změř silencedetectem), zmizí BEZ fade pod plnou bílou
+      // tl.fromTo("#punch", { opacity: 0, scale: 0.55 }, { opacity: 1, scale: 1, duration: 0.14, ease: "back.out(2)" }, PUNCH_T);
+      // tl.set("#punch", { opacity: 0 }, PUNCH_T + 0.58);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

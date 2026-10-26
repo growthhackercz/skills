@@ -1,0 +1,68 @@
+{
+  "contractVersion": 1,
+  "taskCheckpoints": {
+    "call-scorecard": {
+      "requires": [
+        {
+          "file": "/documents/sales/scorecards/{obchodnik}/{bundle}/_manifest.json"
+        },
+        {
+          "fileContains": {
+            "path": "/documents/sales/scorecards/{obchodnik}/{bundle}/_manifest.json",
+            "contains": "\"skillVersion\": \"1.0\""
+          }
+        }
+      ]
+    },
+    "call-scorecard-actions": {
+      "requires": [
+        {
+          "file": "/documents/sales/scorecards/{obchodnik}/{bundle}/_manifest.json"
+        },
+        {
+          "fileContains": {
+            "path": "/documents/sales/scorecards/{obchodnik}/{bundle}/_manifest.json",
+            "contains": "\"skillVersion\": \"1.0\""
+          }
+        },
+        {
+          "salesGhlPlanArtifact": {
+            "path": "/documents/sales/ghl-plans/mentor/{callId}-actions.json",
+            "skillVersion": "1.0",
+            "sourceAgent": "cso",
+            "taskContract": "sales-mentor:call-scorecard-actions"
+          }
+        }
+      ]
+    },
+    "report-delivery": {
+      "requires": [
+        {
+          "salesGhlPlanArtifact": {
+            "path": "/documents/sales/ghl-plans/mentor/{periodKey}.json",
+            "skillVersion": "1.0",
+            "sourceAgent": "cso",
+            "taskContract": "sales-mentor:report-delivery"
+          }
+        }
+      ]
+    },
+    "reporting-setup": {
+      "requires": [
+        {
+          "cronsDeclared": "mentor-reporting"
+        }
+      ]
+    }
+  },
+  "declaredCrons": {
+    "mentor-reporting": {
+      "min": 2,
+      "namePrefix": "mentor-",
+      "exactNames": [
+        "mentor-daily",
+        "mentor-weekly"
+      ]
+    }
+  }
+}

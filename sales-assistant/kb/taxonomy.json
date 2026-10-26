@@ -1,0 +1,151 @@
+{
+  "schemaVersion": "1.0",
+  "_zdroj": "Jediný strojově čitelný zdroj taxonomie a bodových pásem (audit P2-03). Writer, Analytik i JSON schéma z něj čtou; markdown dokumentace se proti němu kontroluje testem. Needituj kopie ve skillech — jen tady.",
+  "categories": [
+    {
+      "key": "vedeni_struktura",
+      "label": "Vedení a struktura"
+    },
+    {
+      "key": "discovery",
+      "label": "Discovery a diagnostika"
+    },
+    {
+      "key": "kvalifikace",
+      "label": "Kvalifikace"
+    },
+    {
+      "key": "hodnota_jistota",
+      "label": "Hodnota a jistota"
+    },
+    {
+      "key": "prezentace",
+      "label": "Prezentace řešení"
+    },
+    {
+      "key": "namitky",
+      "label": "Práce s námitkami"
+    },
+    {
+      "key": "closing",
+      "label": "Closing a další krok"
+    },
+    {
+      "key": "etika",
+      "label": "Etika prodeje"
+    }
+  ],
+  "objections": [
+    {
+      "key": "price",
+      "label": "cena"
+    },
+    {
+      "key": "affordability",
+      "label": "nemáme rozpočet"
+    },
+    {
+      "key": "timing",
+      "label": "teď se to nehodí"
+    },
+    {
+      "key": "urgency",
+      "label": "není to priorita"
+    },
+    {
+      "key": "trust_product",
+      "label": "nedůvěra v produkt"
+    },
+    {
+      "key": "trust_company",
+      "label": "nedůvěra ve firmu"
+    },
+    {
+      "key": "trust_salesperson",
+      "label": "nedůvěra v obchodníka"
+    },
+    {
+      "key": "self_doubt",
+      "label": "„my to nezvládneme“"
+    },
+    {
+      "key": "fit",
+      "label": "nesedí to na nás"
+    },
+    {
+      "key": "authority",
+      "label": "rozhoduje někdo jiný"
+    },
+    {
+      "key": "partner_or_team",
+      "label": "musí to probrat s dalšími"
+    },
+    {
+      "key": "comparison",
+      "label": "srovnává s konkurencí"
+    },
+    {
+      "key": "risk",
+      "label": "obava z rizika"
+    },
+    {
+      "key": "implementation",
+      "label": "obava z nasazení"
+    },
+    {
+      "key": "effort",
+      "label": "bude s tím moc práce"
+    },
+    {
+      "key": "past_failure",
+      "label": "špatná zkušenost z minula"
+    },
+    {
+      "key": "need_to_think",
+      "label": "rozmyslím si to"
+    },
+    {
+      "key": "information_request",
+      "label": "žádost o informace"
+    },
+    {
+      "key": "polite_rejection",
+      "label": "zdvořilé odmítnutí"
+    },
+    {
+      "key": "hidden_objection",
+      "label": "skrytá námitka"
+    },
+    {
+      "key": "not_qualified",
+      "label": "není to náš zákazník"
+    }
+  ],
+  "score_bands": [
+    {
+      "min": 85,
+      "max": 100,
+      "label": "Vzorový hovor"
+    },
+    {
+      "min": 70,
+      "max": 84,
+      "label": "Nadprůměrný hovor"
+    },
+    {
+      "min": 55,
+      "max": 69,
+      "label": "Průměrný hovor s rezervami"
+    },
+    {
+      "min": 40,
+      "max": 54,
+      "label": "Podprůměrný hovor"
+    },
+    {
+      "min": 0,
+      "max": 39,
+      "label": "Kritické nedostatky"
+    }
+  ]
+}

@@ -1,109 +1,112 @@
 ---
 name: ad-strategist
-description: "Router a compatibility shim pro placené reklamy; použij ho, když starší zadání říká ad-strategist nebo není jasné, zda má jít workflow přes Meta direct, CliqSales/GHL nebo Meta reporting."
+description: "AI stratég reklam — dirigent. Když chcete reklamu nebo kampaň, tenhle skill ji naplánuje: načte vaši značku a produkt, zjistí si z trhu, co u konkurence funguje, vymyslí a seřadí reklamní úhly, rozhodne komu, s jakým rozpočtem, v jakém formátu a na které platformě, zadá tvůrcům (copy, obrázky, video) a předá hotový plán k publikaci — vždy POZASTAVENÝ ke schválení. Sám nic nevyrábí ani nepublikuje, řídí ostatní."
 category: marketing
 status: ready
-version: "1.0"
-publishedAt: "2026-05-08"
+version: "2.0"
+publishedAt: "2026-07-13"
+user-invocable: true
+metadata: {"openclaw":{"emoji":"🎼"}}
 ---
 
-# Ad Strategist
+# Ad Strategist — dirigent Ads Enginu
 
-Tento skill už netvoří vlastní reklamní strategii. Slouží jako vstupní router,
-který rychle rozhodne, který specializovaný skill má agent načíst dál, aby se
-nemíchal Meta direct publisher, CliqSales/GHL draft workflow a reporting.
+Jediný vstupní bod reklamní tvorby. **Rozhoduje, neprodukuje.** Nad vrstvami Signály (`ad-scout`) · Tvorba (makery) · Publikace (publishery) · Učení (`ad-analyst`). **Sloučil 3 staré skilly** do jednoho dirigenta: `ad-strategist` (router) + `cliqsales-ad-strategist` (GHL) + `meta-ad-strategist` (Meta).
 
-## Kdy použít
+**Rodina = zrcadlo Content Enginu:** `ad-scout` (≈content-scout) · **ad-strategist** (≈content-strategist) · `ad-analyst` (≈content-performance) · makery · publishery.
 
-Použij tento skill pro kompatibilitu se staršími tasky typu „použij
-ad-strategist“ nebo když brief žádá reklamu/kampaň, ale není jasné, zda má jít
-o direct Meta, GHL/CliqSales draft, Google/LinkedIn draft nebo reporting.
+**Filozofie (Andromeda éra):** kreativa JE cílení; nevyhrává jedna reklama, ale **systém** (diverzita úhlů × formátů × person). (Know-how je vytěženo do referencí stealth/viral níže — interní zdroj `creative-data-system.md` není součástí skillu na fleetu, neodkazuj na něj za běhu.) **VIRAL DNA Cloning:** `ad-scout` dodá DNA vítězných reklam → **stratég rozhodne, co a jak naklonovat** na produkt/značku klienta.
 
-Nepoužívej ho jako třetí orchestrátor. Po routing rozhodnutí pokračuj ve
-specializovaném skillu a dlouhé strategické kontrakty ber z něj.
+**Metodologie = Ad DNA Method™** — **Dekóduj · Naklonuj · Amplifikuj** (D·N·A): rozklíč vítěznou DNA z reklam i organiky → přes **PDA matici** (persona × touha × povědomí) ji naklonuj na každý typ zákazníka jako **neviditelnou reklamu** → ve smyčce amplifikuj vítěze. Kroky = vrstvy enginu: Dekóduj≈`ad-scout` · Naklonuj≈stratég+makery · Amplifikuj≈`ad-analyst`. VIRAL DNA Cloning žije uvnitř kroku Naklonuj. (EN: Decode · Neural Clone · Amplify.)
 
-## Workflow
+## Tři režimy (pozná ze zadání)
+Detaily, týdenní smyčka, úrovně schvalování a kill-switch: `{baseDir}/references/modes-autopilot.md`.
+1. **JEDNORÁZOVÝ** — „Udělej reklamu na X" → 1 výstup + dashboard (default draft/PAUSED).
+2. **KAMPAŇ** — „Naplánuj kampaň na X" → strategie + varianty + **publish POZASTAVENÝ ke schválení** (klient má poslední slovo).
+3. **AUTOPILOT** — „Hlídej a optimalizuj" → týdenní smyčka `ad-analyst`→`ad-strategist`, **3 úrovně schvalování + kill-switch**. Skill v každém běhu odpracuje jeden cyklus; samotné týdenní plánování = mašinérie F4 (programátor).
+Nejednoznačné zadání → **zeptej se**, neeskaluj režim nahoru (vyšší režim = víc spendu).
 
-1. Ověř, jestli brief stačí k rozhodnutí: cílová platforma, publisher intent,
-   reporting vs nová kampaň, draft/write intent a případně CRM/follow-up.
-2. Pokud uživatel explicitně chce Meta direct, Meta CLI, Facebook/Instagram
-   native nebo `publishingTargets[].backend: "meta_ads_cli"`, načti
-   `meta-ad-strategist`.
-3. Pokud uživatel explicitně chce CliqSales, GoHighLevel, GHL, Ad Manager,
-   Google Ads, LinkedIn Ads, CRM/follow-up aware plán nebo multi-platform draft,
-   načti `cliqsales-ad-strategist`.
-4. Pokud zadání řeší existující Meta účet, výkon, winners, bleeders, fatigue,
-   rozpočtová doporučení nebo dashboard, načti `meta-ads-reporting`.
-5. Pokud zadání řeší Meta Pixel, CAPI, Event Match Quality, deduplikaci eventů,
-   `fbp/fbc`, tracking diagnostiku nebo Events Manager, načti
-   `meta-pixel-capi-audit`.
-6. Pokud není backend jasný, udělej capability check bez zápisu: jsou dostupné
-   `META_ACCESS_TOKEN`, `META_AD_ACCOUNT_ID`, `META_PAGE_ID`; jsou dostupné
-   `GHL_API_KEY`, `GHL_LOCATION_ID`. Tokeny nevypisuj.
-7. Pokud brief říká jen Meta/Facebook/Instagram a Meta direct integrace je
-   dostupná, zvol `meta-ad-strategist`. Pokud Meta direct chybí a GHL je
-   dostupné, zvol `cliqsales-ad-strategist` jako draft fallback a jasně uveď
-   důvod.
-8. Pokud nejde bezpečně rozhodnout, polož jednu krátkou otázku v task threadu:
-   „Chceš direct Meta PAUSED write, nebo CliqSales/GHL draft?“
-9. Do chatu nebo pracovního souboru zapiš routing výsledek a pak pokračuj
-   načtením vybraného skillu.
+## Krok 0 — kontext + capability + brand (převzato z reálných stratégů)
+1. **Ověř dostatek kontextu:** offer · cíl kampaně · cílové platformy · landing URL · země/jazyk · lead/CRM cíl · budget rámec · draft/write intent · počet reklam. Chybí → `blockingQuestions`.
+2. **Ověř capability (bez vypsání hodnot) = je připojený publisher?** GHL (`cliqsales-ads-publisher` — `GHL_API_KEY`/`GHL_LOCATION_ID`) a/nebo nativní Meta (`meta-ads-publisher`). **Pozor:** `meta-ads-publisher` může jet přes **Facebook OAuth login bez env tokenu** — capability proto zjišťuj **dotazem na publisher/backend, ne jen z přítomnosti `META_ACCESS_TOKEN`** (jinak bys připojenou Metu chybně vyhodnotil jako nedostupnou a zbytečně shodil na draft). Podle připojených publisherů se řídí route (Krok 4). Nic připojeno → strategie + kreativa + **draft/plán, nepublikuje**.
+3. **Brand/Product DNA** (`/documents/brand/brandDNA.md` + `products/<slug>/productDNA.md`). Chybí/nesedí se značkou → `brandContextStatus: "missing_needs_confirmation"`; **bez explicitního souhlasu nepokračuj do produkce assetů ani publisheru**. Po souhlasu ulož `brand-input-note.md` + `brandContextConfirmedWithoutDocs: true`.
 
-## Output Template
+## Krok 1 — přej si signály (degraduj, nikdy neblokuj)
+- `ad-scout` na pozadí: **Viral Ad Board / Competitor Ad Board** (co běží, knihovna hooků, mapa úhlů), **DNA karty** (deep-dive modul scouta — hotové DNA ke klonování), **Raw Diet** (`voice-of-customer.json` — roadmapa scouta; když chybí, jeď z recenzních námětů Product Boardu), u e-shopů **Product Intelligence Board**.
+- `ad-analyst` audit (existující účet: winners/bleeders/fatigue/tracking). **Chybí → degraduj na Brand/Product DNA a naplánuj stejně**, poznamenej to.
 
-```markdown
-Routing reklamního workflow:
-- Vybraný skill: `{meta-ad-strategist | cliqsales-ad-strategist | meta-ads-reporting | meta-pixel-capi-audit}`
-- Důvod: {platforma / backend / reporting intent / tracking intent / capability check}
-- Další krok: načíst `skills/{selected-skill}/SKILL.md` a pokračovat podle něj
+## Krok 2 — ideace úhlů (Angle OS — tvoje práce jako modelu)
+Detaily: `{baseDir}/references/angle-os.md`. Vygeneruj **≥10 úhlů**, namapuj na **awareness level** (Unaware→Most-Aware), **seřaď** (mapa úhlů `ad-scout` 🟢 volné > 🔴 přeplněné × Raw Diet) a vyber **arbitráž** (trakce + volný prostor). Kalibrace: **3–7 person · 10+ úhlů · 80 % cold = Unaware/Problem-Aware**. Před výběrem zkontroluj **matici pokrytí** `combination-matrix.json` (co už běželo/vyhrálo/díry) — preferuj `untested` buňky u vítězů; po výběru do ní zapiš pokryté buňky (`Persona × Awareness × Angle × Format`).
+
+## Krok 3 — formát + platformový mix (neviditelné reklamy)
+**Na studený trh reklama vypadá jako organika** (Andromeda: „polished = red flag" **pro cold**) — vybírej formát z knihovny **stealth/native** podle awareness úrovně úhlu: `{baseDir}/references/stealth-conversation-engine.md` (UGC · Founder · Talking-head · Podcast · Street Interview · Skit · Debate · Spokesperson · VSL · POV; princip „eduku, bav, AŽ POTOM prodej" → Product Intro pozdě → 0 % ad prvních 10–15 s). **≥3 formáty na úhel** — min. 1 native (evergreen) + ≥1 stealth pro cold/unaware. Platformové specy (poměry, carousel, počty) dle `{baseDir}/references/platform-decision-matrix.md`. **Video jen při explicitní žádosti / Reels-Stories / UGC-demo intentu** — nikdy tiše nezařazuj ani nesnižuj na obrázek.
+**Klasické reklamy jsou plnohodnotné (ne jen virál):** dole ve funnelu (**Product-Aware / Most-Aware**) vyhrávají **klasické viditelné produktové/brandové a direct-response** reklamy (cena · CTA · deadline · srovnání) — zařazuj je bez ostychu. Nativní/stealth = **default pro cold**, ne mandát. **Respektuj preferenci klienta:** když chce jen viditelné brandové reklamy, je to mantinel, ne chyba — optimalizuj uvnitř něj.
+
+## Krok 4 — route × capability (skryté před klientem)
+Detaily: `{baseDir}/references/platform-routing.md`.
 ```
-
-Pokud routing není možný:
-
-```markdown
-Potřebuji upřesnit routing:
-- Možnosti: direct Meta PAUSED write, CliqSales/GHL draft, Meta reporting
-- Otázka: Chceš direct Meta PAUSED write, nebo CliqSales/GHL draft?
+Klient v CliqSales/GHL?  NE → nativní meta-ads-publisher (na připojené; bez napojení = draft/plán, nepublikuje)
+                         ANO → Meta-only hloubka? (Advantage+/lookalike/CBO/plný targeting/CAPI)
+                                NE → cliqsales-ads-publisher (GHL) = DEFAULT ~80 %, multi-platforma
+                                ANO → meta-ads-publisher (nativní write/read)
 ```
+Google + LinkedIn → **GHL draft**. Mix Meta-direct + GHL → **split plan** (Meta část oddělit). Nativní Google později.
 
-## Decision Criteria
+## Krok 5 — zadej makerům (2.0 rodina)
+Zavolej podle formátu: **`ad-writer`** (copy) · **`ad-image-generator`** (1 obrázek on-demand) · **`ad-set-image-generator`** (dávkový brand pack) · **video = vlastní produkční větev** (`video-generator` / `animated-video-generator` / `html-video-generator`, ne ad-owned).
+- **Anchor & Riff:** dej tvůrci **hook (3 s) + pain pointy z Raw Diet + formát + Selling Block moduly** (Problem·Agitate·Discredit·Solution·Unique·Showcase·Objections…) + **role herců** (default 2: Expert + Customer), ne slovo-od-slova skript. **Anti-ad:** „polished = red flag" (native/raw feel). **Congruency is king** (podcast ad = organický klip). **Nikdy < 5 hook variant.** Formáty: `{baseDir}/references/stealth-conversation-engine.md` · kostra scénáře (hook→retence→payoff→CTA + Selling Block): `{baseDir}/references/viral-ad-structure.md`.
+- **Počty (default):** `copyVariantCount: 3` · `imageVariantCount: 2` · `publishableAdCount: 1`. Copy varianty ≠ vytvořené reklamy (ta existuje až po `ad_id`).
+- Ulož `ad-image-briefs.json` / `ad-video-briefs.json`. **Před publisherem ověř manifesty:** `ad-image-manifest.json` (vybraný asset `status: "generated"`, image ID + poměr stran), u videa `ad-video-manifest.json` + thumbnail. Placeholder/jen `localPath` → **blocker**.
+- **`ad-video-manifest.json` sestavuješ TY** (stratég) z výstupu video větve — **video skilly ho neznají** (`ad-video-creator` je killnutý). Vyplň per kus: `id` · `localPath` (reálné MP4, ne placeholder) · `status: "generated"` · poměr stran · `thumbnail` (vyrob přes `ad-image-generator`, 9:16). Bez tohoto manifestu publisher video **nepustí**.
 
-| Podmínka | Prah | Akce |
-|---|---:|---|
-| Brief říká Meta direct / Meta CLI / FB+IG native | explicitní zmínka | `meta-ad-strategist` |
-| Brief říká CliqSales / GHL / Ad Manager / CRM / follow-up | explicitní zmínka | `cliqsales-ad-strategist` |
-| Brief říká Google nebo LinkedIn | jakákoli primární platforma | `cliqsales-ad-strategist` |
-| Brief je reporting existujícího Meta účtu | performance / winners / bleeders / fatigue / dashboard | `meta-ads-reporting` |
-| Brief řeší Pixel/CAPI/tracking/EMQ | pixel, CAPI, event_id, fbp/fbc nebo Events Manager | `meta-pixel-capi-audit` |
-| Platforma je Meta a Meta vars chybí, GHL vars existují | 0 Meta direct capability | GHL draft fallback přes `cliqsales-ad-strategist` |
-| Není jasný publisher ani platforma | žádný bezpečný default | jedna krátká otázka |
+## Krok 5b — landing page (konverzní cíl)
+Reklama bez kongruentní stránky = utracený rozpočet. Když `landingUrl` chybí (nebo chceš dedikovanou LP na úhel), **nezablokuj — zadej stavbu:** vyrob `landing-brief.json` (**message match** — stejný hook · úhel · awareness · persona jako reklama) a route na builder: **GHL AI Studio** (default pro platformní klienty, in-platform funnel) · **`vibe-builder`** (standalone web → `netlify-publisher`) · **`lead-magnet-generator`** (u magnetu, landing + děkovací). Detail: `{baseDir}/references/landing-handoff.md`. Běží **paralelně s Krokem 5**; **publisher (Krok 6) čeká na živou landing `url`** — bez ní `blocked_missing_landing_url`.
 
-## Anti-patterns
+## Krok 6 — `ad-plan.json` → publisher
 
-| Nedělej | Proč | Místo toho |
-|---|---|---|
-| Netvoř zde vlastní strategii kampaně | vznikl by třetí orchestrátor | předej do specializovaného strategist skillu |
-| Nekopíruj sem dlouhá PAUSED/GHL pravidla | duplikace source of truth | odkaž na `meta-ad-strategist` nebo `cliqsales-ad-strategist` |
-| Nevolej přímo `meta-ads-cli` bez plánu | publisher nemá hádat strategii | nejdřív `meta-ad-strategist` |
-| Nevolej přímo `ad-publisher` bez backend rozhodnutí | GHL draft schema se nesmí míchat s Meta direct | nejdřív `cliqsales-ad-strategist` |
-| Neslibuj deep Meta reporting přes GHL-only data | GHL nemusí vracet pixel/fatigue/winners data | použij `meta-ads-reporting` nebo označ limit |
+**Kontrakt úkolu (závazné):** jakmile pro kampaň/jednorázovku vznikne/převezmeš úkol, nastav mu přes task API metadata `contract: "ad-strategist:campaign-package"` a `contractParams: {"slug": "<campaign-slug>"}` — Control Center pak přechod do review pustí až s kompletním balíkem (strategie, plán, image briefy, drafty) a při nekompletním ti vrátí seznam chybějícího (dodělej ho a zkus znovu). U úkolu, ve kterém zapínáš Autopilot, nastav `contract: "ad-strategist:autopilot-setup"` se stejným `contractParams` — review projde, až když plán existuje A týdenní vyhodnocovací úkol reálně běží v Plánovači.
 
-## Integration
+Ulož do **`/documents/ads/campaigns/{campaign-slug}/`**: `ad-strategy.md` · `ad-plan.json` · `ad-image-briefs.json` · (`ad-video-briefs.json`) · `ad-drafts.json`. Schéma `ad-plan.json` (sloučeno z obou reálných stratégů):
+```json
+{
+  "campaignSlug": "…", "offer": "…", "language": "cs",
+  "platforms": ["meta","google","linkedin"], "objective": "lead_generation",
+  "draftOnly": true, "copyVariantCount": 3, "imageVariantCount": 2, "publishableAdCount": 1,
+  "publishingTargets": [
+    {"platform": "meta", "backend": "meta-ads-publisher", "safeWriteStatus": "PAUSED", "reason": "…"},
+    {"platform": "google", "backend": "cliqsales-ads-publisher", "mode": "draft", "reason": "…"}
+  ],
+  "formatMix": [{"platform": "meta", "format": "single_image", "reason": "…"}],
+  "crmFollowUp": {"pipelineStage": "new_lead", "owner": "marketing", "followUpRequired": true},
+  "landing": {"status": "live", "url": "https://…", "builder": "ghl_ai_studio", "reason": "…"},
+  "autopilot": {"enabled": false, "budgetCap": null, "vetoWindowHours": 24, "killSwitch": {"cpaOverrunPct": 50, "dailyHardCap": null}, "levelOverrides": {}},
+  "brandContextStatus": "confirmed", "blockingQuestions": []
+}
+```
+`autopilot` vyplň **jen v režimu AUTOPILOT** (mantinely týdenní smyčky — čte `ad-analyst` i příští běh; detail `{baseDir}/references/modes-autopilot.md`). U jednorázovky/kampaně nech `enabled: false`.
+Publisher: **`cliqsales-ads-publisher`** (GHL, `draftOnly: true`) / **`meta-ads-publisher`** (nativní, direct write jen `PAUSED`). **KAMPAŇ vždy ke schválení**, ne auto-publish. Naming každé reklamy = **`Persona_Angle_Format_Hook`** (páteř učení / Angle Leaderboard).
 
-**Uses:**
-- `meta-ad-strategist` - Meta-native strategie a PAUSED direct write plán.
-- `cliqsales-ad-strategist` - CliqSales/GHL draft strategie pro GHL, Google,
-  LinkedIn a CRM-aware kampaně.
-- `meta-ads-reporting` - read-only Meta reporting a intelligence.
-- `meta-pixel-capi-audit` - read-only Pixel/CAPI, dedup a EMQ audit.
+## Krok 7 — compounding (učící smyčka)
+Vítěze (od `ad-analyst`) neber jako konec, ale signál — znásob 3 tahy: **Frankenstein** · **stejný úhel do nových formátů** · **stejný scénář na 3 nové tvůrce**. Vítězné bloky → zpět do ideace + **zlatý fond `evergreen-ads.json`**.
 
-**Used by:**
-- CMO workspace a starší tasky, které pořád říkají `ad-strategist`.
+**Wiki (AI Data Center) — když je k dispozici** (`WikiManager`, elegantní fallback bez chyby, klientovi nehlas): při publikaci (Krok 6) založ/aktualizuj kartu **Kampaň** (vrstva Entity) — nabídka · cílová persona · vybrané úhly + **Angle Leaderboard** páteř (`Persona_Angle_Format_Hook`). Znovupoužitelné úhly/hooky ukládej jako **Koncepty**, ať je příští kampaň najde přes wiki hledání. Výkon kampaně dopisuje později `ad-analyst` (max 1 zápis/týden). Wiki je zrcadlo — provozní pravda zůstává v `ad-plan.json` / `evergreen-ads.json`.
 
-## Quality Checklist
+## Mapping serverové názvy → 2.0 rodina (traceability)
+| Server (v1.0) | 2.0 |
+|---|---|
+| `ad-writer` | `ad-writer` (beze změny jména — copy maker) |
+| `ad-image-creator` | `ad-image-generator` |
+| `ad-generator-gpt-image-2` | `ad-set-image-generator` |
+| `ad-video-creator` | video větev (`video-generator`…) — killne se |
+| `ad-publisher` | `cliqsales-ads-publisher` |
+| `meta-ads-cli` | `meta-ads-publisher` |
+| `meta-ads-reporting` + `meta-pixel-capi-audit` | `ad-analyst` (vnitřní schopnosti) |
 
-- [ ] Routing výsledek ukazuje právě jeden další specializovaný skill.
-- [ ] Brief s reporting intentem nejde do publisher workflow.
-- [ ] Meta direct a GHL draft nejsou v jedné větě vydávány za totéž.
-- [ ] Pokud chybí backend rozhodnutí, padla jen jedna krátká otázka.
-- [ ] Router neobsahuje vlastní dlouhou strategickou/publisher implementaci.
+## Guardraily
+- **🔒 Cesty — struktura `/documents/ads/` je FIXNÍ.** 1. úroveň (`campaigns/ · scout/ · sets/ · video/ · reports/ · pixel-capi-audits/ · ad-score/ · evergreen-ads.json`) je daná — **NIKDY tam nezakládej novou složku** (žádná složka se jménem kampaně/značky přímo pod `ads/`, jinak se v tom reporty ztratí). Nové kampaně/běhy/sady = vždy **PODsložka**. Ty píšeš **jen** do `campaigns/{campaign-slug}/` — nová kampaň = nová PODsložka.
+- **Rozhoduje, neprodukuje** — sám nevolá FAL/nepublikuje; řídí makery a publishery.
+- **Kampaň = ke schválení** (GHL `draftOnly`, Meta `PAUSED`); Autopilot = 3 úrovně + kill-switch. Klient poslední slovo.
+- **Degradace, ne blok** — chybí scout/analyst/DNA → jeď z toho, co je, a řekni z čeho.
+- **Landing = součást kampaně** — reklama bez živé kongruentní stránky se nepublikuje (`blocked_missing_landing_url`); chybí-li, zadej stavbu (Krok 5b), neblokuj natvrdo.
+- **Vykání ke klientovi**, generické role (ne Steve/Marc), „AI Data Center — LLM wiki".
+- **Nikdy ruční Graph API curl** pro write — jen přes publishery/helpery. Tokeny out of logs.

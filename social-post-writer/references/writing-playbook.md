@@ -19,9 +19,20 @@ CTA         výzva — konkrétní akce (viz §5). Ne generická.
 - [KONSENZUS] Acosta 6 kroků: **Hook → Re-hook → Lead (co se naučíš) → Body → Power-ending (2řádkové shrnutí) → CTA.** (Re-hook stojí na jednom zdroji — ber jako doporučení, ne zákon.)
 - [DOLOŽENO] *„První řádek je důležitější než 95 % zbytku postu."* (Welsh) → na hook dej nejvíc práce.
 
+### Karusel — 6 beatů (každý beat dělá copy job i visual job)
+
+**Hook → Promise → Pull → Payoff → Ask.** Karusel se nevypráví jako seznam, ale jako příběh třemi kanály najednou (co říkáš · jak je to postavené · jak to vypadá):
+- **Hook** (slide 1 / cover): zastav scroll. **Cover rule: 3 elementy · 2 barvy · 1 slovo výrazně větší** — vyznač klíčové slovo pro akcent (jde do `visual-briefs.json`).
+- **Promise** (slide 2): potvrď hook — co čtenář získá, když doswipuje. Bez něj odejde u slidu 3.
+- **Pull → Payoff** (slidy 3–N): jedna myšlenka/slide, **open loops** (naznač, dořeš na dalším slidu), eskalace, pattern interrupt — pozornost se získává **znovu každý slide**, ne jen jednou hookem.
+- **Ask** (poslední slide): jedno konkrétní CTA.
+- **Packaging:** text vypálený na slide **neopakuje** caption/titulek — doplňuje ho (jiná slova, ne kopie).
+
 ## 2. Hook — první řádek
 
 Tři rysy silného hooku [KONSENZUS, Acosta]: (1) vyvolá **zvědavost**, (2) obsahuje **konkrétní číslo / nástroj / insight**, (3) slíbí **akční radu**.
+
+**Climax-led, ne forced:** míř hook k **vrcholu obsahu**, ne k uměle šokující kontroverzi. Nejlepší otvírák je destilát nejsilnějšího momentu kusu, ne nalepená provokace.
 
 Pravidla:
 - **„Jak jsem" místo „Jak na"** — osobní zkušenost táhne víc než návod z třetí osoby.
@@ -38,6 +49,8 @@ Archetypy (fill-in-the-blank, z katalogu 200+ šablon od top tvůrců — [KONSE
 | Číslo / seznam | „3 věci, které [cílovka] dělá špatně u [téma]." |
 | Otázka | „Co kdyby [žádoucí stav bez obvyklé překážky]?" |
 | Výsledek napřed | „Z 0 na [výsledek] za [čas]. Takhle:" |
+
+**Postup:** vygeneruj hooky v **typech** (kontrariánský · pattern interrupt · identity call-out · curiosity gap · stat shock) a **označ 2 nejlepší** pro daný kus — klient/dirigent vybere finální.
 
 ## 3. Typy postů (taxonomie)
 

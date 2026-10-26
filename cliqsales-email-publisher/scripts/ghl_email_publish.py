@@ -102,7 +102,12 @@ def _resolve_ghl_credentials() -> dict[str, str] | None:
 
 _GHL_CREDS_CACHE: dict[str, str] | None = None
 _GHL_CREDS_LOADED = False
-_GHL_KEY_MAP = {"GHL_API_KEY": "api_key", "GHL_LOCATION_ID": "location_id", "GHL_USER": "user"}
+_GHL_KEY_MAP = {
+    "GHL_API_KEY": "api_key",
+    "GHL_LOCATION_ID": "location_id",
+    "GHL_USER": "user",
+    "GHL_USER_ID": "user_id",
+}
 
 
 def _ghl_creds() -> dict[str, str] | None:
@@ -125,6 +130,17 @@ def require_env(name: str) -> str:
     if not value:
         raise GHLMailError(f"Missing required environment variable: {name}")
     return value
+
+
+def optional_config(name: str) -> str:
+    """Same resolution order as require_env, but an absent value is not an error."""
+    if name in _GHL_KEY_MAP:
+        creds = _ghl_creds()
+        if creds:
+            resolved = str(creds.get(_GHL_KEY_MAP[name], "")).strip()
+            if resolved:
+                return resolved
+    return os.environ.get(name, "").strip()
 
 
 def sanitize_location_id(raw: str) -> str:
@@ -290,10 +306,72 @@ def campaign_path(location_id: str, suffix: str = "") -> str:
     return f"/emails/public/v2/locations/{encoded}/campaigns{suffix}"
 
 
+def user_records(payload: Any) -> list[dict[str, Any]]:
+    if isinstance(payload, dict):
+        for key in ("users", "data", "items"):
+            value = payload.get(key)
+            if isinstance(value, list):
+                return [item for item in value if isinstance(item, dict)]
+        return [payload]
+    if isinstance(payload, list):
+        return [item for item in payload if isinstance(item, dict)]
+    return []
+
+
+def user_id_from_object(user: dict[str, Any]) -> str | None:
+    return first_string(user.get("userId"), user.get("_id"), user.get("id"))
+
+
+def user_email_from_object(user: dict[str, Any]) -> str | None:
+    return first_string(user.get("email"), user.get("emailAddress"), user.get("primaryEmail"))
+
+
+def location_users() -> Any:
+    location_id = sanitize_location_id(require_env("GHL_LOCATION_ID"))
+    return api_request("GET", f"/users/?locationId={urllib.parse.quote(location_id)}")
+
+
+def resolve_user_id_by_email(email: str) -> str:
+    """Campaign `userId` must be a HighLevel user id. The Control Center integration
+    stores the user e-mail, so resolve it the same way cliqsales-social-publisher does."""
+    try:
+        payload = location_users()
+    except GHLMailError as error:
+        raise GHLMailError(
+            "GHL user is an e-mail and the /users/ lookup failed. Set the resolved user id "
+            "(GHL_USER_ID) in the Control Center integration, or use a token with users scope.",
+            error.status,
+            error.detail,
+        ) from error
+
+    wanted = email.strip().lower()
+    matches = {
+        user_id_from_object(user)
+        for user in user_records(payload)
+        if (user_email_from_object(user) or "").strip().lower() == wanted
+    }
+    matches.discard(None)
+    if len(matches) == 1:
+        return str(matches.pop())
+    raise GHLMailError(f"Unable to resolve the GHL user e-mail to exactly one user id: {email}")
+
+
 def campaign_user_id(dry_run: bool = False) -> str:
+    """Resolve the campaign actor. Never send the configured e-mail as `userId`:
+    GHL accepts the payload and then processes zero recipients."""
+    explicit = optional_config("GHL_USER_ID")
+    reference = optional_config("GHL_USER")
     if dry_run:
-        return os.environ.get("GHL_USER_ID") or os.environ.get("GHL_USER") or "DRY_RUN_USER"
-    return first_string(os.environ.get("GHL_USER_ID"), os.environ.get("GHL_USER")) or require_env("GHL_USER")
+        return explicit or reference or "DRY_RUN_USER"
+    if explicit:
+        return explicit
+    if not reference:
+        raise GHLMailError(
+            "Missing GHL user: set the user e-mail in the Control Center CliqSales integration."
+        )
+    if "@" not in reference:
+        return reference
+    return resolve_user_id_by_email(reference)
 
 
 def campaign_time_zone(dry_run: bool = False) -> str:
@@ -344,7 +422,8 @@ def build_update_payload(email: dict[str, Any], location_id: str, template_id_va
 
 def build_campaign_payload(email: dict[str, Any], dry_run: bool = False) -> dict[str, Any]:
     user_id = campaign_user_id(dry_run=dry_run)
-    from_email = first_string(email.get("fromEmail"), os.environ.get("GHL_FROM_EMAIL"), os.environ.get("GHL_USER"), user_id) or ""
+    # No fallback to the GHL user reference or the user id: neither is a sender address.
+    from_email = first_string(email.get("fromEmail"), os.environ.get("GHL_FROM_EMAIL")) or ""
     reply_to = first_string(email.get("replyTo"), os.environ.get("GHL_REPLY_TO"), from_email) or ""
     return {
         "name": email["name"],

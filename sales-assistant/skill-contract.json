@@ -1,0 +1,51 @@
+{
+  "contractVersion": 1,
+  "taskCheckpoints": {
+    "call-prep": {
+      "requires": [
+        {
+          "file": "/documents/sales/priprava/{slug}/priprava.md"
+        },
+        {
+          "fileManifest": {
+            "path": "/documents/sales/priprava/{slug}/_manifest.json",
+            "target": "/documents/sales/priprava/{slug}/priprava.md",
+            "skillVersion": "1.0"
+          }
+        },
+        {
+          "salesGhlPlanArtifact": {
+            "path": "/documents/sales/ghl-plans/assistant/{taskId}-priprava.json",
+            "skillVersion": "1.0",
+            "sourceAgent": "cso",
+            "taskContract": "sales-assistant:call-prep"
+          }
+        }
+      ]
+    },
+    "post-call-actions": {
+      "requires": [
+        {
+          "salesGhlPlanArtifact": {
+            "path": "/documents/sales/ghl-plans/assistant/{taskId}-po-jednani.json",
+            "skillVersion": "1.0",
+            "sourceAgent": "cso",
+            "taskContract": "sales-assistant:post-call-actions"
+          }
+        }
+      ]
+    },
+    "pipeline-hygiene-actions": {
+      "requires": [
+        {
+          "salesGhlPlanArtifact": {
+            "path": "/documents/sales/ghl-plans/assistant/{taskId}-hygiena.json",
+            "skillVersion": "1.0",
+            "sourceAgent": "cso",
+            "taskContract": "sales-assistant:pipeline-hygiene-actions"
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "contractVersion": 1,
+  "taskCheckpoints": {
+    "offer-setup": {
+      "requires": [
+        {
+          "file": "/documents/sales/.upsell-state/config.json"
+        },
+        {
+          "fileContains": {
+            "path": "/documents/sales/.upsell-state/config.json",
+            "contains": "\"email_from\":"
+          }
+        }
+      ]
+    },
+    "offer-sequence": {
+      "requires": [
+        {
+          "salesGhlPlanArtifact": {
+            "path": "/documents/sales/ghl-plans/upsell/{txnId}-{contactId}.json",
+            "skillVersion": "1.0",
+            "sourceAgent": "cso",
+            "taskContract": "sales-upsell:offer-sequence"
+          }
+        }
+      ]
+    },
+    "scheduled-cancellation": {
+      "requires": [
+        {
+          "salesGhlPlanArtifact": {
+            "path": "/documents/sales/ghl-plans/upsell/cancel-{taskId}-{messageId}.json",
+            "skillVersion": "1.0",
+            "sourceAgent": "cso",
+            "taskContract": "sales-upsell:scheduled-cancellation"
+          }
+        }
+      ]
+    }
+  }
+}

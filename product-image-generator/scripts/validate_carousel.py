@@ -1,90 +1,225 @@
 #!/usr/bin/env python3
+"""Validate carousel-manifest.json before marking a product carousel set done.
+
+Checks each image: file exists, is a real bitmap, real pixels match the manifest,
+and aspect ratio matches (default 1:1). Also cross-checks SET CONSISTENCY — all
+generated images in the carousel must share identical dimensions, otherwise the
+carousel will not look like one cohesive campaign.
+
+Pure stdlib (no Pillow) — reads PNG/JPEG/WEBP dimensions from file headers.
+"""
+
+from __future__ import annotations
+
+import argparse
 import json
+import struct
 import sys
+from math import gcd
 from pathlib import Path
+from typing import Any
+
+ASPECT_RATIO_TOLERANCE = 0.015
 
 
-def fail(message: str) -> None:
-    print(f"ERROR: {message}", file=sys.stderr)
-    raise SystemExit(1)
+class ValidationError(RuntimeError):
+    pass
 
 
-def resolve_path(path_value: str, manifest_dir: Path) -> Path:
-    path = Path(path_value)
-    if path.is_absolute():
-        candidates = [path]
-        if str(path).startswith("/documents/"):
-            candidates.append(Path("/home/node") / str(path).lstrip("/"))
-            candidates.append(Path("/home/growthhacker/.openclaw/workspaces/main/workspace") / str(path).lstrip("/"))
-    else:
-        candidates = [manifest_dir / path]
-
-    for candidate in candidates:
-        if candidate.exists():
-            return candidate
-    return candidates[0]
-
-
-def image_size(path: Path) -> tuple[int, int]:
+def load_json(path: Path) -> Any:
     try:
-        from PIL import Image
-    except ImportError:
-        fail("Pillow is required. Install with: python3 -m pip install Pillow")
+        return json.loads(path.read_text(encoding="utf-8"))
+    except FileNotFoundError as error:
+        raise ValidationError(f"Manifest does not exist: {path}") from error
+    except json.JSONDecodeError as error:
+        raise ValidationError(f"Manifest is not valid JSON: {path}: {error}") from error
 
+
+def read_png_dimensions(data: bytes) -> tuple[int, int] | None:
+    if data[:8] != b"\x89PNG\r\n\x1a\n" or data[12:16] != b"IHDR":
+        return None
+    return struct.unpack(">II", data[16:24])
+
+
+def read_jpeg_dimensions(data: bytes) -> tuple[int, int] | None:
+    if data[:2] != b"\xff\xd8":
+        return None
+    index = 2
+    while index + 9 < len(data):
+        if data[index] != 0xFF:
+            index += 1
+            continue
+        marker = data[index + 1]
+        index += 2
+        if marker in (0xD8, 0xD9):
+            continue
+        if index + 2 > len(data):
+            break
+        segment_length = struct.unpack(">H", data[index : index + 2])[0]
+        if segment_length < 2 or index + segment_length > len(data):
+            break
+        if marker in {0xC0, 0xC1, 0xC2, 0xC3, 0xC5, 0xC6, 0xC7, 0xC9, 0xCA, 0xCB, 0xCD, 0xCE, 0xCF}:
+            height = struct.unpack(">H", data[index + 3 : index + 5])[0]
+            width = struct.unpack(">H", data[index + 5 : index + 7])[0]
+            return width, height
+        index += segment_length
+    return None
+
+
+def read_webp_dimensions(data: bytes) -> tuple[int, int] | None:
+    if data[:4] != b"RIFF" or data[8:12] != b"WEBP":
+        return None
+    chunk = data[12:16]
+    if chunk == b"VP8X" and len(data) >= 30:
+        return int.from_bytes(data[24:27], "little") + 1, int.from_bytes(data[27:30], "little") + 1
+    if chunk == b"VP8 " and len(data) >= 30:
+        return struct.unpack("<H", data[26:28])[0] & 0x3FFF, struct.unpack("<H", data[28:30])[0] & 0x3FFF
+    if chunk == b"VP8L" and len(data) >= 25:
+        bits = int.from_bytes(data[21:25], "little")
+        return (bits & 0x3FFF) + 1, ((bits >> 14) & 0x3FFF) + 1
+    return None
+
+
+def image_dimensions(path: Path) -> tuple[int, int]:
+    if not path.exists() or path.stat().st_size <= 0:
+        raise ValidationError(f"Image file does not exist or is empty: {path}")
+    data = path.read_bytes()
+    dimensions = read_png_dimensions(data) or read_jpeg_dimensions(data) or read_webp_dimensions(data)
+    if not dimensions:
+        raise ValidationError(f"Unsupported or invalid bitmap image format: {path}")
+    return dimensions
+
+
+def parse_aspect_ratio(value: str) -> float:
+    raw = value.strip()
+    if ":" in raw:
+        left, right = raw.split(":", 1)
+        width = float(left)
+        height = float(right)
+        if width <= 0 or height <= 0:
+            raise ValueError
+        return width / height
+    ratio = float(raw)
+    if ratio <= 0:
+        raise ValueError
+    return ratio
+
+
+def reduced_aspect_ratio(width: int, height: int) -> str:
+    divisor = gcd(width, height)
+    return f"{width // divisor}:{height // divisor}"
+
+
+def resolve_path(local_path: str, manifest_path: Path) -> Path:
+    """Accept absolute paths as-is; resolve relative paths against the manifest dir."""
+    path = Path(local_path)
+    if path.is_absolute() and path.exists():
+        return path
+    candidate = manifest_path.parent / path.name
+    if candidate.exists():
+        return candidate
+    return path
+
+
+def validate_image(image: dict[str, Any], manifest_path: Path) -> dict[str, Any]:
+    image_id = str(image.get("id") or "")
+    local_path = image.get("localPath")
+    if not local_path:
+        raise ValidationError(f"Image {image_id or '<missing id>'} is missing localPath.")
+    path = resolve_path(str(local_path), manifest_path)
+    width, height = image_dimensions(path)
+    actual_aspect = reduced_aspect_ratio(width, height)
+    expected = image.get("expectedAspectRatio") or "1:1"
+    status = image.get("status")
+    if status != "generated":
+        raise ValidationError(f"Image {image_id or path.name} status must be 'generated', got {status!r}.")
+    if image.get("actualWidth") is not None and int(image["actualWidth"]) != width:
+        raise ValidationError(
+            f"Image {image_id or path.name} actualWidth mismatch: manifest {image['actualWidth']}, file {width}."
+        )
+    if image.get("actualHeight") is not None and int(image["actualHeight"]) != height:
+        raise ValidationError(
+            f"Image {image_id or path.name} actualHeight mismatch: manifest {image['actualHeight']}, file {height}."
+        )
     try:
-        with Image.open(path) as image:
-            image.verify()
-        with Image.open(path) as image:
-            return image.size
-    except Exception as exc:
-        fail(f"{path} is not a valid bitmap image: {exc}")
+        expected_ratio = parse_aspect_ratio(str(expected))
+    except (TypeError, ValueError) as error:
+        raise ValidationError(f"Image {image_id or path.name} has invalid expectedAspectRatio: {expected!r}.") from error
+    if abs((width / height) - expected_ratio) > ASPECT_RATIO_TOLERANCE:
+        raise ValidationError(
+            f"Image {image_id or path.name} aspect mismatch: expected {expected}, got {width}x{height} ({actual_aspect})."
+        )
+    return {
+        "id": image_id or path.name,
+        "type": image.get("type"),
+        "localPath": str(path),
+        "actualWidth": width,
+        "actualHeight": height,
+        "actualAspectRatio": actual_aspect,
+        "status": "ok",
+    }
 
 
-def main() -> None:
-    if len(sys.argv) != 2:
-        fail("Usage: validate_carousel.py /path/to/carousel-manifest.json")
+def check_set_consistency(validated: list[dict[str, Any]]) -> None:
+    """All carousel images must share identical dimensions (cohesive set)."""
+    sizes = {(item["actualWidth"], item["actualHeight"]) for item in validated}
+    if len(sizes) > 1:
+        detail = ", ".join(f"{item['id']}={item['actualWidth']}x{item['actualHeight']}" for item in validated)
+        raise ValidationError(
+            f"Carousel set is inconsistent — all images must have identical dimensions. Got: {detail}"
+        )
 
-    manifest_path = Path(sys.argv[1]).expanduser().resolve()
-    if not manifest_path.exists():
-        fail(f"Manifest not found: {manifest_path}")
 
-    with manifest_path.open("r", encoding="utf-8") as handle:
-        manifest = json.load(handle)
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description="Validate carousel-manifest.json bitmap files, aspect ratios, and set consistency.")
+    parser.add_argument("manifest", help="Path to carousel-manifest.json.")
+    parser.add_argument("--id", action="append", default=[], help="Validate only selected image id. Can be repeated.")
+    return parser
 
-    images = manifest.get("images")
+
+def main() -> int:
+    args = build_parser().parse_args()
+    manifest_path = Path(args.manifest)
+    manifest = load_json(manifest_path)
+    images = manifest.get("images") if isinstance(manifest, dict) else None
     if not isinstance(images, list) or not images:
-        fail("Manifest must contain a non-empty images array")
+        raise ValidationError("Manifest must contain a non-empty images array.")
+    valid_images = [image for image in images if isinstance(image, dict)]
 
-    expected_size = None
-    for item in images:
-        image_id = item.get("id", "<missing id>")
-        local_path = item.get("localPath")
-        if not local_path:
-            fail(f"{image_id}: missing localPath")
+    selected_ids = set(args.id)
+    if selected_ids:
+        selected = [image for image in valid_images if str(image.get("id")) in selected_ids]
+        found = {str(image.get("id")) for image in selected}
+        missing = sorted(selected_ids - found)
+        if missing:
+            raise ValidationError(f"Manifest is missing image ids: {', '.join(missing)}")
+    else:
+        selected = [image for image in valid_images if image.get("status") == "generated"]
+    if not selected:
+        raise ValidationError("Manifest does not contain any generated image to validate.")
 
-        path = resolve_path(local_path, manifest_path.parent)
-        if not path.exists():
-            fail(f"{image_id}: image file not found: {path}")
-
-        width, height = image_size(path)
-        if width != height:
-            fail(f"{image_id}: expected 1:1 image, got {width}x{height}")
-
-        declared_width = item.get("actualWidth")
-        declared_height = item.get("actualHeight")
-        if declared_width is not None and declared_width != width:
-            fail(f"{image_id}: actualWidth {declared_width} does not match file width {width}")
-        if declared_height is not None and declared_height != height:
-            fail(f"{image_id}: actualHeight {declared_height} does not match file height {height}")
-
-        current_size = (width, height)
-        if expected_size is None:
-            expected_size = current_size
-        elif current_size != expected_size:
-            fail(f"{image_id}: size {current_size} differs from first image {expected_size}")
-
-    print(f"OK: {len(images)} image(s) validated at {expected_size[0]}x{expected_size[1]}")
+    validated = [validate_image(image, manifest_path) for image in selected]
+    check_set_consistency(validated)
+    print(
+        json.dumps(
+            {
+                "ok": True,
+                "manifest": str(manifest_path),
+                "productSlug": manifest.get("productSlug"),
+                "count": len(validated),
+                "images": validated,
+                "skipped": len(valid_images) - len(selected),
+            },
+            ensure_ascii=False,
+            indent=2,
+        )
+    )
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        raise SystemExit(main())
+    except ValidationError as error:
+        print(f"ERROR: {error}", file=sys.stderr)
+        raise SystemExit(1)

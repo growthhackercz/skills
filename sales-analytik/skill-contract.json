@@ -1,0 +1,33 @@
+{
+  "contractVersion": 1,
+  "taskCheckpoints": {
+    "weekly-setup": {
+      "requires": [
+        {
+          "cronsDeclared": "analytik-weekly"
+        }
+      ]
+    },
+    "weekly-report": {
+      "requires": [
+        {
+          "salesGhlPlanArtifact": {
+            "path": "/documents/sales/ghl-plans/analytik/{periodKey}.json",
+            "skillVersion": "1.0",
+            "sourceAgent": "cso",
+            "taskContract": "sales-analytik:weekly-report"
+          }
+        }
+      ]
+    }
+  },
+  "declaredCrons": {
+    "analytik-weekly": {
+      "min": 1,
+      "namePrefix": "analytik-weekly",
+      "exactNames": [
+        "analytik-weekly"
+      ]
+    }
+  }
+}

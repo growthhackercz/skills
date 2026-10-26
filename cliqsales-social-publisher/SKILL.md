@@ -3,8 +3,8 @@ name: cliqsales-social-publisher
 description: "Publikace social postů do CliqSales/GoHighLevel Social Planner API. Default je draft, publish/schedule jen po explicitním příkazu. Podporuje single i batch režim s continue chováním."
 category: integrations
 status: ready
-version: "1.0"
-publishedAt: "2026-04-30"
+version: "1.1"
+publishedAt: "2026-09-21"
 ---
 # CliqSales Social Publisher
 
@@ -40,11 +40,12 @@ GHL_USER
 Volitelné:
 
 ```text
+GHL_USER_ID         # vyřešené GHL user ID; doplňuje integrace a má přednost
 GHL_API_VERSION     # default 2021-07-28
 GHL_API_BASE_URL    # default https://services.leadconnectorhq.com
 ```
 
-`GHL_USER` je jedno pole: GHL user ID nebo email. Email varianta vyžaduje token se scope pro `/users/`.
+`GHL_USER` je jedno pole: GHL user ID nebo email. Email varianta vyžaduje token se scope pro `/users/`; proto má přednost `GHL_USER_ID`, které integrace doplní z emailu při uložení nebo testu. Hodnota, která není email ani user ID této lokace (třeba `admin`), skončí chybou, ne tichým odesláním nikam.
 
 Pro každého klienta/sub-account musí být vlastní hodnoty `{GHL_API_KEY}`, `{GHL_LOCATION_ID}` a `{GHL_USER}`. Nepřenášej user ID mezi klienty.
 
@@ -80,6 +81,11 @@ GET  /users/?locationId={LOCATION_ID}
 4. Pokud má položka `imagePrompt` a nemá `mediaFiles` ani `mediaUrls`, nejdřív vygeneruj skutečný rastrový obrázek přes nativní `image_generate`, ulož ho do `images/`, ověř `test -s` + `file` a doplň `mediaFiles`.
 5. Pokud je `mediaRequired: true`, nevytvářej draft bez `mediaFiles` nebo `mediaUrls`.
 6. Vytvoř draft(y) přes `batch-draft` nebo `draft`. Helper automaticky nahraje `mediaFiles` do GHL Media a vloží veřejné URL do payloadu jako `media`.
+   Pokud vstup deklaruje `platform`, helper ověří platformu vráceného postu.
+   Neshoda (např. požadovaný Facebook, ale vrácený Google post) je chyba, ne
+   úspěch. Helper smaže pouze přesně identifikovaný chybný draft vytvořený
+   aktuální operací a vrátí rollback receipt; bez jednoznačného post ID nic
+   nemaže a nesmí improvizovat další payloady.
 7. Pokud média doplňuješ až po vytvoření postu, použij `attach-media` a následně ověř `posts-list`, že `media[]` není prázdné.
 8. Publish/schedule proveď jen při explicitním příkazu.
 
@@ -98,6 +104,7 @@ python3 scripts/social_publish.py test
 python3 scripts/social_publish.py accounts
 python3 scripts/social_publish.py users
 python3 scripts/social_publish.py draft --summary "..." --account-id ACC --schedule-local "2026-05-01 09:00"
+python3 scripts/social_publish.py draft --summary "..." --account-id ACC --platform facebook
 python3 scripts/social_publish.py draft --summary "..." --account-id ACC --user owner@example.com
 python3 scripts/social_publish.py draft --summary "..." --account-id ACC --media-file /documents/content/social/campaign/images/post.png --media-required yes
 python3 scripts/social_publish.py batch-draft --input /documents/content/social/campaign/social-posts.json --mode continue
@@ -119,6 +126,7 @@ python3 scripts/social_publish.py publish --post-id POST_ID --confirm-publish ye
 - pokud hodnota obsahuje `@`, helper ji bere jako email a zkusí ji převést přes `/users/`; pokud neobsahuje `@`, bere ji jako GHL user ID
 - `/users/` endpoint neřeš v normálním flow, pokud token nemá user scope; nastav `GHL_USER` přímo na GHL user ID při klientském onboardingu
 - `mediaFiles` helper před vytvořením draftu nahraje přes `/medias/upload-file` a použije vrácené veřejné URL v `media`
+- `media[].type` helper odvozuje z přípony cesty veřejného URL: pro rozpoznané obrázky, videa a PDF předává MIME typ (např. `image/png`, `video/mp4`). Parametry podepsaného URL typ nemění. U nerozpoznané nebo chybějící přípony zachovává dosavadní `image`; obsah URL navíc nestahuje a neověřuje podporu formátu cílovou sítí.
 - `mediaRequired: true` bez `mediaFiles`/`mediaUrls` je chyba položky; v `continue` režimu položka selže a batch pokračuje dál
 - `accountId`/`accountIds` mají přednost; jinak se použije `--account-id`, `--account-map`, nebo auto-map podle `platform`/`accountLabel`
 - pokud auto-map najde více účtů pro stejnou platformu nebo label, položka bez explicitního mapování selže a batch pokračuje dál
@@ -143,3 +151,5 @@ python3 scripts/social_publish.py publish --post-id POST_ID --confirm-publish ye
 - Nepublikuj bez explicitního příkazu.
 - Nepředstírej úspěch při částečném selhání batch.
 - Nepřepínej token při 422; oprav payload.
+- Po platform mismatch nezkoušej ad-hoc varianty API payloadu. Zachovej error a
+  rollback receipt a eskaluj opravu publisheru.

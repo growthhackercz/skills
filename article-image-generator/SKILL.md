@@ -4,6 +4,7 @@ description: "Obstará článkové obrázky: u každého sám rozhodne, jestli s
 category: creative
 status: ready
 version: "2.1"
+publishedAt: "2026-07-09"
 metadata: {"openclaw":{"requires":{"bins":["python3"]},"optionalEnv":["PEXELS_API_KEY"],"emoji":"🖼️"}}
 ---
 # Article Image Generator

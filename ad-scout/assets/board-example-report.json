@@ -1,0 +1,68 @@
+{
+  "board": "product-intelligence",
+  "generated_at": "2026-07-12",
+  "market": "cz",
+  "trigger": {"type": "product_name", "query": "Dyson V15 Detect Absolute 2023"},
+  "client": {"name": "roboticky-vysavac.cz", "domain": "roboticky-vysavac.cz"},
+  "sources": ["market-prices", "market-reviews", "search", "ad-library"],
+  "product": {"name": "Dyson V15 Detect Absolute 2023", "category": "tyčový vysavač", "rating_pct": 95, "reviews_count": 357, "shops_count": 9, "image_url": "product.jpg"},
+  "kpi": {"lowest_price": 14996, "lowest_shop": "elektroshock.cz", "your_landed": 16490, "price_index_pct": 103, "rank": 6, "rank_of": 9, "reviews_count": 357, "rating_pct": 95},
+  "price_map": [
+    {"shop": "elektroshock.cz", "price": 14996, "shipping": 0, "landed": 14996, "is_min": true, "note": "Premium Reseller · 93 %", "logo": "https://www.google.com/s2/favicons?domain=elektroshock.cz&sz=64"},
+    {"shop": "Allegro.cz", "price": 14997, "shipping": 0, "landed": 14997, "note": "marketplace · 94 %", "logo": "https://www.google.com/s2/favicons?domain=allegro.cz&sz=64"},
+    {"shop": "obchodvpraze.cz", "price": 14999, "shipping": 90, "landed": 15089, "note": "95 %", "logo": "https://www.google.com/s2/favicons?domain=obchodvpraze.cz&sz=64"},
+    {"shop": "APOLLOs.cz", "price": 15989, "shipping": 0, "landed": 15989, "note": "hodnocení jen 74 %", "logo": "https://www.google.com/s2/favicons?domain=apollos.cz&sz=64"},
+    {"shop": "T.S.BOHEMIA", "price": 15990, "shipping": 0, "landed": 15990, "note": "95 %", "logo": "https://www.google.com/s2/favicons?domain=tsbohemia.cz&sz=64"},
+    {"shop": "roboticky-vysavac.cz", "price": 16490, "shipping": 0, "landed": 16490, "is_client": true, "note": "autorizovaný prodejce · 97 %", "logo": "https://icons.duckduckgo.com/ip3/roboticky-vysavac.cz.ico"},
+    {"shop": "ROBOT WORLD", "price": 16490, "shipping": 0, "landed": 16490, "note": "autorizovaný prodejce · 96 %", "logo": "https://www.google.com/s2/favicons?domain=robotworld.cz&sz=64"},
+    {"shop": "BScom", "price": 16775, "shipping": 0, "landed": 16775, "note": "91 %", "logo": "https://www.google.com/s2/favicons?domain=bscom.cz&sz=64"},
+    {"shop": "MobileCare.cz", "price": 17712, "shipping": 0, "landed": 17712, "note": "67 recenzí", "logo": "https://www.google.com/s2/favicons?domain=mobilecare.cz&sz=64"}
+  ],
+  "signals": {
+    "price_drops": [],
+    "low_30d": {"market_low_30d": 15590, "shop": "RobotWorld", "current_low": 14996},
+    "stock": {"out_of_stock": [], "availability": [
+      {"shop": "elektroshock.cz", "status": "Skladem"},
+      {"shop": "roboticky-vysavac.cz", "status": "Skladem"},
+      {"shop": "Allegro.cz", "status": "Skladem"},
+      {"shop": "T.S.BOHEMIA", "status": "Skladem"}
+    ]}
+  },
+  "reviews": {
+    "praise": ["Opravdu silný tah i na bezdrátový vysavač", "Laser ukáže každou nečistotu (wow efekt)", "Skvěle čistí koberce i psí chlupy", "Tišší, než působí na videích", "Jednoduchá manipulace, není těžký, vysávám denně", "Baví i děti"],
+    "criticism": ["Musí se držet stále tlačítko (problém hlavně na auto s hadicí)", "Drahé příslušenství a náhradní díly (LED hubice, HEPA filtr ~50 €, baterie ~160 €)", "Baterie: kratší výdrž na plný výkon, dlouhé nabíjení, ideální mít 2", "HEPA filtr se musí mýt pod vodou a schne ~24 h → potřeba 2", "V balení chybí nástavec na čalounění"],
+    "hooks": [
+      {"headline": "Kupujete pravý Dyson? Jsme autorizovaný prodejce — ne podvod za pár stovek z inzerátů.", "mechanism": "důvěra → autorizace", "source": "reklamní prostor plný fake nabídek + vy jste autorizovaný prodejce (97 %)", "why": "Prémiovou značku na sítích zaplavily podvody; autorizace je nekopírovatelný argument, na který giganti nesázejí."},
+      {"headline": "„Opravdu silný tah.“ 357 recenzí, hodnocení 95 %.", "mechanism": "výkon → důkaz zákazníků", "source": "z chval: „má opravdu silný tah“, „silný sací výkon“", "why": "Výkon je hlavní důvod koupě Dysonu — potvrďte ho slovy zákazníků, ne tabulkou parametrů."},
+      {"headline": "„Někdo píše, že je těžký. Opravdu není.“ Vysávejte denně bez únavy.", "mechanism": "námitka (váha) → důkaz", "source": "z recenze: „ne, opravdu není těžký, vysávám denně“", "why": "Váha je nejčastější obava u tyčových Dysonů; vyvraťte ji citací spokojeného zákazníka."},
+      {"headline": "Nebaví vás držet spoušť? Poradíme s trigger-lock adaptérem — s nákupem u nás.", "mechanism": "námitka → servis", "source": "z kritiky: „musí se držet stále tlačítko na spuštění“", "why": "Opakovaná výtka je k produktu, ne k obchodu — proměňte ji ve službu, ne slevu."},
+      {"headline": "K Dysonu přihodíme náhradní HEPA filtr — na drahé díly hned myslet nemusíte.", "mechanism": "námitka → balíček / servis", "source": "z kritiky: „drahé příslušenství, HEPA filtr ~50 €, baterie ~160 €“", "why": "Nejčastější finanční výtka po ceně; specializovaný obchod ji vyřeší balíčkem — to Alza ani Datart nedělají."},
+      {"headline": "Rozsviťte laser a zděsíte se, co jste roky nevysáli.", "mechanism": "wow efekt → demonstrace", "source": "z chval: „laser ukáže každé zavrtání“ (opakovaný wow moment)", "why": "Vizuálně nejsilnější vlastnost produktu — ideální do videa/reelu, kde laser odhalí prach naživo."}
+    ],
+    "caution": "„Musí se držet tlačítko“ je vlastnost produktu — neslibujte opak, nabídněte řešení (trigger-lock adaptér + poradenství)."
+  },
+  "assortment": {"have": ["2023 stříbrná"], "gaps": [{"variant": "Absolute Gold (zlatá)"}, {"variant": "Fluffy"}, {"variant": "Total Clean"}]},
+  "search": {
+    "organic": [
+      {"pos": 1, "shop": "Srovnávač cen"},
+      {"pos": 2, "shop": "Dyson.cz (výrobce)"},
+      {"pos": 3, "shop": "RobotWorld.cz"},
+      {"pos": 4, "shop": "roboticky-vysavac.cz", "is_client": true},
+      {"pos": 5, "shop": "YouTube recenze (Arecenze, fZone)"},
+      {"pos": 6, "shop": "Datart"},
+      {"pos": 7, "shop": "Reddit r/dyson"}
+    ],
+    "paid": ["DATART", "Alza.cz", "Allegro.cz", "Srovnávač cen"],
+    "ai_overview": true
+  },
+  "meta_ads": [],
+  "meta_note": "Reklamní prostor na Facebooku/Instagramu je u tohoto produktu zaplavený podezřelými nabídkami — extrémně nízké ceny (např. „29 $“), profily na jména osob a .site domény = pravděpodobné podvody/napodobeniny. Žádný legitimní autorizovaný prodejce tu na produkt nejede reklamu → volný prostor pro důvěryhodnou kampaň.",
+  "action_plan": [
+    {"title": "Důvěra, ne cena.", "body": "Tři obchody vás sticker-podbízejí o ~1 500 Kč, ale vy jste autorizovaný prodejce se 97 %. Nestahujte cenu — komunikujte „pravý Dyson od autorizovaného prodejce“, zvlášť když sítě zaplavily podvody."},
+    {"title": "Obsaďte Facebook důvěryhodnou reklamou.", "body": "Legitimní prodejci tu na produkt nejedou nic — prostor patří podvodům. Spusťte kampaň „pozor na fake Dyson za pár stovek“ + autorizace. Nekopírovatelný úhel."},
+    {"title": "Doplňte varianty.", "body": "Vyhledávání ukazuje poptávku po Gold, Fluffy a Total Clean — vy máte jen 2023 stříbrnou. Doplňte je do katalogu."},
+    {"title": "Braňte se v Google.", "body": "Rankujete organicky vysoko, ale nebidujete — Datart, Alza i Allegro na produkt bidují. Zvažte alespoň brandovou obranu, ať vám neberou proklik."}
+  ],
+  "cost_usd": 0.06,
+  "caveats": ["ad-library=inzerent-level (prostor zaplavený podvody)", "denní snímek — cenopád od zítřka", "EAN nepotvrzen — match ověřen ručně (varianta 2023 stříbrná)"]
+}

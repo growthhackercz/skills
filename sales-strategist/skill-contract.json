@@ -1,0 +1,32 @@
+{
+  "contractVersion": 1,
+  "taskCheckpoints": {
+    "snapshot-setup": {
+      "requires": [
+        {
+          "file": "/documents/sales/.strategist-state/.state-version.json"
+        },
+        {
+          "fileContains": {
+            "path": "/documents/sales/.strategist-state/.state-version.json",
+            "contains": "\"schemaVersion\": \"1.0\""
+          }
+        },
+        {
+          "cronsDeclared": "strategist-autopilot"
+        }
+      ]
+    }
+  },
+  "declaredCrons": {
+    "strategist-autopilot": {
+      "min": 3,
+      "namePrefix": "strategist-",
+      "exactNames": [
+        "strategist-hourly",
+        "strategist-daily",
+        "strategist-weekly"
+      ]
+    }
+  }
+}

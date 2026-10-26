@@ -1,0 +1,4 @@
+{ "name": "av-overlay", "private": true, "type": "module",
+  "scripts": { "dev": "npx --yes hyperframes@0.6.97 preview",
+               "lint": "npx --yes hyperframes@0.6.97 lint",
+               "render": "npx --yes hyperframes@0.6.97 render" } }

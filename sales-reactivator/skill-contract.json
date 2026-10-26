@@ -1,0 +1,51 @@
+{
+  "contractVersion": 1,
+  "taskCheckpoints": {
+    "wave-package": {
+      "requires": [
+        {
+          "file": "/documents/sales/vlny/{slug}.json"
+        },
+        {
+          "fileContains": {
+            "path": "/documents/sales/vlny/{slug}.json",
+            "contains": "contacts"
+          }
+        }
+      ]
+    },
+    "wave-actions": {
+      "requires": [
+        {
+          "file": "/documents/sales/vlny/{slug}.json"
+        },
+        {
+          "fileContains": {
+            "path": "/documents/sales/vlny/{slug}.json",
+            "contains": "contacts"
+          }
+        },
+        {
+          "salesGhlPlanArtifact": {
+            "path": "/documents/sales/vlny/{slug}.batch-{offset}.ghl-plan.json",
+            "skillVersion": "1.0",
+            "sourceAgent": "cso",
+            "taskContract": "sales-reactivator:wave-actions"
+          }
+        }
+      ]
+    },
+    "cycle-actions": {
+      "requires": [
+        {
+          "salesGhlPlanArtifact": {
+            "path": "/documents/sales/vlny/cycle-{date}.ghl-plan.json",
+            "skillVersion": "1.0",
+            "sourceAgent": "cso",
+            "taskContract": "sales-reactivator:cycle-actions"
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,4384 @@
+:root {
+  /* Default paleta — runtime ji přepisuje inline :root z layout.tsx
+     (designTokenStyle() ze spec.design_tokens). Tyto hodnoty jsou fallback
+     pro funnely bez kompletních tokenů; neutrální, ne CliqSales paleta. */
+  --primary: #1b2a4a;
+  --accent: #006799;
+  --gold: #c5a55a;
+  --health-green: #4a7c59;
+  --bg: #ffffff;
+  --surface: #f5f5f5;
+  --text: #333333;
+  --text-soft: #666666;
+  --border: #e3e6ea;
+
+  /* ============================================================
+     DESIGN SYSTÉM (impeccable craft-floor) — JEDEN koherentní jazyk.
+     Sekce sahají VÝHRADNĚ do těchto tokenů; žádné ad-hoc hodnoty.
+     ============================================================ */
+
+  /* Radius — 3-krokový scale (konec 11 náhodných hodnot) */
+  --r-sm: 10px;
+  --r-md: 16px;
+  --r-lg: 24px;
+  --r-pill: 999px;
+  --radius: var(--r-md);
+
+  /* Stíny — měkké, offset + blur, NEUTRÁLNÍ (žádné colored-halo). 3 kroky. */
+  --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 3px rgba(16, 24, 40, 0.09);
+  --shadow-md: 0 6px 16px rgba(16, 24, 40, 0.08), 0 2px 6px rgba(16, 24, 40, 0.05);
+  --shadow-lg: 0 18px 40px rgba(16, 24, 40, 0.12), 0 6px 14px rgba(16, 24, 40, 0.07);
+  /* Legacy aliasy (staré sekce), sjednoceny na 3 kroky výše */
+  --shadow-card: var(--shadow-md);
+  --shadow-float: var(--shadow-lg);
+  --shadow-lux: var(--shadow-lg);
+
+  /* Fonty — Montserrat (nadpisy) + Open Sans (text). Hravost = váha + zvýrazněné
+     klíčové slovo (.sp-hl), NE serif. */
+  --font-head-stack: var(--font-head), "Montserrat", system-ui, sans-serif;
+  --font-body-stack: var(--font-body), "Open Sans", system-ui, sans-serif;
+
+  /* Motion — exponenciální ease-out (jeden authored moment; žádný bounce) */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --maxw: 1080px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body-stack);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-head-stack);
+  color: var(--primary);
+  line-height: 1.14;
+  margin: 0 0 0.5em;
+  letter-spacing: -0.022em;
+  text-wrap: balance;
+}
+
+/* Display heading — velký impaktní nadpis (Montserrat workhorse). Rozmanitost
+   a hravost se dělá VAHOU + zvýrazněným klíčovým slovem (barva), ne serifem. */
+.sp-display {
+  font-family: var(--font-head-stack);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.03;
+}
+/* Zvýrazněné klíčové slovo v nadpisu (rozmanitost/hravost — princip). */
+.sp-hl {
+  color: color-mix(in srgb, var(--gold) 82%, #fff);
+  font-style: normal;
+}
+/* Na světlém podkladu potřebuje zvýraznění tmavší zlatou (kontrast). */
+.section .sp-hl,
+.sp-tint .sp-hl {
+  color: color-mix(in srgb, var(--gold) 62%, #000);
+}
+/* Ribbon lead s ikonou místo emoji markeru. */
+.sp-ribbon__lead {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.sp-ribbon__lead svg {
+  width: 15px;
+  height: 15px;
+  flex: 0 0 auto;
+}
+/* Checky hero odrážek jsou na tmavé foto-ploše — zelená na tintu = bahno,
+   proto bílá na jemném světlém podkladu (kontrast na overlay). */
+.hero-media .sp-check {
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+}
+
+p {
+  margin: 0 0 1em;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+button {
+  font-family: var(--font-body-stack);
+  cursor: pointer;
+}
+
+/* ---------- Layout helpers ---------- */
+.container {
+  width: 100%;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.section {
+  padding: 64px 0;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-family: var(--font-head-stack);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 14px;
+}
+
+.muted {
+  color: var(--text-soft);
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: var(--font-head-stack);
+  font-weight: 700;
+  font-size: 15.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border: none;
+  border-radius: var(--radius);
+  padding: 16px 30px;
+  background: var(--accent);
+  color: #fff;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn:hover {
+  background: #00557e;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-gold {
+  background: var(--gold);
+  color: #fff;
+}
+
+.btn-gold:hover {
+  background: #b8954a;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--border);
+  box-shadow: none;
+}
+
+.btn-ghost:hover {
+  background: var(--surface);
+}
+
+/* ---------- Cards ---------- */
+.card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ---------- Landing hero ---------- */
+.hero {
+  background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%);
+  padding: 72px 0 56px;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 48px;
+  align-items: center;
+}
+
+.hero h1 {
+  font-size: clamp(30px, 4.4vw, 50px);
+  font-weight: 800;
+}
+
+.hero-sub {
+  font-size: 19px;
+  color: var(--text-soft);
+  max-width: 38ch;
+}
+
+.mockup-placeholder {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius);
+  background: repeating-linear-gradient(
+    135deg,
+    var(--surface),
+    var(--surface) 14px,
+    #eceef1 14px,
+    #eceef1 28px
+  );
+  border: 1px dashed var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-soft);
+  font-weight: 600;
+  font-family: var(--font-head-stack);
+}
+
+.measure-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-top: 40px;
+}
+
+.measure-item {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+
+.measure-item h3 {
+  font-size: 17px;
+  margin-bottom: 6px;
+}
+
+.measure-item p {
+  font-size: 15px;
+  color: var(--text-soft);
+  margin: 0;
+}
+
+.authority {
+  margin-top: 36px;
+  padding: 20px 24px;
+  background: linear-gradient(
+    180deg,
+    var(--surface),
+    color-mix(in srgb, var(--gold) 5%, var(--surface))
+  );
+  border: 1px solid color-mix(in srgb, var(--gold) 24%, var(--border));
+  border-radius: var(--radius);
+}
+
+.authority p {
+  margin: 0;
+  font-size: 15.5px;
+  color: var(--text-soft);
+}
+
+/* ---------- Quiz ---------- */
+.quiz-shell {
+  min-height: 100vh;
+  background: var(--surface);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 20px 80px;
+}
+
+.quiz-card {
+  width: 100%;
+  max-width: 720px;
+  background: var(--bg);
+  border-radius: 16px;
+  box-shadow: var(--shadow-md);
+  padding: 36px 36px 40px;
+}
+
+.progress-label {
+  font-family: var(--font-head-stack);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+
+.progress-track {
+  height: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--health-green));
+  border-radius: 999px;
+  transition: width 0.35s ease;
+}
+
+.q-text {
+  font-size: clamp(21px, 3vw, 26px);
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+.q-hint {
+  font-size: 14px;
+  color: var(--text-soft);
+  margin: -14px 0 22px;
+}
+
+.options {
+  display: grid;
+  gap: 12px;
+}
+
+.options.two-col {
+  grid-template-columns: 1fr 1fr;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  font-size: 16.5px;
+  color: var(--text);
+  transition: border-color 0.12s ease, background 0.12s ease;
+}
+
+.option:hover {
+  border-color: var(--accent);
+}
+
+.option.selected {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 6%, var(--bg));
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+.option .mark {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 auto;
+  border-radius: 6px;
+  border: 1.5px solid var(--border);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 13px;
+  background: transparent;
+}
+
+.option.radio .mark {
+  border-radius: 999px;
+}
+
+.option.selected .mark {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.textarea {
+  width: 100%;
+  min-height: 130px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  font-family: var(--font-body-stack);
+  font-size: 16px;
+  color: var(--text);
+  resize: vertical;
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.field {
+  margin-bottom: 16px;
+}
+
+.field label {
+  display: block;
+  font-weight: 600;
+  font-size: 14.5px;
+  margin-bottom: 6px;
+  color: var(--primary);
+}
+
+.field input[type="text"],
+.field input[type="email"],
+.field input[type="tel"] {
+  width: 100%;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 13px 15px;
+  font-family: var(--font-body-stack);
+  font-size: 16px;
+  color: var(--text);
+}
+
+.field input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.consent-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin: 8px 0 18px;
+  font-size: 14px;
+  color: var(--text-soft);
+}
+
+.consent-row input {
+  margin-top: 3px;
+}
+
+.quiz-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+  gap: 16px;
+}
+
+.error-msg {
+  color: #b0413e;
+  font-size: 14px;
+  margin-top: 14px;
+}
+
+/* ---------- Result page ---------- */
+.result-shell {
+  min-height: 100vh;
+  background: var(--surface);
+  padding: 56px 20px 90px;
+}
+
+.result-card {
+  max-width: 760px;
+  margin: 0 auto;
+  background: var(--bg);
+  border-radius: 16px;
+  box-shadow: var(--shadow-md);
+  padding: 44px 40px;
+}
+
+.score-wrap {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  flex-wrap: wrap;
+  margin: 8px 0 32px;
+}
+
+.gauge {
+  --val: 0;
+  width: 150px;
+  height: 150px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: conic-gradient(
+    var(--gauge-color) calc(var(--val) * 1%),
+    var(--surface) 0
+  );
+}
+
+.gauge-inner {
+  width: 116px;
+  height: 116px;
+  border-radius: 50%;
+  background: var(--bg);
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+
+.gauge-num {
+  font-family: var(--font-head-stack);
+  font-weight: 800;
+  font-size: 38px;
+  color: var(--primary);
+  line-height: 1;
+}
+
+.gauge-of {
+  font-size: 13px;
+  color: var(--text-soft);
+}
+
+.category-pill {
+  display: inline-block;
+  font-family: var(--font-head-stack);
+  font-weight: 700;
+  font-size: 14px;
+  padding: 7px 16px;
+  border-radius: 999px;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.insights {
+  display: grid;
+  gap: 14px;
+  margin: 8px 0 28px;
+}
+
+.insight {
+  display: flex;
+  gap: 14px;
+  padding: 18px 20px;
+  background: var(--surface);
+  border-radius: var(--radius);
+}
+
+.insight .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--health-green);
+  margin-top: 8px;
+  flex: 0 0 auto;
+}
+
+.insight strong {
+  color: var(--primary);
+}
+
+.segment-box {
+  background: linear-gradient(135deg, var(--primary), #233a63);
+  color: #fff;
+  border-radius: var(--radius);
+  padding: 26px 28px;
+  margin: 28px 0 8px;
+}
+
+.segment-box h3 {
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.segment-box p {
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
+}
+
+/* ---------- Sales page (/r/[contactId]) ---------- */
+.sales-hero {
+  background: linear-gradient(180deg, var(--primary) 0%, #233a63 100%);
+  color: #fff;
+  padding: 72px 0 64px;
+}
+
+.sales-hero h1 {
+  color: #fff;
+  font-size: clamp(28px, 4.4vw, 48px);
+  max-width: 20ch;
+}
+
+.sales-hero .eyebrow {
+  color: var(--gold);
+}
+
+.sales-hero p {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 19px;
+  max-width: 46ch;
+}
+
+.score-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-weight: 600;
+  margin-bottom: 22px;
+}
+
+.proof-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  margin-top: 12px;
+}
+
+.usp-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.usp-list li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.usp-list .check {
+  color: var(--health-green);
+  font-weight: 800;
+  margin-top: 1px;
+}
+
+.guarantee-box {
+  background: linear-gradient(
+    180deg,
+    var(--surface),
+    color-mix(in srgb, var(--health-green) 5%, var(--surface))
+  );
+  border: 1px solid color-mix(in srgb, var(--health-green) 26%, var(--border));
+  border-radius: var(--radius);
+  padding: 24px 26px;
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--border);
+  padding: 20px 0;
+}
+
+.faq-item:last-child {
+  border-bottom: none;
+}
+
+.faq-item h4 {
+  margin: 0 0 6px;
+  font-size: 18px;
+}
+
+.faq-item p {
+  margin: 0;
+  color: var(--text-soft);
+}
+
+.cta-band {
+  background: var(--primary);
+  color: #fff;
+  border-radius: 16px;
+  padding: 44px 40px;
+  text-align: center;
+}
+
+.cta-band h2 {
+  color: #fff;
+}
+
+.cta-band p {
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 52ch;
+  margin: 0 auto 24px;
+}
+
+.variant-tag {
+  display: inline-block;
+  background: color-mix(in srgb, var(--gold) 18%, var(--bg));
+  color: var(--gold);
+  border: 1px solid color-mix(in srgb, var(--gold) 40%, transparent);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.footer-note {
+  text-align: center;
+  color: var(--text-soft);
+  font-size: 13.5px;
+  padding: 32px 20px 48px;
+}
+
+/* ---------- Open loop box (/vysledek, /magnet) ---------- */
+.openloop-box {
+  background: linear-gradient(135deg, #f9f6ee, #f3ecdc);
+  border: 1px solid color-mix(in srgb, var(--gold) 45%, transparent);
+  border-radius: var(--radius);
+  padding: 26px 28px;
+  margin: 28px 0 8px;
+}
+
+/* ---------- Personalize kicker (/vysledek) ---------- */
+.kicker-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px 24px;
+  margin-top: 24px;
+}
+
+.kicker-card.kicker-ready {
+  background: color-mix(in srgb, var(--health-green) 7%, var(--bg));
+  border-color: color-mix(in srgb, var(--health-green) 35%, transparent);
+}
+
+.kicker-progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  animation: aiq-spin 0.9s linear infinite;
+}
+
+@keyframes aiq-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------- Problems / benefits grid (/r) ---------- */
+.problems-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-top: 22px;
+}
+
+/* ---------- Sticky mobile CTA bar (/r) ---------- */
+.sticky-cta {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--primary);
+  padding: 12px 16px;
+  box-shadow: 0 -4px 18px rgba(27, 42, 74, 0.25);
+}
+
+.sticky-cta-label {
+  color: rgba(255, 255, 255, 0.9);
+  font-family: var(--font-head-stack);
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.sticky-cta .btn {
+  padding: 12px 18px;
+  font-size: 15px;
+  flex: 0 0 auto;
+}
+
+/* ---------- Magnet (/magnet) ---------- */
+.magnet-shell {
+  min-height: 100vh;
+  background: var(--surface);
+  padding: 48px 20px 90px;
+}
+
+.magnet-card {
+  max-width: 820px;
+  margin: 0 auto;
+  background: var(--bg);
+  border-radius: 16px;
+  box-shadow: var(--shadow-md);
+  padding: 44px 44px 36px;
+}
+
+.magnet-block {
+  padding: 26px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.magnet-block:last-of-type {
+  border-bottom: none;
+}
+
+.magnet-block h2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 22px;
+}
+
+.block-num {
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.magnet-block.openloop-box {
+  border-bottom: none;
+  margin: 26px 0;
+  padding: 26px 28px;
+}
+
+.magnet-block.magnet-cta {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.steps-list p {
+  white-space: pre-line;
+}
+
+/* ---------- Print (magnet je print-friendly) ---------- */
+@media print {
+  body {
+    background: #fff;
+  }
+  .magnet-shell {
+    padding: 0;
+    background: #fff;
+  }
+  .magnet-card {
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0;
+    max-width: none;
+  }
+  .magnet-block {
+    break-inside: avoid;
+  }
+  .btn,
+  .sticky-cta {
+    display: none !important;
+  }
+  .segment-box,
+  .cta-band {
+    background: #fff !important;
+    color: var(--text) !important;
+    border: 1px solid var(--border);
+  }
+  .segment-box h3,
+  .segment-box p,
+  .cta-band h2,
+  .cta-band p {
+    color: var(--text) !important;
+  }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 860px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .mockup-placeholder {
+    aspect-ratio: 16 / 10;
+    max-width: 480px;
+  }
+  .measure-grid {
+    grid-template-columns: 1fr;
+  }
+  .proof-grid {
+    grid-template-columns: 1fr;
+  }
+  .problems-grid {
+    grid-template-columns: 1fr;
+  }
+  .sticky-cta {
+    display: flex;
+  }
+  main.has-sticky-cta {
+    padding-bottom: 84px;
+  }
+  .magnet-card {
+    padding: 28px 22px;
+  }
+}
+
+@media (max-width: 560px) {
+  body {
+    font-size: 16px;
+  }
+  .quiz-card,
+  .result-card {
+    padding: 26px 20px 30px;
+  }
+  .options.two-col {
+    grid-template-columns: 1fr;
+  }
+  .section {
+    padding: 48px 0;
+  }
+}
+
+
+/* ===== Quiz UX 2.0: modal overlay + auto-advance ===== */
+.quiz-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: color-mix(in srgb, var(--primary) 55%, transparent);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  animation: quizFadeIn 0.25s ease;
+  overflow-y: auto;
+}
+.quiz-modal {
+  width: 100%;
+  max-width: 640px;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  box-shadow: 0 24px 64px rgba(27, 42, 74, 0.35);
+}
+.quiz-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.quiz-close {
+  border: none;
+  background: var(--surface);
+  color: var(--text-soft);
+  font-size: 22px;
+  line-height: 1;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.quiz-close:hover { color: var(--text); background: #ececec; }
+.quiz-step-anim { animation: quizStepIn 0.28s ease; }
+.auto-hint {
+  color: var(--text-soft);
+  font-size: 13px;
+  align-self: center;
+}
+.option.selected { animation: quizPulse 0.3s ease; }
+@keyframes quizFadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes quizStepIn {
+  from { opacity: 0; transform: translateX(14px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes quizPulse {
+  0% { transform: scale(1); }
+  45% { transform: scale(1.025); }
+  100% { transform: scale(1); }
+}
+@media (max-width: 640px) {
+  .quiz-overlay { padding: 0; align-items: stretch; }
+  .quiz-modal {
+    max-width: none;
+    max-height: none;
+    min-height: 100dvh;
+    border-radius: 0;
+  }
+}
+
+.plan-box {
+  border: 2px solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: 18px 20px;
+  font-family: var(--font-head), sans-serif;
+  font-weight: 700;
+  font-size: 17px;
+  color: var(--primary);
+  max-width: 320px;
+  line-height: 1.45;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   PREMIUM LAYER (vibe-builder foundation + composition + anti-slop)
+   Vrstva přepisuje základní vzhled výše. Barvy VÝHRADNĚ z design tokens
+   (color-mix odvozuje odstíny ze spec.design_tokens — žádné pevné hex).
+   Obrázky: /img/hero.jpg a /img/process.jpg dodává builder (krok 3c);
+   při chybějícím souboru zůstává tonální gradient — nikdy rozbitý layout.
+   ═══════════════════════════════════════════════════════════════════ */
+
+:root {
+  --primary-deep: color-mix(in srgb, var(--primary) 78%, #060a14);
+  --primary-soft: color-mix(in srgb, var(--primary) 8%, var(--bg));
+  --accent-soft: color-mix(in srgb, var(--accent) 9%, var(--bg));
+  --gold-soft: color-mix(in srgb, var(--gold) 14%, var(--bg));
+  --ink-on-media: #ffffff;
+  /* shadow-card/float sjednoceny nahoře do 3-krokového scale (impeccable) */
+  --radius-lg: 18px;
+}
+
+/* ---- Foundation: rytmus, typografie, vzduch ---- */
+.section {
+  padding: 104px 0;
+}
+
+h1, h2 {
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-size: clamp(28px, 3.6vw, 40px);
+  font-weight: 800;
+  line-height: 1.12;
+}
+
+.eyebrow {
+  font-size: 12.5px;
+  letter-spacing: 0.16em;
+  opacity: 0.92;
+}
+
+/* ---- Buttons: víc váhy, jemný lift ---- */
+.btn {
+  padding: 18px 34px;
+  border-radius: 14px;
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--accent) 92%, #fff) 0%,
+    var(--accent) 55%,
+    color-mix(in srgb, var(--accent) 86%, #000) 100%);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.12),
+    0 10px 24px -8px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+.btn:hover {
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--accent) 88%, #fff) 0%,
+    color-mix(in srgb, var(--accent) 94%, #000) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.14),
+    0 16px 34px -10px color-mix(in srgb, var(--accent) 60%, transparent);
+}
+
+.btn-gold {
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(42, 35, 16, 0.35);
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--gold) 90%, #fff) 0%,
+    var(--gold) 55%,
+    color-mix(in srgb, var(--gold) 84%, #000) 100%);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.12),
+    0 10px 24px -8px color-mix(in srgb, var(--gold) 55%, transparent);
+}
+
+.btn-gold:hover {
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--gold) 84%, #fff) 0%,
+    color-mix(in srgb, var(--gold) 92%, #000) 100%);
+}
+
+.btn-ghost {
+  background: transparent;
+  box-shadow: none;
+}
+
+.btn-ghost:hover {
+  background: var(--surface);
+  transform: none;
+  box-shadow: none;
+}
+
+/* ---- Karty: stín místo šedého rámečku (anti-slop) ---- */
+.card,
+.measure-item,
+.kicker-card {
+  border: none;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+.card,
+.measure-item {
+  padding: 30px 28px;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.card:hover,
+.measure-item:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-float);
+}
+
+.measure-item h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.measure-item h3::before {
+  content: "";
+  display: block;
+  width: 34px;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), var(--gold));
+  margin-bottom: 14px;
+}
+
+/* ---- HERO: Mid Editorial — full-bleed foto/VIDEO + tonální overlay ---- */
+.hero-media {
+  position: relative;
+  overflow: hidden;
+  min-height: 78vh;
+  display: flex;
+  align-items: center;
+  padding: 96px 0 88px;
+  color: var(--ink-on-media);
+  background:
+    url("/img/hero.jpg") center / cover no-repeat,
+    linear-gradient(135deg, var(--primary-deep) 0%, var(--primary) 62%,
+      color-mix(in srgb, var(--primary) 70%, var(--accent)) 100%);
+}
+
+/* Volitelné video pozadí (/img/hero-video.mp4, poster = hero.jpg).
+   Bez videa se přehrávač nevykreslí přes fallback foto/gradient. */
+.hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+/* Tonální overlay nad fotem/videem — drží čitelnost textu. */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(112deg,
+    color-mix(in srgb, var(--primary-deep) 94%, transparent) 0%,
+    color-mix(in srgb, var(--primary-deep) 78%, transparent) 44%,
+    color-mix(in srgb, var(--primary-deep) 42%, transparent) 100%);
+}
+
+.hero-media::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 120px;
+  background: linear-gradient(180deg, transparent, rgba(6, 10, 20, 0.35));
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: 56px;
+  align-items: center;
+}
+
+.hero-copy .eyebrow {
+  color: color-mix(in srgb, var(--gold) 85%, #fff);
+}
+
+.hero-copy h1 {
+  color: var(--ink-on-media);
+  font-size: clamp(38px, 5.2vw, 64px);
+  font-weight: 800;
+  max-width: 16ch;
+  text-wrap: balance;
+  animation: heroRise 0.7s ease-out both;
+}
+
+.hero-copy .hero-sub {
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 19.5px;
+  max-width: 44ch;
+  animation: heroRise 0.7s 0.08s ease-out both;
+}
+
+.hero-copy .hero-cta {
+  animation: heroRise 0.7s 0.16s ease-out both;
+}
+
+.hero-note {
+  margin-top: 18px;
+  font-size: 14.5px;
+  color: rgba(255, 255, 255, 0.66);
+}
+
+.hero-visual {
+  display: flex;
+  justify-content: center;
+  animation: heroRise 0.8s 0.2s ease-out both;
+}
+
+.hero-mock {
+  /* Poměr stran MUSÍ odpovídat reálným rozměrům mockup.png (builder ho
+     zjistí přes fetch-images.mjs --probe a nastaví inline style) — jinak
+     cover ořízne obsah mockupu. Default 4/5 odpovídá výstupu strategie. */
+  width: min(100%, 540px);
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius-lg);
+  background:
+    url("/img/mockup.png") center / cover no-repeat,
+    linear-gradient(160deg,
+      color-mix(in srgb, var(--bg) 92%, var(--accent)) 0%,
+      color-mix(in srgb, var(--bg) 86%, var(--primary)) 100%);
+  box-shadow: var(--shadow-float);
+  transform: rotate(2.5deg);
+  transition: transform 0.25s ease;
+}
+
+.hero-mock:hover {
+  transform: rotate(0deg) scale(1.015);
+}
+
+@keyframes heroRise {
+  from { opacity: 0; transform: translateY(22px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- Quote band (autorita bez side-stripe karty) ---- */
+.quote-band {
+  background: var(--primary-soft);
+  padding: 88px 0;
+}
+
+.quote-band blockquote {
+  margin: 0 auto;
+  max-width: 34ch;
+  font-family: var(--font-head-stack);
+  font-size: clamp(22px, 3vw, 31px);
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--primary);
+  text-align: center;
+  text-wrap: balance;
+}
+
+.quote-band .quote-attribution {
+  display: block;
+  margin-top: 22px;
+  text-align: center;
+  font-family: var(--font-body-stack);
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--text-soft);
+}
+
+/* ---- Split sekce (Jak to probíhá): kroky + foto 40/60 ---- */
+.split-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: 64px;
+  align-items: center;
+}
+
+.split-media {
+  min-height: 460px;
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(200deg,
+      color-mix(in srgb, var(--primary) 16%, transparent) 0%,
+      transparent 55%),
+    url("/img/process.jpg") center / cover no-repeat,
+    linear-gradient(150deg, var(--primary-soft), var(--accent-soft));
+  box-shadow: var(--shadow-float);
+}
+
+.steps {
+  display: grid;
+  gap: 0;
+  margin-top: 26px;
+}
+
+.step {
+  display: flex;
+  gap: 20px;
+  padding: 22px 0;
+  border-top: 1px solid var(--border);
+}
+
+.step:last-child {
+  border-bottom: 1px solid var(--border);
+}
+
+.step-num {
+  font-family: var(--font-head-stack);
+  font-weight: 800;
+  font-size: 15px;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  flex: 0 0 34px;
+  padding-top: 2px;
+}
+
+.step h3 {
+  font-size: 17.5px;
+  margin-bottom: 4px;
+}
+
+.step p {
+  margin: 0;
+  font-size: 15.5px;
+  color: var(--text-soft);
+}
+
+/* ---- Závěrečný CTA panel (color-blocked, dense close) ---- */
+.cta-panel {
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px;
+  padding: 72px 56px;
+  text-align: center;
+  color: #fff;
+  background:
+    radial-gradient(90% 140% at 85% -20%,
+      color-mix(in srgb, var(--accent) 45%, transparent) 0%, transparent 60%),
+    linear-gradient(135deg, var(--primary-deep) 0%, var(--primary) 70%);
+  box-shadow: var(--shadow-float);
+}
+
+.cta-panel h2 {
+  color: #fff;
+  max-width: 24ch;
+  margin-left: auto;
+  margin-right: auto;
+  text-wrap: balance;
+}
+
+.cta-panel p {
+  color: rgba(255, 255, 255, 0.8);
+  max-width: 52ch;
+  margin: 0 auto 30px;
+}
+
+.cta-panel .eyebrow {
+  color: color-mix(in srgb, var(--gold) 85%, #fff);
+}
+
+/* ---- Prodejní stránka: hloubka do hero + boxy bez stripes ---- */
+.sales-hero {
+  background:
+    linear-gradient(118deg,
+      color-mix(in srgb, var(--primary-deep) 96%, transparent) 0%,
+      color-mix(in srgb, var(--primary-deep) 84%, transparent) 55%,
+      color-mix(in srgb, var(--primary-deep) 62%, transparent) 100%),
+    url("/img/hero.jpg") center / cover no-repeat,
+    linear-gradient(160deg, var(--primary-deep) 0%, var(--primary) 100%);
+  padding: 96px 0 80px;
+}
+
+.guarantee-box {
+  border-left: none;
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--health-green) 8%, var(--bg));
+  box-shadow: var(--shadow-card);
+  padding: 30px 32px;
+}
+
+.authority {
+  border-left: none;
+  background: transparent;
+  padding: 26px 0 0;
+  margin-top: 30px;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.cta-band {
+  border-radius: 24px;
+  padding: 60px 48px;
+  background:
+    radial-gradient(90% 140% at 85% -20%,
+      color-mix(in srgb, var(--gold) 26%, transparent) 0%, transparent 60%),
+    linear-gradient(135deg, var(--primary-deep) 0%, var(--primary) 70%);
+  box-shadow: var(--shadow-float);
+}
+
+/* ---- Výsledek + magnet: víc prostoru, výraznější gauge ---- */
+.result-card,
+.magnet-card {
+  border-radius: 22px;
+  box-shadow: var(--shadow-float);
+  padding: 52px 48px;
+}
+
+.gauge {
+  width: 168px;
+  height: 168px;
+  box-shadow: inset 0 0 0 1px var(--border), var(--shadow-card);
+}
+
+.gauge-inner {
+  width: 128px;
+  height: 128px;
+}
+
+.gauge-num {
+  font-size: 44px;
+}
+
+.insight {
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  background: var(--bg);
+}
+
+.segment-box {
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(120% 160% at 90% -30%,
+      color-mix(in srgb, var(--accent) 38%, transparent) 0%, transparent 55%),
+    linear-gradient(135deg, var(--primary-deep), var(--primary));
+  box-shadow: var(--shadow-card);
+}
+
+.openloop-box {
+  border: none;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(150deg, var(--gold-soft),
+    color-mix(in srgb, var(--gold) 24%, var(--bg)));
+  box-shadow: var(--shadow-card);
+}
+
+/* ---- Kvíz modal: měkčí, hlubší ---- */
+.quiz-card {
+  border-radius: 22px;
+  position: relative; /* kotva pro zavírací tlačítko v rohu */
+}
+
+.quiz-modal {
+  box-shadow: 0 40px 90px -20px rgba(6, 10, 20, 0.5);
+}
+
+/* Zavírací tlačítko patří do rohu karty, ne do řádku s popiskem kroku. */
+.quiz-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 2;
+}
+
+/* ---- Lišta obnoveného rozpracovaného kvízu ---- */
+.quiz-restored {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-soft);
+  font-size: 14px;
+}
+.quiz-restart {
+  border: none;
+  background: none;
+  padding: 0;
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.quiz-restart:hover { color: var(--primary); }
+
+.option {
+  border-radius: 14px;
+}
+
+/* ---- Responsive pro novou kompozici ---- */
+@media (max-width: 900px) {
+  .section {
+    padding: 72px 0;
+  }
+  .hero-media {
+    min-height: 0;
+    padding: 80px 0 64px;
+  }
+  .hero-inner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .hero-visual {
+    order: -1;
+  }
+  .hero-mock {
+    width: min(72%, 320px);
+    transform: rotate(0deg);
+  }
+  .split-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .split-media {
+    min-height: 300px;
+    order: -1;
+  }
+  .cta-panel {
+    padding: 52px 28px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   PREMIUM LAYER v2 — odvážnější kompozice (scale kontrast, vrstvení,
+   barevné bloky, bento). Kompozice je autorská a zapečená v šabloně;
+   design pass agenta ladí barvy/texty/assety, kompozici nemění.
+   ═══════════════════════════════════════════════════════════════════ */
+
+::selection {
+  background: var(--gold);
+  color: var(--primary-deep);
+}
+
+h2 {
+  font-size: clamp(30px, 4vw, 46px);
+}
+
+/* ---- Hero: větší typografie + prostor pro překrývající stats pás ---- */
+.hero-copy h1 {
+  font-size: clamp(42px, 5.8vw, 76px);
+  line-height: 1.04;
+}
+
+.hero-media {
+  padding-bottom: 120px;
+}
+
+/* ---- Stats pás překrývající hranu hero (vrstvení) ---- */
+/* Power čísla sedí na light pásu (= barva následující sekce), aby mezi navy
+   herem a šedou sekcí nebyla bílá mezera na pozadí. */
+.sp-stats-band {
+  background: var(--surface);
+  padding-bottom: clamp(28px, 4vw, 48px);
+}
+
+.hero-stats {
+  position: relative;
+  z-index: 3;
+  max-width: 920px;
+  margin: -40px auto 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background: var(--bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-float);
+  overflow: hidden;
+}
+
+.hero-stat {
+  padding: 24px 22px 20px;
+  text-align: center;
+  border-left: 1px solid var(--border);
+}
+
+.hero-stat:first-child {
+  border-left: none;
+}
+
+.hero-stat .num {
+  display: block;
+  font-family: var(--font-head-stack);
+  font-weight: 800;
+  font-size: clamp(30px, 3.4vw, 46px);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.hero-stat .num em {
+  font-style: normal;
+  color: var(--accent);
+}
+
+.hero-stat .lbl {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--font-head-stack);
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+}
+
+/* ---- Bento grid (Co zjistíte): 1 velká tmavá + 2 menší různé ---- */
+.bento {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  grid-auto-rows: minmax(180px, auto);
+  gap: 22px;
+  margin-top: 46px;
+}
+
+.bento-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  padding: 34px 32px;
+  box-shadow: var(--shadow-card);
+  background: var(--bg);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.bento-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-float);
+}
+
+.bento-card.lead {
+  grid-row: 1 / 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 400px;
+  color: #fff;
+  background:
+    radial-gradient(110% 140% at 90% -20%,
+      color-mix(in srgb, var(--accent) 42%, transparent) 0%, transparent 58%),
+    linear-gradient(150deg, var(--primary-deep) 0%, var(--primary) 75%);
+}
+
+.bento-card.lead h3 {
+  color: #fff;
+  font-size: 27px;
+}
+
+.bento-card.lead p {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 16.5px;
+}
+
+.bento-card.gold {
+  background: linear-gradient(150deg, var(--gold-soft) 0%,
+    color-mix(in srgb, var(--gold) 24%, var(--bg)) 100%);
+}
+
+.bento-card h3 {
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.bento-card p {
+  margin: 0;
+  color: var(--text-soft);
+  font-size: 15.5px;
+}
+
+.bento-num {
+  position: absolute;
+  top: 10px;
+  right: 22px;
+  font-family: var(--font-head-stack);
+  font-weight: 800;
+  font-size: 92px;
+  line-height: 1;
+  color: color-mix(in srgb, var(--primary) 8%, transparent);
+  pointer-events: none;
+}
+
+.bento-card.lead .bento-num {
+  color: rgba(255, 255, 255, 0.12);
+}
+
+/* ---- Quote band: editorial pás s foto podkladem (taste: cinematic depth) ----
+   Vlastní obrázek /img/quote.jpg (ambient, NE hero — ať se fotka neopakuje).
+   Bez něj drží bohatý navy gradient — nikdy plochý, nikdy rozbitý. ---- */
+.quote-band {
+  position: relative;
+  overflow: hidden;
+  padding: 140px 0;
+  background:
+    linear-gradient(135deg,
+      color-mix(in srgb, var(--primary-deep) 90%, transparent) 0%,
+      color-mix(in srgb, var(--primary-deep) 76%, transparent) 55%,
+      color-mix(in srgb, var(--primary) 64%, transparent) 100%),
+    url("/img/quote.jpg") center / cover no-repeat,
+    linear-gradient(135deg, var(--primary-deep), var(--primary));
+}
+
+.quote-band::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 140px;
+  background: linear-gradient(180deg, transparent, rgba(6, 10, 20, 0.4));
+  pointer-events: none;
+}
+
+.quote-band .container {
+  position: relative;
+  z-index: 1;
+}
+
+.quote-band blockquote {
+  color: #fff;
+  font-size: clamp(28px, 4.2vw, 48px);
+  line-height: 1.26;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  max-width: 22ch;
+  margin: 0 auto;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.quote-band .quote-attribution {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 32px;
+  color: color-mix(in srgb, var(--gold) 82%, #fff);
+  font-size: 15px;
+  letter-spacing: 0.05em;
+}
+
+.quote-band .quote-attribution::before {
+  content: "";
+  flex: 0 0 auto;
+  width: 32px;
+  height: 1px;
+  background: color-mix(in srgb, var(--gold) 55%, transparent);
+}
+
+/* ---- Kroky: obří čísla + rámeček fotky ---- */
+.step-num {
+  font-size: clamp(30px, 3vw, 42px);
+  flex: 0 0 72px;
+  color: color-mix(in srgb, var(--accent) 34%, var(--border));
+  padding-top: 0;
+}
+
+.split-media {
+  position: relative;
+}
+
+.split-media::before {
+  content: "";
+  position: absolute;
+  inset: 22px -22px -22px 22px;
+  border: 2px solid color-mix(in srgb, var(--gold) 50%, transparent);
+  border-radius: var(--radius-lg);
+  z-index: -1;
+}
+
+/* ---- Responsive v2 ---- */
+@media (max-width: 900px) {
+  .hero-media {
+    padding-bottom: 120px;
+  }
+  .hero-stats {
+    margin-top: -64px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .hero-stat {
+    padding: 22px 12px 20px;
+  }
+  .bento {
+    grid-template-columns: 1fr;
+  }
+  .bento-card.lead {
+    grid-row: auto;
+    min-height: 260px;
+  }
+  .split-media::before {
+    display: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .hero-stats {
+    grid-template-columns: 1fr;
+  }
+  .hero-stat {
+    border-left: none;
+    border-top: 1px solid var(--border);
+  }
+  .hero-stat:first-child {
+    border-top: none;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   KREDIBILITA — autoritní pás s velkými „power" čísly. VLASTNÍ archetyp,
+   NE klon .split-media (kroky) ani navy quote-band. Bez fotky (žádné AI
+   halucinované logo); sílu nese velikost čísel, ne stock portrét.
+   ═══════════════════════════════════════════════════════════════════ */
+.credibility {
+  position: relative;
+  border-radius: 28px;
+  /* Vrstvený teplý základ + dva měkké radial glowy (zlato nahoře, accent dole)
+     = hloubka a teplo, ne plochá chladná bílá. */
+  background:
+    radial-gradient(130% 100% at 90% 2%, color-mix(in srgb, var(--gold) 16%, transparent) 0%, transparent 50%),
+    radial-gradient(95% 95% at 0% 108%, color-mix(in srgb, var(--accent) 11%, transparent) 0%, transparent 56%),
+    linear-gradient(158deg, color-mix(in srgb, var(--gold) 6%, var(--bg)) 0%, var(--primary-soft) 100%);
+  padding: clamp(46px, 6vw, 84px) clamp(28px, 5vw, 72px);
+  overflow: hidden;
+  /* Double-bezel: jemný zlatý hairline + inset highlight + měkký difuzní stín. */
+  border: 1px solid color-mix(in srgb, var(--gold) 16%, var(--border));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.65),
+    0 34px 80px -46px color-mix(in srgb, var(--primary) 60%, transparent);
+}
+
+/* Zlatá accent linka nahoře — editorial signatura. */
+.credibility::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: clamp(28px, 5vw, 72px);
+  right: clamp(28px, 5vw, 72px);
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), transparent 68%);
+  z-index: 1;
+}
+
+/* Jemný film-grain — fyzická papírová textura („Editorial Luxury"), zabíjí
+   sterilnost. Statický overlay (jen 1 sekce, žádné scroll repainty). */
+.credibility::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.4;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 140px 140px;
+}
+
+/* Levé zarovnání = editorial (ne centered symetrie). Nad grain + glow. */
+.credibility-body {
+  position: relative;
+  z-index: 1;
+  max-width: 60ch;
+}
+
+.credibility-body h2 {
+  margin-bottom: 14px;
+  max-width: 17ch;
+  font-size: clamp(30px, 4.6vw, 54px);
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+}
+
+.credibility-body > p {
+  max-width: 54ch;
+  margin: 0;
+}
+
+/* Editorial stat spread — velká čísla v řadě se zlatými vertikálními předěly. */
+.cred-stats {
+  display: grid;
+  grid-template-columns: repeat(3, max-content);
+  gap: 0;
+  margin-top: 56px;
+  padding-top: 48px;
+  border-top: 1px solid var(--border);
+  align-items: end;
+}
+
+.cred-stat {
+  position: relative;
+  padding: 0 clamp(28px, 4vw, 56px);
+}
+
+.cred-stat:first-child {
+  padding-left: 0;
+}
+
+.cred-stat + .cred-stat::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 4px;
+  bottom: 10px;
+  width: 1px;
+  background: color-mix(in srgb, var(--gold) 42%, var(--border));
+}
+
+.cred-stat .num {
+  display: block;
+  font-family: var(--font-head-stack);
+  font-weight: 800;
+  font-size: clamp(36px, 4.4vw, 58px);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: var(--primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.cred-stat .num em {
+  font-style: normal;
+  color: var(--accent);
+}
+
+.cred-stat .lbl {
+  display: block;
+  margin-top: 16px;
+  max-width: 15ch;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  line-height: 1.4;
+  color: var(--text-soft);
+}
+
+@media (max-width: 760px) {
+  .credibility {
+    padding: 44px 26px;
+  }
+  .credibility::before {
+    left: 26px;
+    right: 26px;
+  }
+  .cred-stats {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  .cred-stat {
+    padding: 0;
+  }
+  .cred-stat + .cred-stat {
+    padding-top: 26px;
+    border-top: 1px solid var(--border);
+  }
+  .cred-stat + .cred-stat::before {
+    display: none;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   RECENZE — social proof (magnet render "reviews"). Data ze spec.reviews.
+   ═══════════════════════════════════════════════════════════════════ */
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 26px;
+}
+
+.review-card {
+  position: relative;
+  margin: 0;
+  padding: 30px 28px 24px;
+  border-radius: 20px;
+  background: var(--surface);
+  border: 1px solid color-mix(in srgb, var(--border) 55%, transparent);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  overflow: hidden;
+  transition: transform 0.5s var(--ease-lux), box-shadow 0.5s var(--ease-lux);
+}
+
+/* Oversized ghost uvozovka — editorial signatura místo plochého boxu. */
+.review-card::before {
+  content: "\201E";
+  position: absolute;
+  top: -26px;
+  right: 16px;
+  font-family: var(--font-head-stack);
+  font-weight: 800;
+  font-size: 130px;
+  line-height: 1;
+  color: color-mix(in srgb, var(--gold) 20%, transparent);
+  pointer-events: none;
+}
+
+.review-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05),
+    0 32px 62px -30px rgba(15, 23, 42, 0.34),
+    inset 0 1px 0 color-mix(in srgb, #fff 55%, transparent);
+}
+
+.review-stars {
+  position: relative;
+  color: var(--gold);
+  font-size: 16px;
+  letter-spacing: 3px;
+  line-height: 1;
+}
+
+.review-card blockquote {
+  position: relative;
+  margin: 0;
+  font-size: 16.5px;
+  line-height: 1.62;
+  color: var(--text);
+}
+
+.review-card figcaption {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13.5px;
+  color: var(--text-soft);
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid color-mix(in srgb, var(--border) 65%, transparent);
+}
+
+/* Avatar s iniciálou — lidský, premium prvek (ne jen jméno v řádku). */
+.review-avatar {
+  flex: none;
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+  color: #fff;
+  font-family: var(--font-head-stack);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28);
+}
+
+.review-meta {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.35;
+}
+
+.review-card figcaption strong {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.review-loc {
+  color: var(--text-soft);
+}
+
+@media (max-width: 760px) {
+  .reviews-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   BENTO IKONY (místo čísel — čísla patří jen do kroků). Ultra-light,
+   brand-accent, jemný „chip" podklad.
+   ═══════════════════════════════════════════════════════════════════ */
+.bento-icon {
+  width: 46px;
+  height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 13px;
+  background: color-mix(in srgb, var(--accent) 10%, var(--bg));
+  color: var(--accent);
+  margin-bottom: 18px;
+}
+.bento-icon svg {
+  width: 26px;
+  height: 26px;
+  stroke-width: 1.5;
+}
+.bento-card.lead .bento-icon {
+  width: 54px;
+  height: 54px;
+  background: rgba(255, 255, 255, 0.12);
+  color: color-mix(in srgb, var(--gold) 82%, #fff);
+}
+.bento-card.lead .bento-icon svg {
+  width: 30px;
+  height: 30px;
+}
+.bento-card.gold .bento-icon {
+  background: color-mix(in srgb, var(--gold) 18%, var(--bg));
+  color: color-mix(in srgb, var(--gold) 68%, #000);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   FUNNEL-RECENZE na landingu (hned po hero) — hodnotí TEST, ne produkt.
+   Kompaktní, budují důvěru vyplnit. Sdílí .review-card z magnetu.
+   ═══════════════════════════════════════════════════════════════════ */
+.funnel-reviews {
+  padding: 20px 0 80px;
+}
+.funnel-reviews .fr-eyebrow {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   TASTE LAYER — high-end polish (double-bezel, měkké difuzní stíny,
+   lux cubic-bezier motion). Vrstva přepisuje základ výše.
+   ═══════════════════════════════════════════════════════════════════ */
+:root {
+  --ease-lux: cubic-bezier(0.32, 0.72, 0, 1);
+  /* shadow-lux sjednoceno nahoře do --shadow-lg (impeccable 3-krokový scale) */
+}
+
+/* Karty jako opracovaný hardware: měkký stín + vnitřní highlight (double-bezel). */
+.bento-card,
+.review-card,
+.credibility,
+.hero-stats,
+.kicker-card,
+.card,
+.measure-item,
+.guarantee-box {
+  box-shadow: var(--shadow-lux),
+    inset 0 1px 0 color-mix(in srgb, #fff 55%, transparent);
+}
+
+/* Lux motion — žádné linear/ease-in-out, spring-like křivka. */
+.btn,
+.bento-card,
+.card,
+.measure-item,
+.option,
+.hero-mock {
+  transition: transform 0.5s var(--ease-lux), box-shadow 0.5s var(--ease-lux),
+    background 0.3s var(--ease-lux);
+}
+
+.bento-card:hover,
+.card:hover,
+.measure-item:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-float),
+    inset 0 1px 0 color-mix(in srgb, #fff 55%, transparent);
+}
+
+.btn:active {
+  transform: translateY(0) scale(0.985);
+}
+
+/* Ghost tlačítko (sekundární akce, např. deterministic-first náhled na /vysledek). */
+.btn-ghost {
+  background: transparent;
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  color: var(--accent);
+  box-shadow: none;
+}
+.btn-ghost:hover {
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MAGNET 2.0 — výsledkový „zážitek": HERO pás + area bary + citační kartičky +
+   benchmark + žebříček + chipy. Premium, ne worksheet. Prefix .mag2-.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.mag2 {
+  --band: var(--accent);
+  background: var(--bg);
+}
+.mag2-eyebrow {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: color-mix(in srgb, #fff 78%, transparent);
+}
+.mag2-eyebrow.dark {
+  color: var(--accent);
+}
+.mag2-eyebrow.gold {
+  color: var(--gold);
+}
+
+/* ---- HERO full-bleed pás ---- */
+.mag2-hero {
+  position: relative;
+  padding: clamp(44px, 7vw, 96px) 20px clamp(40px, 6vw, 76px);
+  min-height: 62vh;
+  display: flex;
+  align-items: center;
+  /* HERO jako na landing page: LIFESTYLE foto (/img/hero.jpg, rodina — NE
+     produkt) + navy overlay (čitelnost textu nezávisle na pásmu). Barvu pásma
+     nese gauge + pill, ne pozadí. Produkt se odhalí až v sekci „Řešení" níž. */
+  background:
+    linear-gradient(
+        112deg,
+        color-mix(in srgb, var(--primary-deep) 94%, transparent) 0%,
+        color-mix(in srgb, var(--primary-deep) 78%, transparent) 46%,
+        color-mix(in srgb, var(--primary-deep) 44%, transparent) 100%
+      ),
+    url("/img/hero.jpg"),
+    linear-gradient(
+        135deg,
+        var(--primary-deep) 0%,
+        var(--primary) 62%,
+        color-mix(in srgb, var(--primary) 70%, var(--accent)) 100%
+      );
+  background-size: cover, cover, cover;
+  background-position: center, center, center;
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  color: #fff;
+  overflow: hidden;
+}
+.mag2-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.35;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 140px 140px;
+}
+.mag2-hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 940px;
+  margin: 0 auto;
+}
+.mag2-h1 {
+  margin: 14px 0 0;
+  font-family: var(--font-head-stack);
+  font-weight: 800;
+  font-size: clamp(30px, 5.2vw, 56px);
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  color: #fff;
+  max-width: 20ch;
+}
+.mag2-sub {
+  margin: 16px 0 0;
+  font-size: clamp(16px, 2.1vw, 19px);
+  line-height: 1.5;
+  color: color-mix(in srgb, #fff 86%, transparent);
+  max-width: 54ch;
+}
+.mag2-hero-grid {
+  margin-top: clamp(28px, 4vw, 44px);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: clamp(28px, 5vw, 56px);
+  align-items: center;
+}
+.mag2-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+/* Gauge na foto-HERO: barevný oblouk pásma (--gauge-color) na průsvitné dráze,
+   uvnitř TMAVÉ SKLO (ne bílý disk) — sedí na fotu, číslo bílé = vysoký kontrast. */
+.mag2-hero .mag2-gauge {
+  width: 176px;
+  height: 176px;
+  background: conic-gradient(
+    var(--gauge-color) calc(var(--val) * 1%),
+    rgba(255, 255, 255, 0.16) 0
+  );
+  box-shadow: 0 22px 54px -18px rgba(0, 0, 0, 0.6);
+}
+.mag2-hero .mag2-gauge .gauge-inner {
+  width: 132px;
+  height: 132px;
+  background: rgba(10, 18, 38, 0.52);
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    0 2px 12px rgba(0, 0, 0, 0.28);
+  /* Těsné „100 / 100" pod sebou (grid dvě řady je roztahovaly na výšku). */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+}
+.mag2-hero .mag2-gauge .gauge-num {
+  color: #fff;
+  font-size: 46px;
+  line-height: 1;
+}
+.mag2-hero .mag2-gauge .gauge-of {
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1;
+}
+.mag2-pill {
+  padding: 7px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+.mag2-areas {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.mag2-area-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 7px;
+}
+.mag2-area-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+}
+.mag2-area-verdict {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: color-mix(in srgb, #fff 82%, transparent);
+}
+.mag2-bar {
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  overflow: hidden;
+}
+.mag2-bar-fill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: #fff !important;
+  transform-origin: left;
+  animation: mag2-bar-grow 1.1s var(--ease-lux, cubic-bezier(0.32, 0.72, 0, 1)) both;
+}
+@keyframes mag2-bar-grow {
+  from {
+    transform: scaleX(0);
+  }
+}
+.mag2-meaning {
+  margin: 6px 0 0;
+  font-size: 15px;
+  line-height: 1.55;
+  color: color-mix(in srgb, #fff 88%, transparent);
+}
+
+/* ---- Tělo ---- */
+.mag2-body {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: clamp(36px, 6vw, 68px) 20px 40px;
+}
+.mag2-section {
+  margin-bottom: clamp(40px, 6vw, 68px);
+  animation: mag2-reveal 0.7s var(--ease-lux, cubic-bezier(0.32, 0.72, 0, 1)) both;
+}
+/* AI zóna se generuje — loader pod deterministickou TOP zónou. */
+.mag2-pending {
+  text-align: center;
+  padding: clamp(44px, 8vw, 84px) 24px;
+}
+.mag2-spinner {
+  width: 46px;
+  height: 46px;
+  margin: 0 auto 22px;
+  border-radius: 50%;
+  border: 4px solid color-mix(in srgb, var(--band, #d8b25a) 20%, transparent);
+  border-top-color: var(--band, #d8b25a);
+  animation: mag2-spin 0.9s linear infinite;
+}
+@keyframes mag2-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.mag2-pending-title {
+  margin: 0;
+  font-family: var(--font-head-stack);
+  font-weight: 800;
+  font-size: clamp(18px, 3vw, 24px);
+  color: var(--text);
+}
+.mag2-pending-phase {
+  margin: 10px 0 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: color-mix(in srgb, var(--band, #d8b25a) 80%, var(--text));
+}
+.mag2-pending-note {
+  margin: 14px auto 0;
+  max-width: 44ch;
+  font-size: 14px;
+  color: var(--text-soft);
+}
+@keyframes mag2-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+.mag2-h2 {
+  margin: 8px 0 20px;
+  font-family: var(--font-head-stack);
+  font-weight: 800;
+  font-size: clamp(23px, 3.4vw, 34px);
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: var(--primary);
+  max-width: 22ch;
+}
+/* Rozbor: rozbít stěnu textu — užší měřítko, lead první odstavec, vzduch mezi
+   odstavci, jemný levý accent. Ať to není blok k přeskočení. */
+.mag2-prose {
+  max-width: 62ch;
+  padding-left: 20px;
+  border: 1px solid color-mix(in srgb, var(--band) 30%, var(--border));
+}
+.mag2-prose p {
+  font-size: 16.5px;
+  line-height: 1.7;
+  color: var(--text);
+  margin: 0 0 20px;
+}
+.mag2-prose p:first-child {
+  font-size: 19px;
+  line-height: 1.55;
+  font-weight: 500;
+  color: var(--primary);
+  margin-bottom: 22px;
+}
+.mag2-prose p:last-child {
+  margin-bottom: 0;
+}
+.mag2-prose strong {
+  color: var(--primary);
+}
+.mag2-prose .md-list,
+.mag2-steps .md-list {
+  margin: 0 0 14px;
+  padding-left: 22px;
+}
+.mag2-prose .md-list li,
+.mag2-steps .md-list li {
+  margin: 6px 0;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+/* ---- Citační kartičky ---- */
+.mag2-quotes {
+  display: grid;
+  gap: 18px;
+}
+.mag2-quote-card {
+  position: relative;
+  margin: 0;
+  padding: 26px 26px 24px;
+  border-radius: 20px;
+  background: var(--surface);
+  border: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
+  box-shadow: var(--shadow-lux, 0 20px 50px -22px rgba(15, 23, 42, 0.24));
+}
+.mag2-quote-head {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.mag2-quote-mark {
+  font-family: var(--font-head-stack);
+  font-weight: 800;
+  font-size: 52px;
+  line-height: 0.7;
+  color: color-mix(in srgb, var(--gold) 55%, transparent);
+  flex: none;
+}
+.mag2-quote-q {
+  margin: 0 0 4px;
+  font-size: 13px;
+  color: var(--text-soft);
+}
+.mag2-quote-a {
+  margin: 0;
+  font-family: var(--font-head-stack);
+  font-weight: 700;
+  font-size: 19px;
+  line-height: 1.3;
+  color: var(--primary);
+}
+/* Punch list pod hero — ANO/NE problémy jako konstatování (rychlé uvědomění). */
+.mag2-punchlist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+.mag2-punchlist li {
+  position: relative;
+  padding: 16px 20px 16px 52px;
+  border-radius: 14px;
+  background: var(--surface);
+  border: 1px solid color-mix(in srgb, var(--border) 55%, transparent);
+  font-family: var(--font-head-stack);
+  font-weight: 700;
+  font-size: clamp(16px, 2.2vw, 19px);
+  line-height: 1.35;
+  color: var(--primary);
+}
+.mag2-punchlist li::before {
+  content: "✕";
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 800;
+  color: #fff;
+  background: color-mix(in srgb, var(--gold) 78%, #b4884a);
+}
+/* Konstatování odpovědi (kartička „pod lupou") — věta místo syrového „Q → Ne". */
+.mag2-quote-statement {
+  margin: 3px 0 0;
+  font-family: var(--font-head-stack);
+  font-weight: 700;
+  font-size: 19px;
+  line-height: 1.35;
+  color: var(--primary);
+}
+.mag2-quote-impact {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
+  font-size: 15.5px;
+  line-height: 1.62;
+  color: var(--text);
+}
+.mag2-quote-impact p {
+  margin: 0;
+}
+
+/* ---- Benchmark ---- */
+/* Benchmark „šok z čísla" = tmavý navy panel s velkým zlatým číslem a skleněnými
+   chipy Dnes → S řešením. Výrazný kontrast proti světlému tělu. */
+.mag2-benchmark {
+  text-align: center;
+  padding: clamp(36px, 5.5vw, 64px) clamp(20px, 4vw, 44px);
+  border-radius: 28px;
+  color: #fff;
+  background:
+    radial-gradient(
+      130% 120% at 50% -10%,
+      color-mix(in srgb, var(--band) 30%, transparent) 0%,
+      transparent 58%
+    ),
+    linear-gradient(160deg, var(--primary-deep) 0%, var(--primary) 100%);
+  box-shadow: var(--shadow-float);
+  overflow: hidden;
+}
+.mag2-bm-number {
+  font-family: var(--font-head-stack);
+  font-weight: 800;
+  font-size: clamp(46px, 8.5vw, 84px);
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+  text-shadow: 0 2px 24px color-mix(in srgb, var(--band) 45%, transparent);
+}
+.mag2-bm-money {
+  margin: 10px auto 0;
+  font-family: var(--font-head-stack);
+  font-weight: 800;
+  font-size: clamp(22px, 3.6vw, 34px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+.mag2-bm-sub {
+  margin: 12px auto 0;
+  max-width: 34ch;
+  font-size: clamp(15px, 2vw, 18px);
+  color: color-mix(in srgb, #fff 82%, transparent);
+}
+.mag2-bm-cols {
+  margin: 32px auto 0;
+  max-width: 580px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 16px;
+  align-items: stretch;
+}
+.mag2-bm-col {
+  padding: 20px 18px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+.mag2-bm-col.mag2-bm-sol {
+  background: color-mix(in srgb, var(--band) 24%, transparent);
+  border-color: color-mix(in srgb, var(--band) 55%, transparent);
+  box-shadow: 0 10px 30px -14px color-mix(in srgb, var(--band) 70%, transparent);
+}
+.mag2-bm-col p {
+  margin: 10px 0 0;
+  font-size: 15px;
+  line-height: 1.4;
+  color: color-mix(in srgb, #fff 90%, transparent);
+}
+.mag2-bm-tag {
+  display: inline-block;
+  padding: 4px 13px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+.mag2-bm-sol .mag2-bm-tag {
+  color: #fff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+.mag2-bm-arrow {
+  align-self: center;
+  font-size: 30px;
+  color: var(--band);
+}
+.mag2-bm-note {
+  margin: 18px 0 0;
+  font-size: 12px;
+  color: color-mix(in srgb, #fff 62%, transparent);
+}
+
+/* ---- Žebříček oblastí ---- */
+.mag2-ranked {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.mag2-rank-item {
+  display: flex;
+  gap: 16px;
+  padding: 20px 22px;
+  border-radius: 16px;
+  background: var(--surface);
+  border: 1px solid color-mix(in srgb, var(--border) 55%, transparent);
+}
+.mag2-rank-num {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #fff;
+  font-family: var(--font-head-stack);
+  font-weight: 700;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+.mag2-rank-item h3 {
+  margin: 3px 0 4px;
+  font-size: 17px;
+  color: var(--primary);
+}
+.mag2-rank-item p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+/* ---- Karty flexibilního STŘEDU (render `cards`, AIQ Engine) ---- */
+.mag2-midcards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+.mag2-midcard {
+  padding: 22px 22px 20px;
+  border-radius: 18px;
+  background: var(--surface);
+  border: 1px solid color-mix(in srgb, var(--border) 55%, transparent);
+  border: 1px solid color-mix(in srgb, var(--band, var(--accent)) 32%, var(--border));
+}
+.mag2-midcard h3 {
+  margin: 0 0 8px;
+  font-family: var(--font-head-stack);
+  font-weight: 800;
+  font-size: 17px;
+  line-height: 1.3;
+  color: var(--primary);
+}
+.mag2-midcard p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+/* ---- Chipy ---- */
+.mag2-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.mag2-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 15px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--health-green, #4a7c59) 12%, var(--bg));
+  border: 1px solid color-mix(in srgb, var(--health-green, #4a7c59) 30%, transparent);
+  font-size: 14px;
+  color: var(--text);
+}
+.mag2-chip svg {
+  width: 16px;
+  height: 16px;
+  color: var(--health-green, #4a7c59);
+  flex: none;
+}
+
+/* ---- Segment / openloop / CTA ---- */
+.mag2-segment {
+  padding: 26px 28px;
+  border-radius: 20px;
+  background: color-mix(in srgb, var(--primary) 96%, #000);
+  color: #fff;
+}
+.mag2-segment h3 {
+  margin: 0 0 8px;
+  font-size: 20px;
+  color: #fff;
+}
+.mag2-segment p {
+  margin: 0;
+  line-height: 1.6;
+  color: color-mix(in srgb, #fff 85%, transparent);
+}
+/* Fáze 4 Shrnutí — vizuální mezera „kde jste teď ↔ kam chcete" + silná pointa. */
+.mag2-gap {
+  margin-top: 4px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 14px;
+  align-items: stretch;
+}
+.mag2-gap-col {
+  border: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
+  border-radius: 16px;
+  padding: 18px 20px;
+  background: var(--surface);
+}
+.mag2-gap-col.want {
+  border-color: color-mix(in srgb, var(--band, var(--accent)) 40%, transparent);
+  background: color-mix(in srgb, var(--band, var(--accent)) 8%, var(--surface));
+}
+.mag2-gap-l {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text-soft);
+}
+.mag2-gap-col.want .mag2-gap-l {
+  color: var(--band, var(--accent));
+}
+.mag2-gap-col p {
+  margin: 0;
+  font-family: var(--font-head-stack);
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.35;
+  color: var(--primary);
+}
+.mag2-gap-arrow {
+  display: grid;
+  place-items: center;
+  font-size: 26px;
+  color: var(--band, var(--accent));
+  font-weight: 800;
+}
+.mag2-punch {
+  margin: 18px 0 0;
+  font-family: var(--font-head-stack);
+  font-weight: 800;
+  font-size: clamp(19px, 2.6vw, 26px);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--primary);
+  border: 1px solid color-mix(in srgb, var(--band, var(--accent)) 32%, var(--border));
+  padding: 4px 0 4px 18px;
+}
+@media (max-width: 640px) {
+  .mag2-gap { grid-template-columns: 1fr; }
+  .mag2-gap-arrow { transform: rotate(90deg); }
+}
+/* Fáze 5 urgence — proč to neodkládat (Product DNA narrativ + deterministický měsíční náklad). */
+.mag2-urgency {
+  padding: 24px 26px;
+  border-radius: 20px;
+  border: 1px solid color-mix(in srgb, var(--band, var(--accent)) 32%, transparent);
+  border: 1px solid color-mix(in srgb, var(--band, var(--accent)) 32%, var(--border));
+  background: color-mix(in srgb, var(--band, var(--accent)) 7%, var(--surface));
+}
+.mag2-urgency-lead {
+  margin: 8px 0 0;
+  font-family: var(--font-head-stack);
+  font-weight: 700;
+  font-size: clamp(17px, 2.2vw, 21px);
+  line-height: 1.45;
+  color: var(--primary);
+}
+.mag2-urgency-cost {
+  margin: 14px 0 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text-soft);
+}
+.mag2-urgency-cost strong {
+  font-family: var(--font-head-stack);
+  font-weight: 800;
+  font-size: 1.12em;
+  color: var(--band, var(--accent));
+}
+.mag2-openloop {
+  padding: 28px;
+  border-radius: 20px;
+  background: color-mix(in srgb, var(--gold) 9%, var(--bg));
+  border: 1px solid color-mix(in srgb, var(--gold) 32%, transparent);
+}
+.mag2-openloop h3 {
+  margin: 6px 0 10px;
+  font-size: 21px;
+  color: var(--primary);
+}
+/* ---- Fotky ve výsledku (silné produktové vizuály) ---- */
+.mag2-band-img {
+  display: block;
+  width: 100%;
+  max-width: 940px;
+  margin: 0 auto;
+  aspect-ratio: 16 / 8;
+  object-fit: cover;
+}
+/* Produktové foto v samostatné sekci „Řešení" (až v dolní části, po problému).
+   Bez ořezu (baked text v obrázku), měkký stín, drží se šířky těla. */
+.mag2-solution-img {
+  display: block;
+  width: 100%;
+  max-width: 620px;
+  margin: 4px 0 0;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-float);
+}
+/* Plná šířka (before/after pod rozborem) — zruší 620px cap, vyplní celé tělo. */
+.mag2-solution--full {
+  padding-left: 0;
+  padding-right: 0;
+}
+.mag2-solution-img--full {
+  max-width: 100%;
+}
+/* ---- Fáze 5 „Co s tím? Řešení" — kroky 1/2/3 + obrázky 04/05/06 na plnou šířku ---- */
+.mag2-solimg {
+  display: block;
+  width: 100%;
+  margin: 18px 0 0;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-float);
+}
+.mag2-solstep {
+  margin-top: 30px;
+}
+.mag2-solstep:first-of-type {
+  margin-top: 18px;
+}
+.mag2-solstep-h {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+.mag2-solstep-n {
+  flex: none;
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #fff;
+  font-family: var(--font-head-stack);
+  font-weight: 800;
+  font-size: 18px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+.mag2-solstep-h h3 {
+  margin: 0;
+  font-family: var(--font-head-stack);
+  font-weight: 800;
+  font-size: 20px;
+  line-height: 1.25;
+  color: var(--primary);
+}
+.mag2-solstep-sub {
+  margin: 2px 0 0;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--text-soft);
+}
+.mag2-benefits {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin-top: 4px;
+}
+.mag2-benefit {
+  padding: 20px;
+  border-radius: 16px;
+  background: var(--surface);
+  border: 1px solid color-mix(in srgb, var(--border) 55%, transparent);
+  border: 1px solid color-mix(in srgb, var(--band, var(--accent)) 32%, var(--border));
+}
+.mag2-benefit h4 {
+  margin: 0 0 8px;
+  font-family: var(--font-head-stack);
+  font-weight: 800;
+  font-size: 16px;
+  line-height: 1.3;
+  color: var(--primary);
+}
+.mag2-benefit-d,
+.mag2-benefit-d p {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+.mag2-bm-img {
+  display: block;
+  width: 100%;
+  margin: 22px 0 0;
+  border-radius: 16px;
+  object-fit: cover;
+}
+/* Předpis = product reveal (produkt jako předpis) */
+.mag2-rx {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--gold) 32%, transparent);
+  background: color-mix(in srgb, var(--gold) 7%, var(--bg));
+  box-shadow: var(--shadow-lux, 0 20px 50px -22px rgba(15, 23, 42, 0.24));
+}
+.mag2-rx-img {
+  width: 100%;
+  height: 100%;
+  min-height: 280px;
+  object-fit: cover;
+}
+.mag2-rx-body {
+  padding: clamp(24px, 3vw, 40px);
+  align-self: center;
+}
+.mag2-rx-body .mag2-h2 {
+  margin: 6px 0 14px;
+}
+.mag2-rx-text p {
+  font-size: 16px;
+  line-height: 1.62;
+  color: var(--text);
+  margin: 0 0 14px;
+}
+.mag2-rx-usp {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.mag2-rx-usp li {
+  position: relative;
+  padding-left: 27px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--primary);
+}
+.mag2-rx-usp li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: -1px;
+  color: var(--gold);
+  font-weight: 800;
+}
+@media (max-width: 720px) {
+  .mag2-rx {
+    grid-template-columns: 1fr;
+  }
+  .mag2-rx-img {
+    min-height: 0;
+    aspect-ratio: 16 / 10;
+  }
+}
+
+.mag2-cta {
+  text-align: center;
+  padding: clamp(32px, 5vw, 52px) 28px;
+  border-radius: 24px;
+  /* Navy CTA (ne zlatá) — kontrastuje se zlatými akcenty výš, zlaté tlačítko pak vynikne. */
+  background: linear-gradient(
+    160deg,
+    var(--primary) 0%,
+    color-mix(in srgb, var(--primary) 76%, #000) 100%
+  );
+  color: #fff;
+}
+.mag2-cta .mag2-h2 {
+  color: #fff;
+  margin-left: auto;
+  margin-right: auto;
+}
+.mag2-cta p {
+  margin: 0 auto 20px;
+  max-width: 46ch;
+  line-height: 1.6;
+  color: color-mix(in srgb, #fff 88%, transparent);
+}
+
+@media (max-width: 720px) {
+  .mag2-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+  .mag2-bm-cols {
+    grid-template-columns: 1fr;
+  }
+  .mag2-bm-arrow {
+    transform: rotate(90deg);
+  }
+}
+@media print {
+  .mag2-hero,
+  .mag2-cta {
+    background: var(--surface) !important;
+    color: var(--primary) !important;
+  }
+  .mag2-h1,
+  .mag2-cta .mag2-h2 {
+    color: var(--primary) !important;
+  }
+  .mag2-section {
+    animation: none !important;
+  }
+  .mag2-bar-fill {
+    animation: none !important;
+    background: var(--band) !important;
+  }
+}
+
+
+/* ===== Prodejka — sp- v design systému funnelu ===== */
+/* =====================================================================
+   AIQ prodejní stránka — 21bl vrstva NAD design systémem landingu.
+   PŘIPOJ na KONEC globals.css (za PREMIUM/TASTE vrstvy).
+
+   PRINCIP: prodejka je vizuálně shodná s landing stránkou stejného funnelu.
+   Většina layoutu se REUSUJE ze stávajících tříd (hero-media, hero-overlay,
+   hero-inner, hero-copy, hero-sub, hero-cta, hero-note, hero-visual, hero-mock,
+   hero-stats, hero-stat, num, lbl, eyebrow, bento, bento-card, bento-icon,
+   credibility, cred-*, quote-band, split-grid, split-media, steps, step,
+   step-num, cta-panel, card, btn, btn-gold, container, section, muted,
+   sticky-cta, variant-tag, footer-note).
+
+   Tady jsou JEN nové `sp-` třídy pro prvky, které landing nemá (value stack
+   ledger, srovnávací tabulka, product carousel, timeline, den před/po, mirror
+   karty, FAQ akordeon, hero badge/bullets). Barvy VÝHRADNĚ z design tokenů
+   (--primary, --accent, --gold, --health-green, --surface, --bg, --text,
+   --text-soft, --border, --radius-lg, --shadow-card, --shadow-float),
+   typografie z --font-head-stack / --font-body-stack. Žádná nová paleta,
+   žádný @import fontů.
+   ===================================================================== */
+
+/* ---------- Tón sekcí (světlá → tint rytmus jako landing) ---------- */
+.sp-tint {
+  background: var(--surface);
+}
+
+.sp-narrow {
+  max-width: 760px;
+}
+
+.sp-center {
+  text-align: center;
+}
+.sp-center > .eyebrow,
+.sp-center > h2,
+.sp-center > .sp-lead {
+  margin-left: auto;
+  margin-right: auto;
+}
+.sp-center > h2 {
+  max-width: 24ch;
+}
+
+.sp-lead {
+  font-size: clamp(17px, 1.4vw, 19.5px);
+  line-height: 1.6;
+  color: var(--text-soft);
+  max-width: 56ch;
+  margin: 0;
+}
+
+/* ---------- Genesis / origin story (editorial, obrázek + víc odstavců) ---------- */
+.sp-genesis-sec {
+  background: linear-gradient(
+    180deg,
+    var(--surface),
+    color-mix(in srgb, var(--primary) 5%, var(--surface))
+  );
+}
+/* Editoriál: velký nadpis → široká fotka 4:3 (neořezává) → text ve 2 magazínových
+   sloupcích s lead odstavcem přes celou šířku. Žádný basic 2-sloupec. */
+.sp-genesis-ed {
+  max-width: 960px;
+  margin: 0 auto;
+}
+.sp-genesis-ed__head {
+  margin-bottom: clamp(26px, 3.5vw, 40px);
+}
+.sp-genesis-ed__head h2 {
+  font-size: clamp(33px, 4.6vw, 58px);
+  line-height: 1.05;
+  margin-top: 10px;
+  max-width: none;
+  text-wrap: balance;
+}
+.sp-genesis-ed__media {
+  margin: 0 0 clamp(28px, 4vw, 44px);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  aspect-ratio: 4 / 3;
+}
+.sp-genesis-ed__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.sp-genesis-ed__body {
+  columns: 2;
+  column-gap: clamp(30px, 4vw, 56px);
+}
+.sp-genesis-ed__body p {
+  color: var(--text-soft);
+  line-height: 1.74;
+  margin: 0 0 1em;
+  break-inside: avoid;
+}
+.sp-genesis-ed__body p.sp-lead {
+  column-span: all;
+  color: var(--text);
+  font-weight: 500;
+  font-size: clamp(18px, 1.5vw, 21px);
+  line-height: 1.6;
+  max-width: none;
+  margin-bottom: clamp(18px, 2.4vw, 30px);
+}
+@media (max-width: 720px) {
+  .sp-genesis-ed__body {
+    columns: 1;
+  }
+}
+
+/* ---------- Komponenty jako alternující PAS bloky (Problém → Rozehrání → Řešení) ---------- */
+.sp-pas {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(40px, 6vw, 92px);
+  margin-top: clamp(34px, 4vw, 58px);
+}
+.sp-pas__row {
+  display: grid;
+  grid-template-columns: 1fr 1.04fr;
+  gap: clamp(28px, 4.5vw, 68px);
+  align-items: center;
+}
+.sp-pas__row--rev .sp-pas__media {
+  order: 2;
+}
+.sp-pas__media {
+  position: relative;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  aspect-ratio: 1 / 1;
+  background: var(--surface);
+}
+.sp-pas__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s var(--ease-out, ease);
+}
+.sp-pas__row:hover .sp-pas__media img {
+  transform: scale(1.03);
+}
+.sp-pas__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-head-stack, inherit);
+  font-weight: 700;
+  font-size: 12.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--gold) 62%, #000);
+  background: color-mix(in srgb, var(--gold) 15%, transparent);
+  padding: 6px 13px;
+  border-radius: 999px;
+}
+.sp-pas__label svg {
+  width: 15px;
+  height: 15px;
+}
+.sp-pas__text h3 {
+  font-size: clamp(23px, 2.5vw, 33px);
+  line-height: 1.16;
+  margin: 15px 0 0;
+}
+.sp-pas__sub {
+  font-size: clamp(16px, 1.35vw, 18.5px);
+  font-weight: 600;
+  color: var(--text);
+  margin: 11px 0 0;
+  max-width: 46ch;
+}
+.sp-pas__body {
+  color: var(--text-soft);
+  line-height: 1.72;
+  margin: 13px 0 0;
+  max-width: 54ch;
+}
+@media (max-width: 820px) {
+  .sp-pas__row {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .sp-pas__row--rev .sp-pas__media {
+    order: -1;
+  }
+  .sp-pas__media {
+    aspect-ratio: 16 / 10;
+  }
+}
+.sp-gbox__lead {
+  font-size: clamp(17px, 1.5vw, 20px);
+  line-height: 1.6;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 4px;
+  max-width: 52ch;
+}
+.sp-gbox__lead strong {
+  color: var(--health-green);
+}
+
+/* ---------- Column gridy (mirror / kroky / bonusy / timeline / for-whom) ---------- */
+.sp-grid {
+  display: grid;
+  gap: clamp(18px, 2vw, 24px);
+  margin-top: clamp(26px, 3.5vw, 46px);
+}
+.sp-grid--2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.sp-grid--3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* ---------- Top bary: promo + personalizovaný ribbon ---------- */
+.sp-promo {
+  background: var(--primary);
+  color: #fff;
+  text-align: center;
+  font-family: var(--font-head-stack);
+  font-weight: 700;
+  font-size: 13.5px;
+  letter-spacing: 0.01em;
+  padding: 9px 16px;
+}
+.sp-ribbon {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 11px 24px;
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+  color: #fff;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+.sp-ribbon__chip {
+  background: rgba(255, 255, 255, 0.16);
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+/* ---------- Hero doplňky na navy hero-media (badge, bullets, social) ---------- */
+.sp-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 16px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+  font-weight: 600;
+}
+.sp-hero-badge strong {
+  color: color-mix(in srgb, var(--gold) 85%, #fff);
+  font-variant-numeric: tabular-nums;
+}
+
+.sp-hero-bullets {
+  list-style: none;
+  padding: 0;
+  margin: 22px 0 0;
+  display: grid;
+  gap: 12px;
+}
+.sp-hero-bullets li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-size: 16.5px;
+  color: rgba(255, 255, 255, 0.9);
+}
+/* Na světlém podkladu (garance / „co je uvnitř") text tmavý. */
+.sp-bullets--ink li {
+  color: var(--text);
+}
+
+.sp-hero-social {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 13.5px;
+}
+.sp-stars {
+  color: var(--gold);
+  letter-spacing: 2px;
+  font-size: 15px;
+}
+
+/* Zelené zaškrtnutí — sdílené (hero, for-whom, garance, stack recap). */
+.sp-check {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--health-green) 16%, transparent);
+  color: var(--health-green);
+  font-weight: 800;
+  font-size: 13px;
+  margin-top: 1px;
+}
+.sp-x {
+  flex: 0 0 auto;
+  color: #c2603c;
+  font-weight: 800;
+  margin-top: 1px;
+}
+
+/* ---------- Product card na sales hero (produkt místo mockupu) ---------- */
+.hero-mock.sp-hero-mock {
+  background:
+    url("/img/result-product.jpg") center / cover no-repeat,
+    linear-gradient(160deg,
+      color-mix(in srgb, var(--bg) 92%, var(--accent)) 0%,
+      color-mix(in srgb, var(--bg) 86%, var(--primary)) 100%);
+}
+
+/* ---------- Zrcadlo (mirror karty) + diagnóza ---------- */
+.sp-mirror {
+  /* jednotný card jazyk — side-tab akcent zrušen (impeccable); akcent nese ikona */
+  border-radius: var(--radius);
+}
+.sp-mirror__tag {
+  display: inline-block;
+  font-family: var(--font-head-stack);
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  margin-bottom: 10px;
+}
+.sp-mirror h3 {
+  font-size: 18px;
+}
+.sp-diagnosis {
+  margin-top: clamp(24px, 3vw, 34px);
+  background: var(--bg);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  padding: clamp(24px, 3vw, 32px);
+  box-shadow: var(--shadow-card);
+}
+.sp-diagnosis__score {
+  font-family: var(--font-head-stack);
+  font-weight: 800;
+  font-size: clamp(22px, 3vw, 30px);
+  line-height: 1;
+  margin-bottom: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.sp-textlink {
+  font-family: var(--font-head-stack);
+  font-weight: 700;
+  color: var(--accent);
+}
+.sp-textlink:hover {
+  text-decoration: underline;
+}
+
+/* ---------- Číslované kroky (3 kroky) ---------- */
+.sp-num {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  font-family: var(--font-head-stack);
+  font-weight: 800;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+.sp-center .sp-num {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ---------- Váš den — předtím / potom ---------- */
+.sp-day {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  margin-top: clamp(26px, 3.5vw, 44px);
+}
+.sp-day__col {
+  padding: clamp(26px, 3vw, 36px);
+}
+.sp-day__col p {
+  margin: 0;
+  font-size: 16.5px;
+  line-height: 1.6;
+}
+.sp-day__before {
+  background: var(--surface);
+}
+.sp-day__after {
+  background: linear-gradient(160deg, var(--accent), var(--primary));
+  color: #fff;
+}
+.sp-day__after p {
+  color: rgba(255, 255, 255, 0.92);
+}
+.sp-day__tag {
+  display: block;
+  font-family: var(--font-head-stack);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  color: var(--text-soft);
+}
+.sp-day__after .sp-day__tag {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+/* ---------- Product carousel (self-hostované /img/*) ---------- */
+.sp-carousel {
+  display: flex;
+  gap: 18px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 6px 2px 16px;
+  margin-top: clamp(26px, 3.5vw, 46px);
+}
+.sp-carousel__c {
+  flex: 0 0 300px;
+  scroll-snap-align: center;
+  margin: 0;
+}
+.sp-carousel__c img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  background: var(--surface);
+  display: block;
+}
+.sp-carousel__c figcaption {
+  padding: 14px 4px 0;
+  font-size: 14.5px;
+  color: var(--text-soft);
+}
+.sp-carousel__c figcaption b {
+  color: var(--primary);
+}
+
+/* ---------- Value stack ledger + garance ---------- */
+.sp-stack {
+  max-width: 660px;
+  margin: clamp(28px, 4vw, 44px) auto 0;
+  background: var(--bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: clamp(26px, 4vw, 40px);
+}
+.sp-stack--recap {
+  max-width: 640px;
+}
+.sp-stack__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.sp-stack__row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 14px 4px;
+  border-bottom: 1px dashed var(--border);
+  text-align: left;
+}
+.sp-stack__row:last-child {
+  border-bottom: none;
+}
+.sp-stack__ck {
+  flex: 0 0 auto;
+  color: var(--gold);
+  font-weight: 800;
+  margin-top: 1px;
+}
+.sp-stack__item {
+  flex: 1;
+  font-size: 16px;
+  line-height: 1.5;
+}
+.sp-stack__price {
+  margin: 18px 0 0;
+  color: var(--text-soft);
+  font-size: 15px;
+  line-height: 1.55;
+}
+.sp-variant {
+  margin-top: 16px;
+}
+.sp-stack__cta {
+  margin-top: 26px;
+  text-align: center;
+}
+.sp-guarantee {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  background: color-mix(in srgb, var(--health-green) 8%, var(--bg));
+  border: 1px solid color-mix(in srgb, var(--health-green) 28%, transparent);
+  border-radius: 14px;
+  padding: 20px 22px;
+  margin-top: 22px;
+}
+.sp-guarantee__seal {
+  flex: 0 0 auto;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--health-green) 15%, transparent);
+  color: var(--health-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sp-guarantee__seal svg {
+  width: 28px;
+  height: 28px;
+}
+.sp-guarantee p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+/* ---------- Proof čísla (uvnitř credibility bandu) ---------- */
+.sp-proofg {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 28px;
+  margin-top: clamp(36px, 4vw, 52px);
+  padding-top: clamp(32px, 3.5vw, 44px);
+  border-top: 1px solid var(--border);
+}
+.sp-proofg__c {
+  text-align: center;
+}
+.sp-proofg__n {
+  font-family: var(--font-head-stack);
+  font-weight: 800;
+  font-size: clamp(30px, 4vw, 50px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--primary);
+  font-variant-numeric: tabular-nums;
+}
+.sp-proofg__n em {
+  font-style: normal;
+  color: var(--accent);
+}
+.sp-proofg__l {
+  margin-top: 12px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  line-height: 1.4;
+  color: var(--text-soft);
+}
+
+/* ---------- Case study citace (centrovaná karta) ---------- */
+.sp-quote {
+  max-width: 760px;
+  margin: clamp(20px, 3vw, 30px) auto 0;
+  text-align: center;
+  background: var(--bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: clamp(30px, 4vw, 46px);
+}
+.sp-quote__q {
+  font-family: var(--font-head-stack);
+  font-weight: 700;
+  font-size: clamp(20px, 2.4vw, 26px);
+  line-height: 1.4;
+  color: var(--primary);
+  margin: 16px 0 0;
+  text-wrap: balance;
+}
+.sp-quote__bullets {
+  list-style: none;
+  padding: 0;
+  max-width: 520px;
+  margin: 20px auto 0;
+  text-align: left;
+  display: grid;
+  gap: 10px;
+}
+.sp-quote__bullets li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 15.5px;
+}
+.sp-quote__who {
+  margin-top: 18px;
+  font-family: var(--font-head-stack);
+  font-weight: 800;
+  color: var(--text);
+}
+.sp-quote__who span {
+  color: var(--text-soft);
+  font-weight: 500;
+}
+
+/* ---------- Pro koho / pro koho NE ---------- */
+.sp-fw {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(18px, 2vw, 24px);
+  margin-top: clamp(26px, 3.5vw, 44px);
+}
+.sp-fw--single {
+  grid-template-columns: minmax(0, 720px);
+  justify-content: center;
+}
+.sp-fw__yes {
+  background: color-mix(in srgb, var(--health-green) 5%, var(--bg));
+}
+.sp-fw__no {
+  background: color-mix(in srgb, #c2603c 5%, var(--bg));
+}
+.sp-fw__list {
+  list-style: none;
+  padding: 0;
+  margin: 14px 0 0;
+  display: grid;
+  gap: 10px;
+}
+.sp-fw__list li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 15.5px;
+}
+
+/* ---------- Srovnávací tabulka ---------- */
+.sp-cmp-wrap {
+  overflow: hidden;
+  overflow-x: auto;
+  margin-top: clamp(26px, 3.5vw, 44px);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-md);
+}
+.sp-cmp {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+.sp-cmp th,
+.sp-cmp td {
+  padding: 15px 16px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+/* poslední řádek bez spodní linky — jinak vypadá „uříznutě" u okraje wrapu */
+.sp-cmp tbody tr:last-child td {
+  border-bottom: none;
+}
+.sp-cmp th:first-child,
+.sp-cmp td.sp-cmp__label {
+  text-align: left;
+}
+.sp-cmp__label {
+  font-weight: 600;
+  color: var(--primary);
+}
+.sp-cmp thead th {
+  font-family: var(--font-head-stack);
+  font-size: 13px;
+  color: var(--text-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.sp-cmp .sp-cmp__us {
+  background: color-mix(in srgb, var(--accent) 12%, var(--bg));
+  box-shadow: inset 2px 0 0 color-mix(in srgb, var(--accent) 55%, transparent),
+    inset -2px 0 0 color-mix(in srgb, var(--accent) 55%, transparent);
+}
+.sp-cmp thead th.sp-cmp__us {
+  color: #fff;
+  font-weight: 800;
+  background: var(--accent);
+}
+.sp-cmp tbody tr:last-child td.sp-cmp__us {
+  box-shadow: inset 2px 0 0 color-mix(in srgb, var(--accent) 55%, transparent),
+    inset -2px 0 0 color-mix(in srgb, var(--accent) 55%, transparent),
+    inset 0 -3px 0 color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+/* ---------- Vize budoucnosti — glass karty na tmavém foto bandu + číslo kroku ---------- */
+.sp-tl-card {
+  position: relative;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--r-lg);
+  padding: 30px 24px 24px;
+  box-shadow: var(--shadow-md);
+}
+.sp-tl-card__step {
+  position: absolute;
+  top: -16px;
+  left: 24px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: #1a1205;
+  font-family: var(--font-head-stack);
+  font-weight: 800;
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+}
+.sp-tl-card__badge {
+  display: inline-block;
+  margin-top: 4px;
+  font-family: var(--font-head-stack);
+  font-weight: 700;
+  font-size: 12.5px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--gold) 82%, #fff);
+}
+.sp-tl-card p {
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.62;
+  margin: 10px 0 0;
+}
+
+/* Recenzní foto-bandy (testimonial + case study) — obsah na střed. */
+.sp-band--lp2 .container,
+.sp-band--lp4 .container {
+  text-align: center;
+}
+.sp-band--lp2 blockquote,
+.sp-band--lp4 blockquote {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 62ch;
+}
+
+/* ---------- Stroj času — badge ---------- */
+.sp-time__badge {
+  display: inline-block;
+  font-family: var(--font-head-stack);
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+  padding: 6px 14px;
+  border-radius: 999px;
+  margin-bottom: 14px;
+}
+
+/* ---------- Bonus value ---------- */
+.sp-bonus-val {
+  margin-top: 12px;
+  font-family: var(--font-head-stack);
+  font-weight: 800;
+  font-size: 14px;
+  color: var(--gold);
+}
+
+/* ---------- FAQ akordeon ---------- */
+.sp-faq {
+  margin-top: clamp(26px, 3.5vw, 44px);
+}
+.sp-faq__item {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 2px 24px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow-card);
+}
+.sp-faq__item summary {
+  font-family: var(--font-head-stack);
+  font-weight: 700;
+  font-size: 16.5px;
+  color: var(--primary);
+  padding: 20px 0;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+}
+.sp-faq__item summary::-webkit-details-marker {
+  display: none;
+}
+.sp-faq__item summary::after {
+  content: "+";
+  flex: 0 0 auto;
+  color: var(--accent);
+  font-weight: 800;
+  font-size: 22px;
+  line-height: 1;
+}
+.sp-faq__item[open] summary::after {
+  content: "–";
+}
+.sp-faq__item p {
+  margin: 0;
+  padding: 0 0 20px;
+  color: var(--text-soft);
+  font-size: 15.5px;
+  line-height: 1.6;
+}
+
+/* ---------- Close CTA panel — urgence text (uvnitř .cta-panel) ---------- */
+.cta-panel .sp-cta-urgency {
+  color: color-mix(in srgb, var(--gold) 85%, #fff);
+  font-weight: 700;
+  font-size: 15px;
+  margin: 0 auto 22px;
+  max-width: 52ch;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 860px) {
+  .sp-grid--2,
+  .sp-grid--3,
+  .sp-day,
+  .sp-fw {
+    grid-template-columns: 1fr;
+  }
+  .sp-fw--single {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 560px) {
+  .sp-carousel__c {
+    flex-basis: 250px;
+  }
+}
+
+/* ==================================================================
+   PRODEJNÍ STRÁNKA 3.0 — prémiové vizuály (v3)
+   Fotky (lifestyle 4:3 + produktový carousel), ikony, foto-bandy,
+   bonusy s vizuály, nabídka s produktem. Rozšiřuje landing design
+   system (navy/blue/gold, Montserrat/Open Sans), NEmění landing.
+   ================================================================== */
+
+/* --- Hero: lifestyle foto pozadí (ne recyklovaný hero.jpg) --- */
+.hero-media.sp-hero-photo {
+  background:
+    linear-gradient(118deg,
+      color-mix(in srgb, var(--primary-deep) 90%, transparent) 0%,
+      color-mix(in srgb, var(--primary-deep) 58%, transparent) 52%,
+      color-mix(in srgb, var(--primary-deep) 18%, transparent) 100%),
+    url("/img/sp-lifep1.jpg") center / cover no-repeat;
+}
+/* Hero plovoucí karta = produktová fotka (4:3) */
+.hero-mock.sp-hero-mock {
+  aspect-ratio: 4 / 3;
+  width: min(100%, 560px);
+  background: #fff url("/img/sp-hero.jpg") center / cover no-repeat;
+  transform: rotate(1.4deg);
+}
+
+/* --- Rámovaná fotka (mechanismus / inline) --- */
+.sp-figure { border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-float); background: var(--surface); }
+.sp-figure img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.split-media.sp-split--detail { background: url("/img/sp-c1.jpg") center / cover no-repeat; }
+
+/* --- Lifestyle foto-band: pozadí sekce s tmavým tintem + bílý text --- */
+.sp-band { position: relative; isolation: isolate; color: #fff; padding: 136px 0; min-height: 66vh; display: flex; align-items: center; background: #10192e center / cover no-repeat; background-attachment: scroll; }
+.sp-band > * { width: 100%; }
+.sp-band::before { content: ""; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--primary-deep) 72%, transparent),
+    color-mix(in srgb, var(--primary-deep) 52%, transparent)); }
+.sp-band h2, .sp-band blockquote { text-shadow: 0 2px 20px rgba(6, 10, 20, 0.38); }
+.sp-band h2, .sp-band h3 { color: #fff; }
+.sp-band .eyebrow { color: color-mix(in srgb, var(--gold) 85%, #fff); }
+.sp-band p, .sp-band .sp-lead, .sp-band .muted { color: rgba(255, 255, 255, 0.86); }
+.sp-band .card { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.16); color: #fff; }
+.sp-band .card h3 { color: #fff; }
+.sp-band .card p, .sp-band .card .muted { color: rgba(255, 255, 255, 0.82); }
+.sp-band--pour   { background-image: url("/img/sp-lifep6.jpg"); }
+.sp-band--couple { background-image: url("/img/sp-lifep5.jpg"); }
+.sp-band--family { background-image: url("/img/sp-life2.jpg"); }
+.sp-band--child  { background-image: url("/img/sp-life3.jpg"); }
+.sp-band--nobottles { background-image: url("/img/sp-lifep4.jpg"); }
+
+/* --- Ikonový čip --- */
+.sp-ico { flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 46px; border-radius: 13px; background: var(--accent-soft); color: var(--accent); }
+.sp-ico svg { width: 23px; height: 23px; }
+.sp-ico--gold { background: var(--gold-soft); color: color-mix(in srgb, var(--gold) 62%, #000); }
+.sp-iconrow { display: flex; gap: 16px; align-items: flex-start; }
+.sp-iconrow > div { flex: 1 1 auto; }
+.sp-iconrow h3 { margin-bottom: 4px; }
+
+/* kroky s ikonou (přepis číselné dlaždice) */
+.sp-stepcard { text-align: left; }
+.sp-stepcard .sp-ico { margin-bottom: 14px; }
+.sp-stepcard .sp-step-n { font-family: var(--font-head-stack); font-weight: 800; font-size: 13px; letter-spacing: .08em; color: var(--gold); }
+
+/* --- Bonusy jako prémiové dárkové karty --- */
+.sp-bonuses { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 30px; }
+.sp-bonus { position: relative; overflow: hidden; border-radius: var(--radius-lg); border: 1px solid var(--border);
+  background: linear-gradient(170deg, #fff, color-mix(in srgb, var(--gold) 6%, #fff)); padding: 30px 24px 26px; box-shadow: var(--shadow-sm); }
+.sp-bonus__tag { position: absolute; top: 0; right: 0; font-family: var(--font-head-stack); font-weight: 700; font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+  color: #fff; background: var(--gold); padding: 6px 14px; border-bottom-left-radius: 12px; }
+.sp-bonus__ic { display: inline-flex; align-items: center; justify-content: center; width: 54px; height: 54px; border-radius: 16px; background: var(--gold-soft); color: color-mix(in srgb, var(--gold) 62%, #000); margin-bottom: 16px; }
+.sp-bonus__ic svg { width: 28px; height: 28px; }
+.sp-bonus h3 { font-size: 18px; margin-bottom: 6px; }
+.sp-bonus p { font-size: 14.5px; color: var(--text-soft); margin: 0; }
+.sp-bonus__val { margin-top: 14px; font-family: var(--font-head-stack); font-weight: 800; color: var(--accent); font-size: 16px; }
+
+/* --- Nabídka s produktem (value stack 2 sloupce) --- */
+.sp-offer2 { display: grid; grid-template-columns: 1fr; gap: 20px; justify-items: center; margin: 34px auto 0; max-width: 600px;
+  background: linear-gradient(180deg, #ffffff, color-mix(in srgb, var(--gold) 7%, #ffffff));
+  border: 1.5px solid color-mix(in srgb, var(--gold) 42%, var(--border)); border-radius: var(--r-lg);
+  padding: 36px 32px; box-shadow: var(--shadow-lg); text-align: center; }
+.sp-offer2__media { border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-md); aspect-ratio: 1/1; width: 100%; max-width: 300px; }
+.sp-offer2 .sp-stack__list { text-align: left; width: 100%; max-width: 480px; }
+.sp-offer2 .sp-price { justify-content: center; }
+.sp-offer2 .sp-guarantee { text-align: left; }
+.sp-offer2__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.sp-price { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin: 6px 0 4px; }
+.sp-price__orig { color: var(--text-soft); text-decoration: line-through; font-size: 18px; }
+.sp-price__now { font-family: var(--font-head-stack); font-weight: 800; font-size: 34px; color: var(--primary); letter-spacing: -0.02em; }
+.sp-price__save { font-family: var(--font-head-stack); font-weight: 700; font-size: 13px; color: #fff; background: var(--health-green); padding: 4px 10px; border-radius: 999px; }
+.sp-price__sub { font-size: 14px; color: var(--text-soft); margin: 0 0 6px; }
+
+/* --- Carousel: 4:3 dlaždice --- */
+.sp-carousel__c img { aspect-ratio: 4 / 3; object-fit: cover; width: 100%; height: auto; border-radius: var(--radius); }
+
+@media (max-width: 780px) {
+  .sp-bonuses { grid-template-columns: 1fr; }
+  .sp-offer2 { grid-template-columns: 1fr; }
+  .sp-band { padding: 84px 0; min-height: auto; }
+  .hero-mock.sp-hero-mock { transform: none; }
+}
+
+/* --- foto-band: čitelnost proof čísel + badge na tmavém podkladu --- */
+.sp-band .sp-proofg__n { color: #fff; }
+.sp-band .sp-proofg__l { color: rgba(255, 255, 255, 0.82); }
+.sp-band .sp-time__badge { background: rgba(255, 255, 255, 0.16); color: #fff; }
+.sp-band .sp-proofg__c { border-color: rgba(255, 255, 255, 0.16); }
+
+/* --- Feature/komponenty mřížka s fotkami (blok 8) --- */
+.sp-feats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 30px; }
+.sp-feat { border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border); background: #fff; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; }
+.sp-feat__media { aspect-ratio: 1 / 1; overflow: hidden; background: var(--surface); }
+.sp-feat__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.sp-feat__body { padding: 18px 20px 22px; display: flex; gap: 13px; align-items: flex-start; }
+.sp-feat__body .sp-ico { width: 40px; height: 40px; border-radius: 11px; }
+.sp-feat__body h3 { font-size: 16.5px; margin: 0 0 3px; }
+.sp-feat__body p { font-size: 14px; color: var(--text-soft); margin: 0; }
+
+/* --- Bonus karta s fotkou (blok 9) --- */
+.sp-bonus--photo { padding: 0; overflow: hidden; text-align: left; }
+.sp-bonus--photo .sp-bonus__media { aspect-ratio: 1 / 1; overflow: hidden; background: var(--surface); }
+.sp-bonus--photo .sp-bonus__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.sp-bonus--photo .sp-bonus__in { padding: 22px 24px 26px; }
+.sp-bonus--photo .sp-bonus__ic { margin-bottom: 12px; }
+
+@media (max-width: 780px) {
+  .sp-feats { grid-template-columns: 1fr; }
+}
+
+/* --- Hero bez produktové karty (produkt je v lifestyle pozadí) --- */
+.hero-inner.sp-hero-solo { grid-template-columns: minmax(0, 1fr); }
+.hero-inner.sp-hero-solo .hero-copy { max-width: 40ch; }
+
+/* Hero — centrovaná editoriální varianta (impeccable: střed + Montserrat H1 se zvýrazněným klíčovým slovem) */
+.hero-inner.sp-hero-center {
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  text-align: center;
+}
+.hero-inner.sp-hero-center .hero-copy {
+  max-width: 66ch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.sp-hero-center .hero-copy h1.sp-display {
+  color: var(--ink-on-media);
+  font-size: clamp(42px, 6.2vw, 76px);
+  font-weight: 800;
+  max-width: 18ch;
+  margin: 0 0 0.34em;
+}
+.sp-hero-center .hero-copy .hero-sub {
+  max-width: 54ch;
+  font-size: 20px;
+}
+.sp-hero-center .sp-hero-bullets {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 16px;
+  margin-top: 10px;
+}
+.sp-hero-center .sp-hero-bullets li {
+  justify-content: center;
+  gap: 8px;
+  font-size: 16.5px;
+  font-weight: 700;
+  color: #fff;
+}
+.sp-hero-center .hero-copy .hero-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  margin-top: 56px;
+}
+.sp-hero-center .sp-hero-social { justify-content: center; flex-wrap: wrap; }
+.sp-hero-social__rating {
+  color: #fff;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Další lifestyle foto-bandy (v2 sada) --- */
+.sp-band--vecer { background-image: url("/img/sp-life3.jpg"); }
+.sp-band--parstarsi { background-image: url("/img/sp-lifep2.jpg"); }
+
+/* --- Produktové lifestyle foto-bandy na emoční sekce (lp2..lp6) --- */
+.sp-band--lp3 { background-image: url("/img/sp-lifep3.jpg"); }
+/* lp2/lp4/lp5/lp6 foto = lazy obrázek s třídou sp-band__bg přímo v renderu (LCP
+   na mobilním ad trafficu — CSS background-image nejde lazy-loadovat). Vrstvení:
+   obrázek z-index -2 pod ::before overlay -1 pod obsahem 0. */
+.sp-band__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+}
+.sp-band--lp2 .sp-band__bg,
+.sp-band--lp4 .sp-band__bg {
+  object-position: top center;
+}
+/* Recenze (lp2) + vize budoucnosti (lp5) vyšší; proč-právě-vy (lp6) má silnější overlay. */
+.sp-band--lp2, .sp-band--lp5 { min-height: 84vh; }
+.sp-band--lp6::before { background: linear-gradient(180deg, rgba(6, 10, 20, 0.9), rgba(6, 10, 20, 0.8)); }
+/* obsah uvnitř bandu = bílý (testimonial, den, case study, cta) */
+.sp-band blockquote { color: #fff; font-family: var(--font-head-stack); font-size: clamp(25px, 3.4vw, 40px); font-weight: 700; line-height: 1.28; text-wrap: balance; max-width: 26ch; margin: 0 auto; text-align: center; }
+/* Social proof: zvýrazněná nejklíčovější fráze (zlatě, tučně) */
+.sp-key { color: var(--gold); font-weight: 800; }
+.sp-band .sp-quote__q { font-size: clamp(23px, 3vw, 36px); font-weight: 700; max-width: 26ch; }
+.sp-band .quote-attribution { display: block; margin-top: 18px; font-family: var(--font-body-stack); font-weight: 600; font-size: 15px; color: rgba(255, 255, 255, 0.82); }
+.sp-band .sp-quote__q { color: #fff; }
+.sp-band .sp-quote__who { color: rgba(255, 255, 255, 0.85); }
+.sp-band .sp-quote__bullets span { color: #fff; }
+.sp-band .sp-day__col { background: rgba(255, 255, 255, 0.10); border: 1px solid rgba(255, 255, 255, 0.18); }
+.sp-band .sp-day__col p { color: rgba(255, 255, 255, 0.92); }
+.sp-band .sp-day__tag { color: #fff; background: rgba(255, 255, 255, 0.18); }
+.sp-band .cta-panel { background: transparent; box-shadow: none; }
+
+/* Case study karta je BÍLÁ (opaque) → tmavý text bez stínu (oprava band-white) */
+.sp-band .sp-quote { color: var(--text); }
+.sp-band .sp-quote__q { color: var(--primary); text-shadow: none; }
+.sp-band .sp-quote__who { color: var(--text-soft); }
+.sp-band .sp-quote__bullets span { color: var(--text); }
+
+/* --- Produktový carousel — PLNÁ ŠÍŘKA (od kraje ke kraji), velké karty = jen
+   obrázky (bez textů), šipky po stranách, tečky, jede dokola --- */
+.sp-car--full { position: relative; width: 100vw; left: 50%; margin-left: -50vw; }
+.sp-car { --gap: 26px; --card: calc((100% - 2 * var(--gap)) / 3); margin-top: 46px; }
+.sp-car__stage { position: relative; }
+/* ~100px gutter vlevo/vpravo (ne až do kraje) — margin ořízne karty přesně na
+   gutteru (žádný peek do kraje), v gutteru sedí samostatné šipky */
+.sp-car__viewport { overflow: hidden; padding: 8px 0; margin: 0 clamp(76px, 8vw, 132px); }
+.sp-car__track { display: flex; gap: var(--gap); transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); will-change: transform; }
+.sp-car__card { flex: 0 0 var(--card); margin: 0; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); background: var(--surface); }
+.sp-car__card img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; }
+.sp-car__arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 4; width: 58px; height: 58px; border-radius: 50%; border: 1px solid var(--border); background: rgba(255, 255, 255, 0.94); color: var(--primary); cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-md); transition: background 0.2s, color 0.2s, transform 0.2s; backdrop-filter: blur(4px); }
+.sp-car__arrow svg { width: 25px; height: 25px; }
+.sp-car__arrow:hover { background: var(--primary); color: #fff; }
+.sp-car__arrow--l { left: clamp(14px, 2vw, 38px); }
+.sp-car__arrow--r { right: clamp(14px, 2vw, 38px); }
+.sp-car__arrow--l:hover { transform: translateY(-50%) scale(1.07); }
+.sp-car__arrow--r:hover { transform: translateY(-50%) scale(1.07); }
+.sp-car__dots { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 30px; }
+.sp-car__dot { width: 10px; height: 10px; border-radius: 50%; border: none; background: color-mix(in srgb, var(--primary) 22%, var(--bg)); cursor: pointer; padding: 0; transition: all 0.25s; }
+.sp-car__dot.is-active { background: var(--gold); width: 28px; border-radius: 5px; }
+@media (max-width: 780px) {
+  .sp-car { --card: 82%; --gap: 14px; }
+  .sp-car__viewport { padding: 6px 16px; }
+  .sp-car__arrow { width: 44px; height: 44px; }
+  .sp-car__arrow--l { left: 6px; }
+  .sp-car__arrow--r { right: 6px; }
+}
+
+/* Klik na carousel kartu → zvětšení do POPUP (lightbox) */
+.sp-car__zoom { display: block; width: 100%; padding: 0; margin: 0; border: none; background: none; cursor: zoom-in; }
+.sp-car__zoom img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; }
+.sp-car__lb { position: fixed; inset: 0; z-index: 1000; background: rgba(6, 10, 20, 0.86); display: flex; align-items: center; justify-content: center; padding: 4vw; backdrop-filter: blur(6px); animation: sp-lb-in 0.2s ease; }
+.sp-car__lb img { max-width: min(720px, 92vw); max-height: 90vh; width: auto; height: auto; border-radius: var(--radius-lg); box-shadow: 0 30px 90px rgba(0, 0, 0, 0.55); cursor: default; }
+.sp-car__lb-close { position: absolute; top: 22px; right: 26px; width: 50px; height: 50px; border-radius: 50%; border: none; background: rgba(255, 255, 255, 0.16); color: #fff; font-size: 30px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+.sp-car__lb-close:hover { background: rgba(255, 255, 255, 0.3); }
+@keyframes sp-lb-in { from { opacity: 0; } to { opacity: 1; } }
+
+/* ==================================================================
+   Sekci-po-sekci úpravy prodejní stránky
+   Overrides (source-order wins) + nové třídy. #2–#17.
+   ================================================================== */
+
+/* #6 — mechanismus split: obrázek = carousel 06 */
+.split-media.sp-split--detail { background: url("/img/sp-c6.jpg") center / cover no-repeat; }
+
+/* #2 — hero na mobilu: menší H1, ať se neláme slovo po slově */
+@media (max-width: 640px) {
+  .hero-inner.sp-hero-solo .hero-copy { max-width: none; }
+  .hero-inner.sp-hero-solo .hero-copy h1 { font-size: clamp(29px, 8vw, 40px); line-height: 1.08; max-width: none; }
+  /* sp-hero-center nahradil sp-hero-solo — mobilní clamp musí platit i tady (jinak floor 42px láme dlouhý personalizovaný H1 na 4–6 řádků) */
+  .hero-inner.sp-hero-center .hero-copy h1.sp-display { font-size: clamp(30px, 8.4vw, 40px); line-height: 1.08; }
+}
+
+/* #2b — hero sloupec širší + H1 BEZ 16ch limitu (16ch je pro landing s produktovou
+   kartou vedle; sp-hero-solo je jednosloupcový → H1 využije plnou šířku, jinak se láme
+   slovo po slově i na tabletu) */
+.hero-inner.sp-hero-solo .hero-copy { max-width: 50ch; }
+.hero-inner.sp-hero-solo .hero-copy h1 { max-width: none; }
+@media (min-width: 641px) and (max-width: 900px) {
+  .hero-inner.sp-hero-solo .hero-copy h1 { font-size: clamp(34px, 6.2vw, 54px); }
+}
+
+/* #3b — víc mezery mezi hero bullety a CTA tlačítkem */
+.hero-copy .sp-hero-bullets { margin-bottom: 6px; }
+.hero-copy .hero-cta { margin-top: 34px; }
+
+/* #5a — ikona v mirror kartě */
+.sp-mirror__ic { margin-bottom: 16px; }
+
+/* #7 — ikony větší + čistší (obecně, hlavně 3 kroky) */
+.sp-ico { width: 56px; height: 56px; border-radius: 16px; }
+.sp-ico svg { width: 28px; height: 28px; stroke-width: 1.7; }
+.sp-feat__body .sp-ico { width: 42px; height: 42px; border-radius: 12px; }
+.sp-feat__body .sp-ico svg { width: 22px; height: 22px; }
+
+/* #8 — Váš den: 2 ZŘETELNĚ oddělené karty (větší mezera) + kontrast DNES (ztlumená)
+   vs POTOM (zářivě zlatá). Tagy = KOMPAKTNÍ PILULKY, ne pruhy přes celou šířku sloupce. */
+.sp-band .sp-day { gap: 28px; background: transparent; box-shadow: none; overflow: visible; }
+.sp-band .sp-day__col { border-radius: 20px; }
+.sp-band .sp-day__tag { display: inline-block; width: auto; padding: 7px 16px; border-radius: 999px; font-size: 11px; letter-spacing: 0.1em; }
+.sp-band .sp-day__before { background: rgba(6, 10, 20, 0.66); border: 1px solid rgba(255, 255, 255, 0.1); }
+.sp-band .sp-day__before p { color: rgba(255, 255, 255, 0.72); }
+.sp-band .sp-day__before .sp-day__tag { color: rgba(255, 255, 255, 0.85); background: rgba(255, 255, 255, 0.14); }
+.sp-band .sp-day__after { background: linear-gradient(150deg, color-mix(in srgb, var(--gold) 44%, var(--accent)), var(--primary)); border: 1px solid color-mix(in srgb, var(--gold) 42%, transparent); box-shadow: 0 18px 50px rgba(197, 165, 90, 0.2); }
+.sp-band .sp-day__after .sp-day__tag { color: #10192e; background: color-mix(in srgb, var(--gold) 84%, #fff); }
+
+/* #12 — „Důkazy" bez fotky (solidní tmavá); fotka je teď v pozadí FAQ */
+.sp-band--vecer { background-image: none; background: radial-gradient(125% 120% at 50% 0%, #17253f 0%, #0e1a30 55%, #0a1120 100%); }
+
+/* FAQ na fotografickém pozadí (přesun fotky z bývalého závěrečného bandu) */
+.sp-faq-band { position: relative; background-image: url("/img/sp-life3.jpg"); background-size: cover; background-position: center; }
+.sp-faq-band::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10, 16, 30, 0.74), rgba(10, 16, 30, 0.58)); }
+.sp-faq-band > .container { position: relative; z-index: 1; }
+.sp-faq-band .eyebrow { color: color-mix(in srgb, var(--gold) 85%, #fff); }
+.sp-faq-band h2 { color: #fff; text-shadow: 0 2px 20px rgba(6, 10, 20, 0.38); }
+
+/* #14 — srovnávací tabulka: zelené ✓ / červené ✗ + přitažlivější */
+.sp-cmp { font-size: 15.5px; }
+.sp-cmp tbody tr:nth-child(even) { background: color-mix(in srgb, var(--surface) 55%, transparent); }
+.sp-cmp .sp-cmp__us { background: color-mix(in srgb, var(--accent) 12%, var(--bg)); }
+.sp-cmp__yes, .sp-cmp__no { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; font-weight: 800; font-size: 15px; }
+.sp-cmp__yes { background: color-mix(in srgb, var(--health-green) 18%, transparent); color: var(--health-green); }
+.sp-cmp__no  { background: color-mix(in srgb, #c2603c 14%, transparent); color: #c2603c; }
+.sp-cmp__txt { font-weight: 600; color: var(--text-soft); }
+
+/* #15 — Stroj času: tmavší overlay (čitelnost) + větší badge + kontrastní karty */
+.sp-band--lp5::before { background: linear-gradient(180deg, rgba(6, 10, 20, 0.84), rgba(6, 10, 20, 0.68)); }
+.sp-band--lp3::before { background: linear-gradient(180deg, rgba(6, 10, 20, 0.72), rgba(6, 10, 20, 0.58)); }
+.sp-band--lp5 .card { background: rgba(9, 14, 26, 0.5); border: 1px solid rgba(255, 255, 255, 0.2); }
+.sp-band .sp-time__badge { font-size: 14px; padding: 8px 18px; background: var(--gold); color: #10192e; letter-spacing: 0.01em; }
+
+/* #16 — close panel: čitelná urgence (ne mizející zlatá) + lead text */
+.cta-panel__lead { max-width: 60ch; margin: 0 auto 20px; font-size: clamp(17px, 1.9vw, 20px); line-height: 1.6; color: rgba(255, 255, 255, 0.94); }
+.cta-panel .sp-cta-urgency { color: #fff; font-weight: 600; font-size: 15px; max-width: 56ch; margin: 0 auto; padding: 14px 20px; border-radius: var(--radius); background: rgba(6, 10, 20, 0.34); }
+
+/* #17 — Garance: silná karta s pečetí */
+.sp-gbox { display: flex; gap: clamp(24px, 3vw, 40px); align-items: center; background: linear-gradient(135deg, color-mix(in srgb, var(--health-green) 9%, #fff), #fff); border: 1.5px solid color-mix(in srgb, var(--health-green) 32%, transparent); border-radius: 24px; padding: clamp(26px, 4vw, 42px); box-shadow: var(--shadow-md); }
+.sp-gbox__seal { flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; width: 128px; height: 128px; border-radius: 50%; border: 3px solid var(--health-green); color: var(--health-green); font-family: var(--font-head-stack); font-weight: 800; font-size: 12.5px; text-transform: uppercase; letter-spacing: 0.06em; }
+.sp-gbox__seal svg { width: 46px; height: 46px; }
+.sp-gbox__body .eyebrow { color: var(--health-green); }
+.sp-gbox__body h2 { margin: 4px 0 18px; }
+.sp-gbox__list { list-style: none; padding: 0; margin: 0; display: grid; gap: 13px; }
+.sp-gbox__list li { display: flex; gap: 12px; align-items: flex-start; font-size: 16px; color: var(--text); }
+@media (max-width: 640px) {
+  .sp-gbox { flex-direction: column; text-align: center; }
+  .sp-gbox__list { text-align: left; }
+}
+
+/* #13b — recenzní foto-bandy (testimonial + case study): VĚTŠÍ VÝŠKA + pozadí OD VRCHU
+   (aby byl vidět obličej, ne oříznutá hlava jako u „center") */
+.sp-band--lp2, .sp-band--lp4 { min-height: 82vh; background-position: top center; padding: 150px 0; }
+
+/* ---------- Přístupnost: prefers-reduced-motion (fleet standard) ----------
+   Vypne entrance/hover/scroll pohyb u uživatelů, kteří o to požádali.
+   Count-up čísla (AnimatedStat) navíc respektují reduced-motion v JS. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

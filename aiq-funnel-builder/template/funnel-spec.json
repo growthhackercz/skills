@@ -1,0 +1,686 @@
+{
+  "funnel_slug": "aiq-vzorovy-funnel",
+  "product": "Vzorový produkt (příklad)",
+  "client": "Vzorová firma (příklad)",
+  "brand": {
+    "name": "Vzorová firma",
+    "cta_url": "https://priklad-firmy.cz/produkt",
+    "privacy_email": "gdpr@priklad-firmy.cz",
+    "email_footer": "Vzorová firma s.r.o. · Vzorová 1, Praha"
+  },
+  "ghl_location_id": "EXAMPLE_LOCATION_ID",
+  "variant": "audit",
+  "lead_magnet_name": "Test: Jak dobře máte pokryté zálohování?",
+  "mode": "automatizovany_prodej",
+  "contact_position": "end",
+  "note": "UKÁZKOVÝ SPEC — slouží JEN jako schéma. Obsah je smyšlený a záměrně zjevně zástupný, aby ho nešlo omylem nasadit klientovi (viz G14/G18). Nikdy nedeployovat a nikdy z něj neopisovat texty.",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "yesno",
+      "field_id": "EXAMPLE_FIELD_Q1",
+      "field_name": "AIQ - Vzorový test - Zkoušeli jste někdy zálohu opravdu obnov",
+      "text": "Zkoušeli jste někdy zálohu opravdu obnovit?",
+      "options": [
+        "Ano",
+        "Ne"
+      ],
+      "score": {
+        "Ano": 20,
+        "Ne": 0
+      }
+    },
+    {
+      "id": "q2",
+      "type": "yesno",
+      "field_id": "EXAMPLE_FIELD_Q2",
+      "field_name": "AIQ - Vzorový test - Máte kopii dat i mimo vaši kancelář?",
+      "text": "Máte kopii dat i mimo vaši kancelář?",
+      "options": [
+        "Ano",
+        "Ne"
+      ],
+      "score": {
+        "Ano": 20,
+        "Ne": 0
+      }
+    },
+    {
+      "id": "q3",
+      "type": "yesno",
+      "field_id": "EXAMPLE_FIELD_Q3",
+      "field_name": "AIQ - Vzorový test - Víte, kdo zálohy hlídá, když je dotyčný ",
+      "text": "Víte, kdo zálohy hlídá, když je dotyčný na dovolené?",
+      "options": [
+        "Ano",
+        "Ne"
+      ],
+      "score": {
+        "Ano": 20,
+        "Ne": 0
+      }
+    },
+    {
+      "id": "q4",
+      "type": "yesno",
+      "field_id": "EXAMPLE_FIELD_Q4",
+      "field_name": "AIQ - Vzorový test - Máte zapsané, co se dělá, když data zmiz",
+      "text": "Máte zapsané, co se dělá, když data zmizí?",
+      "options": [
+        "Ano",
+        "Ne"
+      ],
+      "score": {
+        "Ano": 20,
+        "Ne": 0
+      }
+    },
+    {
+      "id": "q5",
+      "type": "single",
+      "field_id": "EXAMPLE_FIELD_Q5",
+      "field_name": "AIQ - Vzorový test - Jak dlouho by firma vydržela bez přístup",
+      "text": "Jak dlouho by firma vydržela bez přístupu k datům?",
+      "hint": "Stačí odhad — jde nám o řád, ne o přesné číslo.",
+      "score": {
+        "Pár hodin a nic zásadního se nestane": 20,
+        "Jeden den by nás to zabolelo": 10,
+        "Víc než den by byl vážný problém": 0,
+        "To jsme nikdy neřešili": 0
+      },
+      "options": [
+        "Pár hodin a nic zásadního se nestane",
+        "Jeden den by nás to zabolelo",
+        "Víc než den by byl vážný problém",
+        "To jsme nikdy neřešili"
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "single",
+      "field_id": "EXAMPLE_FIELD_Q6",
+      "field_name": "AIQ - Vzorový test - Co nejlíp popisuje vaši firmu?",
+      "text": "Co nejlíp popisuje vaši firmu?",
+      "options": [
+        "Jsme do 5 lidí",
+        "Máme 5 až 25 lidí",
+        "Máme přes 25 lidí",
+        "Jsme jeden člověk"
+      ]
+    },
+    {
+      "id": "q7",
+      "type": "multi",
+      "field_id": "EXAMPLE_FIELD_Q7",
+      "field_name": "AIQ - Vzorový test - Co chcete kolem dat zlepšit nejdřív?",
+      "text": "Co chcete kolem dat zlepšit nejdřív?",
+      "hint": "Můžete vybrat víc možností.",
+      "options": [
+        "Jistotu funkčních záloh",
+        "Menší závislost na jednom člověku",
+        "Rychlejší obnovu po výpadku",
+        "Přehled o zálohách",
+        "Klid při kontrole nebo auditu"
+      ]
+    },
+    {
+      "id": "q8",
+      "type": "multi",
+      "field_id": "EXAMPLE_FIELD_Q8",
+      "field_name": "AIQ - Vzorový test - Co jste už zkoušeli a nefungovalo?",
+      "text": "Co jste už zkoušeli a nefungovalo?",
+      "hint": "Můžete vybrat víc možností.",
+      "options": [
+        "Zálohovali jsme ručně a přestalo se na to myslet",
+        "Zálohy máme ale nikdo je nekontroluje",
+        "Zkoušeli jsme to řešit interně a nedošlo na to",
+        "Zatím jsme nezkoušeli nic"
+      ]
+    },
+    {
+      "id": "q9",
+      "type": "single",
+      "field_id": "EXAMPLE_FIELD_Q9",
+      "field_name": "AIQ - Vzorový test - Kdy to chcete mít vyřešené?",
+      "text": "Kdy to chcete mít vyřešené?",
+      "options": [
+        "Hoří to a chci to hned",
+        "Do pár měsíců",
+        "Letos",
+        "Zatím to jen zjišťuji"
+      ]
+    },
+    {
+      "id": "q10",
+      "type": "single",
+      "field_id": "EXAMPLE_FIELD_Q10",
+      "field_name": "AIQ - Vzorový test - Jaké řešení by vám sedělo?",
+      "text": "Jaké řešení by vám sedělo?",
+      "options": [
+        "Nejdřív chci pochopit jak zálohování funguje",
+        "Chci ověřit jestli se řešení hodí pro nás",
+        "Chci řešení i s nastavením a průběžnou kontrolou",
+        "Chci vidět nabídku včetně ceny"
+      ]
+    },
+    {
+      "id": "q11",
+      "type": "textarea",
+      "field_id": "EXAMPLE_FIELD_Q11",
+      "field_name": "AIQ - Vzorový test - Je něco dalšího, co bychom měli vědět?",
+      "text": "Je něco dalšího, co bychom měli vědět?",
+      "hint": "Nepovinné."
+    }
+  ],
+  "consent_field_id": "EXAMPLE_FIELD_CONSENT",
+  "scoring_bands": [
+    {
+      "min": 80,
+      "max": 100,
+      "category": "dobre_pokryti",
+      "label": "dobré pokrytí",
+      "action": "prime_doporuceni"
+    },
+    {
+      "min": 40,
+      "max": 79,
+      "category": "castecne_pokryti",
+      "label": "částečné pokrytí",
+      "action": "edukace_a_overeni"
+    },
+    {
+      "min": 0,
+      "max": 39,
+      "category": "slabe_pokryti",
+      "label": "slabé pokrytí",
+      "action": "klidna_kontrola"
+    }
+  ],
+  "segments": [
+    {
+      "key": "male_firmy",
+      "trigger": {
+        "q": "q6",
+        "equals": "Jsme do 5 lidí"
+      },
+      "headline": "Malé firmy to řeší nejčastěji až po první ztrátě",
+      "proof": "U firem do pěti lidí visí zálohy typicky na jednom člověku. Stačí, aby byl týden mimo, a nikdo neví, jestli něco běží."
+    },
+    {
+      "key": "stredni_firmy",
+      "trigger": {
+        "q": "q6",
+        "equals": "Máme 5 až 25 lidí"
+      },
+      "headline": "Ve vaší velikosti bývá problém přehled, ne technika",
+      "proof": "Zálohy většinou existují. Chybí ale odpověď na otázku, co přesně se zálohuje a kdy to naposledy někdo ověřil."
+    },
+    {
+      "key": "vetsi_firmy",
+      "trigger": {
+        "q": "q6",
+        "equals": "Máme přes 25 lidí"
+      },
+      "headline": "Nad 25 lidí už jde o proces, ne o nástroj",
+      "proof": "Ve firmách této velikosti bývá zálohování formálně vyřešené, ale obnova se netestuje — a to se pozná až v nejhorší chvíli."
+    },
+    {
+      "key": "jednotlivci",
+      "trigger": {
+        "q": "q6",
+        "equals": "Jsme jeden člověk"
+      },
+      "headline": "U jednoho člověka je záloha pojistka na živobytí",
+      "proof": "Když pracujete sami, výpadek dat neznamená komplikaci, ale přerušení příjmu."
+    }
+  ],
+  "personalization_vars": [
+    "first_name",
+    "score",
+    "score_category",
+    "top_pain",
+    "recommended_variant",
+    "segment_headline",
+    "segment_proof",
+    "cta_offer"
+  ],
+  "derived_field_ids": {
+    "comment": "Doplní builder při setupu (additivní GHL pole pro skóre a segment). null = nezapisuje se, dopočítá se z odpovědí.",
+    "score": null,
+    "segment": null
+  },
+  "offer": {
+    "product": "Vzorový produkt (příklad)",
+    "usp": "Automatické zálohování s kopií mimo kancelář, pravidelným testem obnovy a měsíčním přehledem o stavu záloh.",
+    "guarantee": "Nastavení provede Vzorová firma; první test obnovy proběhne společně s vámi.",
+    "price_note": "Vzorové údaje — v reálném specu VŽDY z productDNA klienta, nikdy vymyšlené.",
+    "variants": [
+      "Vzorová varianta A",
+      "Vzorová varianta B"
+    ]
+  },
+  "landing": {
+    "hero_headline": "[hero hook — dilema cílovky, ne výčet vlastností]",
+    "hero_sub": "[podnadpis → pošli do kvízu]",
+    "areas": [
+      {
+        "title": "[měřená oblast 1]",
+        "desc": "[1 věta]"
+      },
+      {
+        "title": "[měřená oblast 2]",
+        "desc": "[1 věta]"
+      },
+      {
+        "title": "[měřená oblast 3]",
+        "desc": "[1 věta]"
+      }
+    ],
+    "authority": "[kredibilita — kdo to postavil a proč mu věřit]",
+    "cta": "[text tlačítka, např. Získat zdarma…]"
+  },
+  "sales": {
+    "social_proof": {
+      "rating": 4.9,
+      "count": 0,
+      "text": "1 240 hodnocení"
+    },
+    "authority_stats": [
+      {
+        "value": "15 let",
+        "label": "zkušeností"
+      },
+      {
+        "value": "60 zemí",
+        "label": "na 5 kontinentech"
+      },
+      {
+        "value": "10 000",
+        "label": "zákazníků"
+      }
+    ],
+    "steps": [
+      {
+        "title": "[krok 1]",
+        "text": "[1 věta]"
+      }
+    ],
+    "components": [
+      {
+        "title": "[vlastnost]",
+        "desc": "[1 věta]",
+        "img": "/img/sp-comp1.jpg",
+        "icon": "check"
+      }
+    ],
+    "stack_items": [
+      "[co klient reálně získá 1]",
+      "[co získá 2]"
+    ],
+    "offer_image": "/img/sp-c1.jpg",
+    "price": {
+      "orig": "",
+      "now": "",
+      "save": "",
+      "note": ""
+    },
+    "proof_intro": "[věta nad proof čísly — NEfabrikuj počty]",
+    "guarantee_aha": [
+      "[garance 1]"
+    ],
+    "urgency": "[jen reálná urgence, nebo vynech]",
+    "closing_line": "[závěrečný band, volitelné]",
+    "faq": [
+      {
+        "q": "[otázka]",
+        "a": "[odpověď]"
+      }
+    ]
+  },
+  "mechanisms": {
+    "by_pain": {
+      "Jistotu funkčních záloh": {
+        "title": "Na jistotu: pravidelný test obnovy",
+        "text": "Obnova se testuje sama v pravidelném intervalu. Nezjišťujete až v krizi, jestli záloha byla použitelná."
+      },
+      "Menší závislost na jednom člověku": {
+        "title": "Na závislost: zálohování běží bez hlídání",
+        "text": "Proces běží automaticky a hlásí se sám. Nestojí na tom, jestli si někdo vzpomene."
+      },
+      "Rychlejší obnovu po výpadku": {
+        "title": "Na rychlost: kopie mimo kancelář",
+        "text": "Druhá kopie leží mimo vaši budovu, takže obnova nezávisí na tom, co se stalo s technikou u vás."
+      },
+      "Přehled o zálohách": {
+        "title": "Na přehled: měsíční souhrn stavu",
+        "text": "Jednou měsíčně dostanete přehled, co je zálohované a kdy proběhl poslední test. Nemusíte se ptát."
+      }
+    },
+    "default": [
+      {
+        "title": "Zálohování běží průběžně, ne nárazově",
+        "text": "Proces pracuje pravidelně a hlásí se sám — nečeká, až si někdo vzpomene."
+      },
+      {
+        "title": "Stav hlídá systém, ne vy",
+        "text": "Test obnovy i přehled chodí automaticky, takže se nespoléhá na paměť konkrétního člověka."
+      }
+    ]
+  },
+  "design_tokens": {
+    "source": "Příklad — neutrální prémiový light theme; reálný funnel přebírá barvy z brand DNA klienta",
+    "primary": "#1B2A4A",
+    "accent": "#006799",
+    "gold": "#C5A55A",
+    "tertiary": "#4A7C59",
+    "bg": "#FFFFFF",
+    "surface": "#F5F5F5",
+    "text": "#333333",
+    "text_soft": "#666666",
+    "radius": "10px",
+    "font_head": "Montserrat",
+    "font_body": "Open Sans"
+  },
+  "visuals": {
+    "hero_query": "small business team working in a bright modern office",
+    "process_query": "person reviewing documents at a desk, calm and focused",
+    "mood": "klidný, profesionální, důvěryhodný"
+  },
+  "spec_version": "0.5",
+  "personalization_mode": "sync",
+  "pilot_mode": {
+    "enabled": false,
+    "note": "Vypnuto — e-maily odchází rovnou reálným kontaktům. Zapnout lze enabled:true (prefixuje předměty [PILOT])."
+  },
+  "main_result": {
+    "type": "score",
+    "label": "Jak dobře máte pokryté zálohování",
+    "unit": "/100",
+    "meaning": {
+      "dobre_pokryti": "Základy máte v pořádku. Další krok není tlak na změnu, ale ověření, jestli to vydrží i ve chvíli, kdy bude zle.",
+      "castecne_pokryti": "Něco funguje, ale objevují se mezery — typicky se zálohy nekontrolují nebo visí na jednom člověku.",
+      "slabe_pokryti": "Odpovědi ukazují víc mezer najednou. Neznamená to, že musíte hned nakupovat. Znamená to, že se vyplatí udělat si jasno dřív, než na to přijdete za provozu."
+    }
+  },
+  "temperature_rules": {
+    "source": "urgency_budget",
+    "question": "q10",
+    "hot": [
+      "Chci vidět nabídku včetně ceny",
+      "Chci řešení i s nastavením a průběžnou kontrolou"
+    ],
+    "warm": [
+      "Chci ověřit jestli se řešení hodí pro nás"
+    ],
+    "hot_min": 80,
+    "warm_min": 40,
+    "note": "Teplota z otázky na preferované řešení (signál rozpočtu), NE ze skóre. Kdo má zálohy v pořádku, je spokojený a nekupuje. hot_min/warm_min zůstávají jen jako pojistka, kdyby q10 chyběla."
+  },
+  "cta_routes": {
+    "Nejdřív chci pochopit jak zálohování funguje": {
+      "cta": "Zobrazit stručný přehled",
+      "type": "soft",
+      "variant": ""
+    },
+    "Chci ověřit jestli se řešení hodí pro nás": {
+      "cta": "Domluvit nezávaznou konzultaci",
+      "type": "consult",
+      "variant": ""
+    },
+    "Chci řešení i s nastavením a průběžnou kontrolou": {
+      "cta": "Domluvit nastavení",
+      "type": "consult",
+      "variant": "Vzorová varianta B"
+    },
+    "Chci vidět nabídku včetně ceny": {
+      "cta": "Zobrazit nabídku",
+      "type": "order",
+      "variant": "Vzorová varianta A"
+    },
+    "_default": {
+      "cta": "Zobrazit doporučení",
+      "type": "soft",
+      "variant": ""
+    }
+  },
+  "urgency_source": "none",
+  "magnet_structure": [
+    {
+      "block": 1,
+      "key": "main_result",
+      "title": "Jak dobře máte pokryté zálohování",
+      "render": "main_result"
+    },
+    {
+      "block": 2,
+      "key": "rozbor",
+      "title": "Co vaše odpovědi říkají",
+      "render": "text",
+      "persona_field": "magnet_rozbor",
+      "instruction": "2–3 odstavce: co říká KOMBINACE odpovědí o stavu záloh — souvislosti mezi tím, jak dnes zálohují, kdo to hlídá a jak dlouho by firma vydržela bez dat. Bez strašení."
+    },
+    {
+      "block": 3,
+      "key": "dobre",
+      "title": "Co už máte nastavené dobře",
+      "render": "text",
+      "persona_field": "magnet_dobre",
+      "instruction": "1–2 odstavce: co firma kolem dat dělá dobře, konkrétně podle odpovědí — pozitivní validace, snižuje obranu."
+    },
+    {
+      "block": 4,
+      "key": "rizika",
+      "title": "Kde vzniká největší riziko",
+      "render": "text",
+      "persona_field": "magnet_rizika",
+      "instruction": "1–2 odstavce: hlavní rezervy a jejich praktické dopady (výpadek, ztráta dat), konkrétně, bez strašení."
+    },
+    {
+      "block": 5,
+      "key": "akce",
+      "title": "Co můžete udělat hned, i bez nákupu",
+      "render": "steps",
+      "persona_field": "magnet_akce",
+      "instruction": "3–5 očíslovaných kroků (1. … 2. …), co může firma udělat hned; aspoň část nezávislá na nákupu čehokoli."
+    },
+    {
+      "block": 6,
+      "key": "recenze",
+      "title": "Co říkají ostatní",
+      "render": "reviews"
+    },
+    {
+      "block": 7,
+      "key": "predpis_teaser",
+      "title": "Jaké řešení by dávalo smysl ověřit",
+      "render": "openloop",
+      "persona_field": "predpis_config",
+      "instruction": "open loop: 2–3 věty, že pro jejich situaci existuje konkrétní konfigurace — NEPROZRAZUJ detaily, jen naznač; detail najdou v doporučení na míru."
+    },
+    {
+      "block": 8,
+      "key": "cta",
+      "title": "Doporučený další krok",
+      "render": "cta"
+    }
+  ],
+  "magnet_middle": [
+    {
+      "key": "situace",
+      "subtitle": "Souvislosti",
+      "title": "Jak to u vás zapadá dohromady",
+      "render": "text",
+      "persona_field": "magnet_rozbor",
+      "instruction": "3–4 krátké odstavce propojující konkrétní odpovědi do souvislostí. Bez technických specifikací produktu a bez opakování dalších bloků."
+    },
+    {
+      "key": "prostor",
+      "subtitle": "Pod lupou",
+      "title": "Kde je u vás největší prostor",
+      "render": "cards",
+      "persona_field": "magnet_prostor",
+      "instruction": "Tři analytické karty oddělené prázdným řádkem ve formátu **Nadpis** popis. Každá karta musí vycházet z odpovědí a nesmí radit konkrétní nákup."
+    },
+    {
+      "key": "rizika",
+      "subtitle": "Na co pozor",
+      "title": "Vaše hlavní rizika",
+      "render": "text",
+      "persona_field": "magnet_rizika",
+      "instruction": "2–3 krátké odstavce o nejdůležitějších praktických rizicích. Věcně, bez strašení a bez prodejního CTA."
+    }
+  ],
+  "persona_fields": [
+    "main_headline",
+    "magnet_headline",
+    "sub_headline",
+    "problem1_question",
+    "problem1_impact",
+    "problem1_source",
+    "problem2_question",
+    "problem2_impact",
+    "problem2_source",
+    "problem3_question",
+    "problem3_impact",
+    "problem3_source",
+    "benefit_1_title",
+    "benefit_1_description",
+    "benefit_2_title",
+    "benefit_2_description",
+    "benefit_3_title",
+    "benefit_3_description",
+    "objection_1_title",
+    "objection_1_response",
+    "objection_2_title",
+    "objection_2_response",
+    "magnet_rozbor",
+    "magnet_dobre",
+    "magnet_rizika",
+    "magnet_akce",
+    "predpis_config",
+    "souhrn_ted",
+    "souhrn_chci",
+    "pointa",
+    "nalehavost",
+    "obraz_potom",
+    "magnet_prostor"
+  ],
+  "email_branches": {
+    "delivery": "GHL scheduled messages (scheduledTimestamp v SEKUNDÁCH), cancel: DELETE /conversations/messages/email/{id}/schedule",
+    "envelope": "pevná: patička s odhlášením řeší GHL sub-account automaticky; reply-to + identifikace odesílatele v šabloně obálky; LLM generuje jen tělo",
+    "lint": [
+      "ceny/garance jen z offer whitelistu",
+      "URL jen /online/ a /magnet/ na doméně funnelu",
+      "žádná vymyšlená čísla",
+      "vykání",
+      "oslovení z vokativ tabulky, ne LLM"
+    ],
+    "hot": [
+      {
+        "id": "E1",
+        "day": 1,
+        "goal": "diagnóza→předpis + /online/ link"
+      },
+      {
+        "id": "E2",
+        "day": 2,
+        "goal": "segment důkaz + jeho hlavní námitka"
+      },
+      {
+        "id": "E3",
+        "day": 4,
+        "goal": "osobní výzva (bez fake urgence — urgency_source=none)"
+      }
+    ],
+    "warm": [
+      {
+        "id": "E1",
+        "day": 1,
+        "goal": "čistá hodnota — personalizovaný tip, žádný prodej"
+      },
+      {
+        "id": "E2",
+        "day": 2,
+        "goal": "diagnóza→předpis + /online/"
+      },
+      {
+        "id": "E3",
+        "day": 3,
+        "goal": "segment case"
+      },
+      {
+        "id": "E4",
+        "day": 4,
+        "goal": "námitky + garance"
+      },
+      {
+        "id": "E5",
+        "day": 5,
+        "goal": "shrnutí + soft close"
+      }
+    ],
+    "cold": [
+      {
+        "id": "E1",
+        "day": 2,
+        "goal": "value tip"
+      },
+      {
+        "id": "E2",
+        "day": 4,
+        "goal": "edukace"
+      },
+      {
+        "id": "E3",
+        "day": 7,
+        "goal": "jsme tu, soft"
+      }
+    ]
+  },
+  "ops": {
+    "hot_lead": "GHL task na kontaktu + tag [prefix] - hot lead (SMS/notifikace klientovi = doplní tester onboarding)",
+    "reply_to": null,
+    "tag_prefix": "AIQ - Zálohování"
+  },
+  "consent_text": "Souhlasím se zpracováním odpovědí pro vytvoření personalizované analýzy — viz",
+  "reviews": [
+    {
+      "name": "Martin",
+      "meta": "jednatel, 8 lidí",
+      "text": "Test nám za pár minut ukázal, že zálohy sice máme, ale nikdy jsme je nezkoušeli obnovit. To byl budíček.",
+      "rating": 5
+    },
+    {
+      "name": "Petra",
+      "meta": "účetní kancelář",
+      "text": "Ocenila jsem, že to netlačilo do koupě, jen věcně řeklo, kde máme slabinu.",
+      "rating": 5
+    },
+    {
+      "name": "Jakub",
+      "meta": "e-shop",
+      "text": "Konečně jsem měl přehled na jednom místě a věděl, co řešit první.",
+      "rating": 5
+    }
+  ],
+  "funnel_reviews": [
+    {
+      "name": "Martin",
+      "meta": "jednatel",
+      "text": "Za dvě minuty jsem věděl, kde máme slabinu. Žádné dlouhé dotazníky.",
+      "rating": 5
+    },
+    {
+      "name": "Petra",
+      "meta": "účetní",
+      "text": "Rychlé a hlavně k věci. Výsledek dával smysl hned.",
+      "rating": 5
+    },
+    {
+      "name": "Jakub",
+      "meta": "e-shop",
+      "text": "Konečně test, co netlačí do koupě, ale poradí.",
+      "rating": 5
+    }
+  ]
+}

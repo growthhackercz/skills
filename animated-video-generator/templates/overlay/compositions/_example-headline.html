@@ -1,0 +1,54 @@
+<!doctype html>
+<!-- VZOR text vrstvy. Zkopíruj, přejmenuj composition-id + soubor, uprav text/pozici/časování.
+     Ukazuje: Manrope (latin+latin-ext), transparentní bg, per-písmeno elastická kinetika + squash&stretch,
+     nbsp mezery, fade-out na konci. composition-id MUSÍ sedět s data-composition-id v index.html. -->
+<html lang="cs">
+  <head><meta charset="UTF-8" /></head>
+  <body>
+    <div data-composition-id="headline" data-width="1280" data-height="720">
+      <style>
+        /* latin-ext PRVNÍ — háčky ř ž č ě ů ň leží tady; bez něj zmizí jen háčkovaná písmena */
+        @font-face{font-family:'Manrope';font-style:normal;font-weight:200 900;font-display:block;
+          src:url('../assets/vendor/fonts/manrope-latin-ext.woff2') format('woff2');
+          unicode-range:U+0100-024F,U+0259,U+1E00-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;}
+        @font-face{font-family:'Manrope';font-style:normal;font-weight:200 900;font-display:block;
+          src:url('../assets/vendor/fonts/manrope-latin.woff2') format('woff2');
+          unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+        [data-composition-id="headline"]{position:absolute;inset:0;overflow:hidden;background:transparent;font-family:'Manrope',sans-serif;}
+        [data-composition-id="headline"] .scrim{position:absolute;left:0;right:0;bottom:0;height:52%;opacity:0;
+          background:linear-gradient(to top,rgba(4,11,28,0.80) 0%,rgba(4,11,28,0.35) 45%,rgba(4,11,28,0) 100%);}
+        [data-composition-id="headline"] .hl{position:absolute;left:0;right:0;bottom:74px;text-align:center;padding:0 80px;}
+        [data-composition-id="headline"] #hd{font-size:96px;font-weight:900;letter-spacing:-2.5px;line-height:1.0;}
+        [data-composition-id="headline"] #hd .ch{display:inline-block;will-change:transform,opacity,filter;
+          background:linear-gradient(100deg,#43B4FF,#16C7D6);-webkit-background-clip:text;background-clip:text;
+          -webkit-text-fill-color:transparent;color:transparent;filter:drop-shadow(0 6px 24px rgba(20,120,210,0.45));}
+      </style>
+      <div class="cam">
+        <div class="scrim"></div>
+        <div class="hl"><div id="hd"></div></div>
+      </div>
+      <script src="../assets/vendor/gsap.min.js"></script>
+      <script>
+        window.__timelines = window.__timelines || {};
+        (function(){
+          var tl = gsap.timeline({paused:true});
+          var NBSP = String.fromCharCode(160);           // mezera jako nbsp — jinak se v inline-block sbalí na nulu
+          var txt = "Co kdybyste měli celý tým?";        // <-- TVŮJ TEXT
+          var host = document.getElementById("hd"), chs = [];
+          for (var i=0;i<txt.length;i++){ var s=document.createElement("span"); s.className="ch";
+            s.textContent = (txt.charAt(i)===" "?NBSP:txt.charAt(i)); host.appendChild(s); chs.push(s); }
+          tl.fromTo(document.querySelector("[data-composition-id='headline'] .scrim"),{opacity:0},{opacity:1,duration:0.5,ease:"power2.out"},0);
+          // per-písmeno elastický pop se squash&stretch
+          tl.fromTo(chs,{opacity:0,y:74,scaleY:0.4,scaleX:1.25,rotation:-6,filter:"blur(10px)"},
+                        {opacity:1,y:0,scaleY:1,scaleX:1,rotation:0,filter:"blur(0px)",
+                         duration:0.85,ease:"elastic.out(1,0.55)",stagger:0.05},0.3);
+          tl.to(host,{y:-6,duration:2.2,ease:"sine.inOut"},1.1);
+          tl.to(document.querySelector("[data-composition-id='headline'] .cam"),{opacity:0,duration:0.55,ease:"power2.in"},3.5);
+          // POZN: u prvků s viditelným "from" (opacity>0, např. burst ring) dej immediateRender:false,
+          //       jinak se ukážou hned při mountu comp.
+          window.__timelines["headline"] = tl;
+        })();
+      </script>
+    </div>
+  </body>
+</html>

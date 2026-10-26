@@ -1,0 +1,88 @@
+{
+  "contractVersion": 1,
+  "taskCheckpoints": {
+    "site-draft-package": {
+      "requires": [
+        {
+          "file": "/documents/sites/{slug}/package.json"
+        },
+        {
+          "fileContains": {
+            "path": "/documents/sites/{slug}/package.json",
+            "contains": "\"skillVersion\": \"1.3.4\""
+          }
+        },
+        {
+          "file": "/documents/sites/{slug}/webDNA.md"
+        },
+        {
+          "fileContains": {
+            "path": "/documents/sites/{slug}/webDNA.md",
+            "contains": "skillVersion: \"1.3.4\""
+          }
+        },
+        {
+          "file": "/documents/sites/{slug}/COPY.md"
+        },
+        {
+          "fileContains": {
+            "path": "/documents/sites/{slug}/COPY.md",
+            "contains": "skillVersion: \"1.3.4\""
+          }
+        },
+        {
+          "fileContains": {
+            "path": "/documents/sites/{slug}/COPY.md",
+            "contains": "outputLanguage:"
+          }
+        },
+        {
+          "file": "/documents/sites/{slug}/out/index.html"
+        },
+        {
+          "file": "/documents/sites/{slug}/qa-evidence/report.json"
+        },
+        {
+          "fileContains": {
+            "path": "/documents/sites/{slug}/qa-evidence/report.json",
+            "contains": "\"skillVersion\": \"1.3.4\""
+          }
+        },
+        {
+          "glob": "/documents/sites/{slug}/qa-evidence/*.png",
+          "min": 2
+        },
+        {
+          "fileContains": {
+            "path": "/documents/sites/{slug}/.netlify-state.json",
+            "contains": "\"skillVersion\": \"1.3.4\""
+          }
+        },
+        {
+          "fileContains": {
+            "path": "/documents/sites/{slug}/.netlify-state.json",
+            "contains": "\"stateVersion\": 2"
+          }
+        },
+        {
+          "fileContains": {
+            "path": "/documents/sites/{slug}/.netlify-state.json",
+            "contains": "\"siteId\": \""
+          }
+        },
+        {
+          "fileContains": {
+            "path": "/documents/sites/{slug}/.netlify-state.json",
+            "contains": "\"draftUrl\": \"https://"
+          }
+        },
+        {
+          "fileContains": {
+            "path": "/documents/sites/{slug}/.netlify-state.json",
+            "contains": "\"draftDeployId\": \""
+          }
+        }
+      ]
+    }
+  }
+}

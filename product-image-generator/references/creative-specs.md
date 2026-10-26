@@ -1,43 +1,54 @@
-# Creative Specs
+# Product Carousel — Creative Specs
 
-## Default Output
+## Cílový formát
 
-- Format: JPEG
-- Size: 1024 x 1024 px
-- Aspect ratio: 1:1
-- Quality: medium for generation, high for final review when supported
-- Optional upscale: 2000 x 2000 px into `carousel/2000/`
+PDP / e-shop carousel fotky se generují jako **čtverec 1:1** (standard pro produktové carousel na Shopify i většině e-shopů, dobře se ořezává na mobilu).
 
-## Required Files
+| Vlastnost | Hodnota |
+|---|---|
+| Poměr stran | `1:1` |
+| Generovaný rozměr | `1024x1024` |
+| Format | JPEG, `quality: medium` |
+| Upscale (volitelný) | `2000x2000` přes `scripts/upscale.py` |
 
-Each finished carousel folder should contain:
-- `01-hero.jpg`
-- `02-nabidka.jpg`
-- `03-social-proof.jpg`
-- `04-detail.jpg`
-- `05-pred-po.jpg`
-- `06-lifestyle.jpg`
-- `carousel-manifest.json`
+## Proč 1024² a ne rovnou 2000²
 
-Subsets are allowed when the user explicitly asks for only selected card types. The manifest must reflect the actual generated subset.
+`image_generate` (GPT image 2) spolehlivě drží jen `1:1`, `9:16`, `16:9` a kolem 1024 px. Větší PNG/high výstupy (např. `2048x2048`) často skončí na `Media exceeds 5MB limit` ještě před uložením souboru. Proto:
 
-## Quality Checklist
+- **Default = `1024x1024` JPEG medium** — spolehlivě projde a vypadá dobře.
+- **2000×2000 jen jako post-krok** (upscale z hotových 1024²), pokud klient chce plnou Shopify velikost pro ostrý zoom na PDP.
 
-Before marking the set done:
-- Every file exists and is a bitmap image.
-- All generated images have identical dimensions.
-- All generated images are exactly 1:1.
-- The product remains faithful to the input product photo.
-- No copied logo, wordmark, watermark, or corner brand mark appears unless it is physically printed on the product.
-- Visible text is in the target language.
-- Card 05 is a vertical 50/50 before-after split, with product only on the after side.
-- Card 04 shows real visual detail, components, or material/feature objects, not just a text list.
-- Cards do not repeat the same person, family, headline, benefit angle, footer, or callout layout.
+Po každém generování ověř **skutečné pixely** přes `scripts/validate_carousel.py` — `image_generate` může poměr nahradit nejbližším nativním výstupem.
 
-## Manifest Notes
+## Konzistence sady (klíčové pro carousel)
 
-`actualWidth` and `actualHeight` must match the real pixel dimensions. Do not guess. Use the validation helper before reporting completion.
+Carousel působí jako jedna kampaň jen když je celá sada vizuálně sladěná:
 
-## Upscale Notes
+- **Stejné rozměry** napříč všemi 6 obrázky (validátor to kontroluje a selže, pokud se liší).
+- **Stejné světlo / grading / pozadí** — drženo přes schválený hero jako style anchor (2. reference u typů 2–6).
+- **Stejná fotka produktu** jako 1. reference ve všech voláních → produkt je všude identický.
 
-Upscale is optional and should be offered after approval of the 1024 px set. The helper keeps originals in place and writes enlarged copies into `carousel/2000/`.
+## Reference images (pořadí)
+
+Max 3 na volání:
+1. **Fotka produktu** (vždy) — věrnost produktu.
+2. **Schválený hero** `01-hero.jpg` (typy 2–6) — style anchor. U pilotního hera místo něj brand-board.
+3. **Brand-board** (pokud existuje) — vizuální jazyk značky.
+
+Reference předávej **runtime cestou** `/home/node/documents/...`, výstup ukládej do `/documents/...`.
+
+## Quality checklist
+
+- [ ] Soubor existuje a není prázdný.
+- [ ] Format je bitmapa (`jpg`/`jpeg`/`png`/`webp`), ne SVG.
+- [ ] Poměr je `1:1` (tolerance ±1,5 %).
+- [ ] Všech 6 obrázků má stejné rozměry (konzistence sady).
+- [ ] Produkt na fotce odpovídá reálnému produktu (věrnost, ne smyšlený tvar/logo).
+- [ ] U typu „Nabídka" je text krátký, čitelný na mobilu a správně napsaný v jazyce trhu.
+- [ ] U ostatních typů není nechtěný text, watermark ani pseudo-logo.
+- [ ] Žádné fake-looking AI ruce/obličeje, žádný clutter.
+- [ ] Manifest obsahuje skutečné rozměry (`actualWidth`, `actualHeight`, `actualAspectRatio`).
+
+## Cost orientačně (k 2026)
+
+`image_generate` 1024² ≈ nízké jednotky centů / obrázek. Plná sada 6 typů = ~6 volání. Regenerace jednotlivého typu = +1 volání. Pilot-first (krok 4) šetří kredity — nepálí celou sadu, dokud klient neschválí styl na pilotním heru.

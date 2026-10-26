@@ -1,0 +1,1775 @@
+{
+ "meta": {
+  "skill": "ad-scout",
+  "vystup": "viral-ad-board",
+  "tema": "AI agenti pro firmy",
+  "trh": "CZ",
+  "sken": "2026-07-10"
+ },
+ "synteza": [
+  {
+   "icon": "i-eye",
+   "color": "hsl(203 100% 62%)",
+   "html": "<b>Trh platí za produktivitu.</b> ClickUp: 132 dní beze změny, 844 tis. dosah EU. Nejpřeplněnější úhel — ale důkaz, že bolest „utopení v rutině“ prodává."
+  },
+  {
+   "icon": "i-fb",
+   "color": "hsl(221 92% 68%)",
+   "html": "<b>CZ prodává AI zaměstnance po jednom.</b> Účetní Billy, recepční MissCall, support CodeRabbit. <b>Nikdo neinzeruje celý AI tým</b> — náš úhel je volný."
+  },
+  {
+   "icon": "i-fire",
+   "color": "hsl(350 86% 68%)",
+   "html": "<b>Publikum silně reaguje na FOMO.</b> „AI agenti berou práci“ má 50 tis. zhlédnutí a ER 2,2 % — a v reklamách ho nikdo nejede."
+  },
+  {
+   "icon": "i-heart",
+   "color": "hsl(168 75% 56%)",
+   "html": "<b>Návody a use-case táhnou.</b> „Chtěl jsem web, napsal jsem AI“ má 293 tis. zhlédnutí na TikToku. Trh chce „jak na to“."
+  },
+  {
+   "icon": "i-clk",
+   "color": "hsl(38 92% 62%)",
+   "html": "<b>Vytrvalost malých = ověřené úhly.</b> MissCall běží 87 dní — AI recepční konvertuje. Roli potvrzuje i Granton (8 variant Billyho)."
+  },
+  {
+   "icon": "i-tgt",
+   "color": "hsl(205 100% 60%)",
+   "html": "<b>Doporučení:</b> kampaň „celý AI tým, ne jeden agent“ + FOMO úhel, formát podcast/scénka. Hook: „Zatímco vy čtete inzeráty, konkurence už najala celý AI tým.“"
+  }
+ ],
+ "hooky": [
+  {
+   "cz": "Většina týmů se topí v rutinní práci.",
+   "orig": "Most teams are drowning in busywork.",
+   "vzorec": "obraz bolesti (metafora)",
+   "color": "hsl(203 100% 60%)",
+   "why": "Čtenář se pozná v jedné větě — topí se v úkolech. Žádný produkt, jen zrcadlo.",
+   "kdo": "ClickUp",
+   "val": "132 dní · 844 tis. EU"
+  },
+  {
+   "cz": "Všichni o AI agentech mluví. Skoro nikdo si žádného nepostavil.",
+   "orig": "Everyone's talking about AI agents.",
+   "vzorec": "napětí mluvit × dělat",
+   "color": "hsl(350 86% 65%)",
+   "why": "Vyčlení čtenáře z davu „mluvičů“ a nabídne přeskočit rovnou k činu.",
+   "kdo": "CodeWords AI",
+   "val": "80 dní · 105 tis. EU"
+  },
+  {
+   "cz": "Do vaší podpory právě nastoupil inženýr.",
+   "orig": "Your support inbox just got an engineer.",
+   "vzorec": "personifikace",
+   "color": "hsl(221 92% 65%)",
+   "why": "Agent podaný jako nový kolega, ne software — mozek si představí člověka.",
+   "kdo": "CodeRabbit",
+   "val": "49 dní · 196 tis. EU"
+  },
+  {
+   "cz": "Už vás nebaví probírat se šanony?",
+   "orig": null,
+   "vzorec": "otázka na bolest",
+   "color": "hsl(38 92% 60%)",
+   "why": "Otázka, na kterou cílovka kývne dřív, než dočte. Souhlas = pozornost.",
+   "kdo": "Granton (Billy)",
+   "val": "83 dní · 8 variant"
+  },
+  {
+   "cz": "Tohle není jen diktafon. Tohle je AI asistent.",
+   "orig": null,
+   "vzorec": "kontrast není jen X, je Y",
+   "color": "hsl(168 75% 52%)",
+   "why": "Recategorizace produktu — z komodity dělá novou kategorii.",
+   "kdo": "Plaud CZ/SK",
+   "val": "55 dní · 130 tis. EU"
+  }
+ ],
+ "pokryti": {
+  "reklamy_relevantni": 40,
+  "inzerentu": 18,
+  "search": 8,
+  "viralni_kusu": 35,
+  "viral_cz": 35,
+  "viral_global": 0,
+  "median_behu": 43
+ },
+ "reklamy": [
+  {
+   "poradi": 1,
+   "inzerent": "ClickUp",
+   "site": [
+    "facebook",
+    "instagram"
+   ],
+   "score": 89,
+   "dosah_eu": 843842,
+   "dni": 132,
+   "varianty": 3,
+   "url": "https://www.facebook.com/ads/library/?id=4460388037527126",
+   "nm": "Většina týmů se topí v rutinní práci.",
+   "orig": "Most teams are drowning in busywork.",
+   "uhel": "produktivita / úspora času",
+   "aw": "solution-aware",
+   "why": [
+    "132 dní beze změny + 844 tis. EU = nejvalidovanější reklama",
+    "Úhel produktivita — nejpřeplněnější prostor mapy",
+    "Bolest „utopení v rutině“ prokazatelně prodává"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/ad-clickup-0.jpg",
+   "media": "video",
+   "video_url": "https://www.w3schools.com/html/mov_bbb.mp4"
+  },
+  {
+   "poradi": 2,
+   "inzerent": "ClickUp",
+   "site": [
+    "facebook",
+    "instagram"
+   ],
+   "score": 87,
+   "dosah_eu": 501375,
+   "dni": 132,
+   "varianty": 3,
+   "url": "https://www.facebook.com/ads/library/?id=25905086615808170",
+   "nm": "Většina týmů se topí v rutinní práci.",
+   "orig": "Most teams are drowning in busywork.",
+   "uhel": "AI tvorba obsahu",
+   "aw": "solution-aware",
+   "why": [
+    "132 dní beze změny + 844 tis. EU = nejvalidovanější reklama",
+    "Úhel produktivita — nejpřeplněnější prostor mapy",
+    "Bolest „utopení v rutině“ prokazatelně prodává"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/ad-clickup-1.jpg",
+   "media": "video",
+   "video_url": "https://www.w3schools.com/html/mov_bbb.mp4"
+  },
+  {
+   "poradi": 3,
+   "inzerent": "ClickUp",
+   "site": [
+    "facebook",
+    "instagram"
+   ],
+   "score": 86,
+   "dosah_eu": 247081,
+   "dni": 140,
+   "varianty": 3,
+   "url": "https://www.facebook.com/ads/library/?id=1614188196246072",
+   "nm": "Většina týmů se topí v rutinní práci.",
+   "orig": "Most teams are drowning in busywork.",
+   "uhel": "produktivita / úspora času",
+   "aw": "solution-aware",
+   "why": [
+    "132 dní beze změny + 844 tis. EU = nejvalidovanější reklama",
+    "Úhel produktivita — nejpřeplněnější prostor mapy",
+    "Bolest „utopení v rutině“ prokazatelně prodává"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/ad-clickup-2.jpg",
+   "media": "video",
+   "video_url": null
+  },
+  {
+   "poradi": 4,
+   "inzerent": "TygoTec",
+   "site": [
+    "facebook",
+    "instagram"
+   ],
+   "score": 82,
+   "dosah_eu": 87430,
+   "dni": 147,
+   "varianty": 2,
+   "url": "https://www.facebook.com/ads/library/?id=2342149232973070",
+   "nm": "Pracuj chytřeji, ne víc.",
+   "orig": null,
+   "uhel": "produktivita / úspora času",
+   "aw": null,
+   "why": [
+    "Běží 147 dní beze změny — dlouhodobě vydělává",
+    "Úhel „produktivita / úspora času“ — přeplněno (9+)",
+    "Do plného prostoru nevstupovat — odlišit se úhlem"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/ad-tygotec-3.jpg",
+   "media": "video",
+   "video_url": "https://www.w3schools.com/html/mov_bbb.mp4"
+  },
+  {
+   "poradi": 5,
+   "inzerent": "Granton Consulting",
+   "site": [
+    "facebook",
+    "instagram"
+   ],
+   "score": 70,
+   "dosah_eu": 24592,
+   "dni": 83,
+   "varianty": 8,
+   "url": "https://www.facebook.com/ads/library/?id=1657992695513034",
+   "nm": "Už vás nebaví probírat se šanony? — AI účetní Billy",
+   "orig": null,
+   "uhel": "AI zaměstnanec — účetní",
+   "aw": "solution-aware",
+   "why": [
+    "8 variant konceptu — jediné systematické testování v CZ",
+    "Pojmenovaný AI zaměstnanec (Billy) buduje vztah",
+    "Vzor pro prodej role — my nabízíme celý tým"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/ad-granton-consulting-4.jpg",
+   "media": "video",
+   "video_url": null
+  },
+  {
+   "poradi": 6,
+   "inzerent": "CodeWords AI",
+   "site": [
+    "facebook",
+    "instagram"
+   ],
+   "score": 66,
+   "dosah_eu": 104627,
+   "dni": 80,
+   "varianty": 1,
+   "url": "https://www.facebook.com/ads/library/?id=2072484169977994",
+   "nm": "Všichni o AI agentech mluví. Skoro nikdo si žádného nepostavil.",
+   "orig": "Everyone's talking about AI agents. Almost no one has built one.",
+   "uhel": "postav si agenta bez kódu",
+   "aw": "problem-aware",
+   "why": [
+    "Nejlepší hook datasetu: napětí „mluvit × dělat“",
+    "80 dní běhu při 105 tis. dosahu — hook nese reklamu",
+    "Náš protiúhel: tým nemusíte stavět, nastupuje hotový"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/ad-codewords-ai-5.jpg",
+   "media": "image",
+   "video_url": null
+  },
+  {
+   "poradi": 7,
+   "inzerent": "Meshy",
+   "site": [
+    "facebook",
+    "instagram"
+   ],
+   "score": 64,
+   "dosah_eu": 281463,
+   "dni": 22,
+   "varianty": 7,
+   "url": "https://www.facebook.com/ads/library/?id=992296060171639",
+   "nm": "Meshy 3D Agent není generátor — je to kreativní parťák.",
+   "orig": "Meshy 3D Agent isn't just a generator — it's a creative partner.",
+   "uhel": "AI tvorba obsahu",
+   "aw": null,
+   "why": [
+    "7 variant = systematické testování konceptu",
+    "Úhel „AI tvorba obsahu“ — málo obsazené",
+    "Kreativní use-case přitahuje pozornost"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/ad-meshy-6.jpg",
+   "media": "video",
+   "video_url": null
+  },
+  {
+   "poradi": 8,
+   "inzerent": "Meshy",
+   "site": [
+    "facebook",
+    "instagram"
+   ],
+   "score": 64,
+   "dosah_eu": 312783,
+   "dni": 22,
+   "varianty": 7,
+   "url": "https://www.facebook.com/ads/library/?id=2208827266585767",
+   "nm": "Jeden chat a máte hotový 3D model.",
+   "orig": "One chat.",
+   "uhel": "AI tvorba obsahu",
+   "aw": null,
+   "why": [
+    "7 variant = systematické testování konceptu",
+    "Úhel „AI tvorba obsahu“ — málo obsazené",
+    "Kreativní use-case přitahuje pozornost"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/ad-meshy-7.jpg",
+   "media": "image",
+   "video_url": null
+  },
+  {
+   "poradi": 9,
+   "inzerent": "Meshy",
+   "site": [
+    "facebook",
+    "instagram"
+   ],
+   "score": 63,
+   "dosah_eu": 257309,
+   "dni": 22,
+   "varianty": 7,
+   "url": "https://www.facebook.com/ads/library/?id=1902569690660739",
+   "nm": "Seznamte se: první AI agent na tvorbu 3D.",
+   "orig": "Meet Meshy 3D Agent — the world's first AI Agent for 3D creation.",
+   "uhel": "AI tvorba obsahu",
+   "aw": null,
+   "why": [
+    "7 variant = systematické testování konceptu",
+    "Úhel „AI tvorba obsahu“ — málo obsazené",
+    "Kreativní use-case přitahuje pozornost"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/ad-meshy-8.jpg",
+   "media": "video",
+   "video_url": null
+  },
+  {
+   "poradi": 10,
+   "inzerent": "Doctor Optic",
+   "site": [
+    "facebook",
+    "instagram"
+   ],
+   "score": 62,
+   "dosah_eu": 149674,
+   "dni": 52,
+   "varianty": 2,
+   "url": "https://www.facebook.com/ads/library/?id=4322823974639215",
+   "nm": "AI asistent, kterého máš doslova před očima. Za 3 990 Kč.",
+   "orig": null,
+   "uhel": "gadget — dostupné sci-fi",
+   "aw": "product-aware",
+   "why": [
+    "Největší čistě český dosah výběru (150 tis. EU)",
+    "Rámování „včera sci-fi, dnes 3 990 Kč“",
+    "Cena jako důkaz dostupnosti — přenositelné na AI tým"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/ad-doctor-optic-9.jpg",
+   "media": "image",
+   "video_url": null
+  },
+  {
+   "poradi": 11,
+   "inzerent": "Plaudczsk",
+   "site": [
+    "instagram"
+   ],
+   "score": 61,
+   "dosah_eu": 130321,
+   "dni": 55,
+   "varianty": 1,
+   "url": "https://www.facebook.com/ads/library/?id=2488458051587047",
+   "nm": "Tohle není jen diktafon. Tohle je AI asistent.",
+   "orig": null,
+   "uhel": "produktivita / úspora času",
+   "aw": "product-aware",
+   "why": [
+    "Kontrast „není jen X, je to Y“ = recategorizace",
+    "GPT/Claude/Gemini jmenované přímo v copy",
+    "Z komodity nová kategorie — stejný tah pro AI tým"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/ad-plaudczsk-10.jpg",
+   "media": "video",
+   "video_url": null
+  },
+  {
+   "poradi": 12,
+   "inzerent": "MissCall.io",
+   "site": [
+    "facebook"
+   ],
+   "score": 61,
+   "dosah_eu": 21811,
+   "dni": 87,
+   "varianty": 1,
+   "url": "https://www.facebook.com/ads/library/?id=848326088280773",
+   "nm": "Zmeškaný hovor? MissCall odpoví za vás. 24/7.",
+   "orig": null,
+   "uhel": "AI zaměstnanec — recepční",
+   "aw": "solution-aware",
+   "why": [
+    "87 dní běhu = nejvytrvalejší CZ reklama výběru",
+    "AI recepční — jedna role, adresná bolest",
+    "Vytrvalost malého hráče = úhel konvertuje"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/ad-misscall-io-11.jpg",
+   "media": "image",
+   "video_url": null
+  },
+  {
+   "poradi": 13,
+   "inzerent": "Scaleupboard",
+   "site": [
+    "facebook",
+    "instagram"
+   ],
+   "score": 61,
+   "dosah_eu": 5571,
+   "dni": 111,
+   "varianty": 1,
+   "url": "https://www.facebook.com/ads/library/?id=792337613946667",
+   "nm": "Jste CEO a víte, že byznys nejde škálovat, když nejste obklopeni správnými otázkami?",
+   "orig": null,
+   "uhel": "AI stratég pro CEO",
+   "aw": null,
+   "why": [
+    "Běží 111 dní beze změny — dlouhodobě vydělává",
+    "Úhel „AI stratég pro CEO“ — málo obsazené",
+    "Prémiový B2B úhel — malý dosah, dlouhý běh"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/ad-scaleupboard-12.jpg",
+   "media": "video",
+   "video_url": null
+  },
+  {
+   "poradi": 14,
+   "inzerent": "Granton Consulting",
+   "site": [
+    "facebook",
+    "instagram"
+   ],
+   "score": 59,
+   "dosah_eu": 15903,
+   "dni": 43,
+   "varianty": 8,
+   "url": "https://www.facebook.com/ads/library/?id=1565983208205431",
+   "nm": "Už vás nebaví probírat se šanony? — AI účetní Billy",
+   "orig": null,
+   "uhel": "AI zaměstnanec — účetní",
+   "aw": "solution-aware",
+   "why": [
+    "8 variant konceptu — jediné systematické testování v CZ",
+    "Pojmenovaný AI zaměstnanec (Billy) buduje vztah",
+    "Vzor pro prodej role — my nabízíme celý tým"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/ad-granton-consulting-13.jpg",
+   "media": "image",
+   "video_url": null
+  },
+  {
+   "poradi": 15,
+   "inzerent": "Granton Consulting",
+   "site": [
+    "facebook",
+    "instagram"
+   ],
+   "score": 59,
+   "dosah_eu": 18041,
+   "dni": 44,
+   "varianty": 8,
+   "url": "https://www.facebook.com/ads/library/?id=3149528318770429",
+   "nm": "Už vás nebaví probírat se šanony? — AI účetní Billy",
+   "orig": null,
+   "uhel": "AI zaměstnanec — účetní",
+   "aw": "solution-aware",
+   "why": [
+    "8 variant konceptu — jediné systematické testování v CZ",
+    "Pojmenovaný AI zaměstnanec (Billy) buduje vztah",
+    "Vzor pro prodej role — my nabízíme celý tým"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/ad-granton-consulting-14.jpg",
+   "media": "video",
+   "video_url": null
+  },
+  {
+   "poradi": 16,
+   "inzerent": "Wingman by Emergent",
+   "site": [
+    "facebook",
+    "instagram"
+   ],
+   "score": 56,
+   "dosah_eu": 199368,
+   "dni": 16,
+   "varianty": 3,
+   "url": "https://www.facebook.com/ads/library/?id=1718581995964707",
+   "nm": "AI parťák, který za vás automatizuje rutinu a zrychlí práci.",
+   "orig": "Imagine having an AI-powered sidekick that helps you automate repetitive tasks and supercharge productivity.",
+   "uhel": "produktivita / úspora času",
+   "aw": null,
+   "why": [
+    "199 tis. dosahu rychle — silný rozpočet",
+    "Úhel „produktivita / úspora času“ — přeplněno (9+)",
+    "Do plného prostoru nevstupovat — odlišit se úhlem"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/ad-wingman-by-emergent-15.jpg",
+   "media": "image",
+   "video_url": null
+  },
+  {
+   "poradi": 17,
+   "inzerent": "Forpsi",
+   "site": [
+    "facebook",
+    "instagram"
+   ],
+   "score": 51,
+   "dosah_eu": 5999,
+   "dni": 47,
+   "varianty": 4,
+   "url": "https://www.facebook.com/ads/library/?id=975669545244680",
+   "nm": "Chcete vlastní web?",
+   "orig": null,
+   "uhel": "web a SEO",
+   "aw": null,
+   "why": [
+    "4 variant = systematické testování konceptu",
+    "Úhel „web a SEO“ — málo obsazené",
+    "Vedlejší liga tématu — jen sledovat"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/ad-forpsi-16.jpg",
+   "media": "video",
+   "video_url": null
+  },
+  {
+   "poradi": 18,
+   "inzerent": "Doctor Optic",
+   "site": [
+    "facebook",
+    "instagram"
+   ],
+   "score": 50,
+   "dosah_eu": 6738,
+   "dni": 52,
+   "varianty": 2,
+   "url": "https://www.facebook.com/ads/library/?id=27060979350201694",
+   "nm": "AI asistent, kterého máš doslova před očima. Za 3 990 Kč.",
+   "orig": null,
+   "uhel": "gadget — dostupné sci-fi",
+   "aw": "product-aware",
+   "why": [
+    "Největší čistě český dosah výběru (150 tis. EU)",
+    "Rámování „včera sci-fi, dnes 3 990 Kč“",
+    "Cena jako důkaz dostupnosti — přenositelné na AI tým"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/ad-doctor-optic-17.jpg",
+   "media": "image",
+   "video_url": null
+  },
+  {
+   "poradi": 19,
+   "inzerent": "Seyfor",
+   "site": [
+    "facebook",
+    "instagram"
+   ],
+   "score": 50,
+   "dosah_eu": 121730,
+   "dni": 10,
+   "varianty": 1,
+   "url": "https://www.facebook.com/ads/library/?id=1284728660409291",
+   "nm": "AI není projekt jednoho člověka.",
+   "orig": null,
+   "uhel": "edukace / adopce ve firmě",
+   "aw": "problem-aware",
+   "why": [
+    "122 tis. dosahu za 10 dní — velký hráč, velký rozpočet",
+    "Úhel adopce: popření předpokladu „jeden člověk“",
+    "B2B edukace se otevírá — být u toho"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/ad-seyfor-18.jpg",
+   "media": "video",
+   "video_url": null
+  },
+  {
+   "poradi": 20,
+   "inzerent": "Cavalry.ai",
+   "site": [
+    "facebook",
+    "instagram"
+   ],
+   "score": 49,
+   "dosah_eu": 66057,
+   "dni": 17,
+   "varianty": 1,
+   "url": "https://www.facebook.com/ads/library/?id=1003324292320168",
+   "nm": "Podpoře každý kvartál kolabuje objem dotazů? AI to zvládne.",
+   "orig": "Naadam's support volume spikes every Q4.",
+   "uhel": "AI zaměstnanec — podpora",
+   "aw": null,
+   "why": [
+    "Čerstvý vstup (17 dní) — zachyceno na startu",
+    "Úhel „AI zaměstnanec — podpora“ — sporné (5)",
+    "Poptávka po AI v roli potvrzena — my nabízíme celý tým"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/ad-cavalry-ai-19.jpg",
+   "media": "image",
+   "video_url": null
+  },
+  {
+   "poradi": 21,
+   "inzerent": "MIT Sloan Executive Education",
+   "site": [
+    "facebook",
+    "instagram"
+   ],
+   "score": 45,
+   "dosah_eu": 16123,
+   "dni": 22,
+   "varianty": 1,
+   "url": "https://www.facebook.com/ads/library/?id=1540156467514835",
+   "nm": "Praktický kurz AI agentů — reálné případy, postupy a plán zavedení.",
+   "orig": "Take a hands-on approach to AI agents with use cases, frameworks, and a custom playbook.",
+   "uhel": "edukace / adopce ve firmě",
+   "aw": null,
+   "why": [
+    "Čerstvý vstup (22 dní) — zachyceno na startu",
+    "Úhel „edukace / adopce ve firmě“ — málo obsazené",
+    "Trh se teprve učí — edukační obsah má dveře otevřené"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/ad-mit-sloan-executive-educat-20.jpg",
+   "media": "video",
+   "video_url": null
+  },
+  {
+   "poradi": 22,
+   "inzerent": "Účetní Evoluce",
+   "site": [
+    "facebook",
+    "instagram"
+   ],
+   "score": 45,
+   "dosah_eu": 12085,
+   "dni": 27,
+   "varianty": 1,
+   "url": "https://www.facebook.com/ads/library/?id=981096014820888",
+   "nm": "Víte, jaký je rozdíl mezi chatbotem, AI asistentem a AI agentem?",
+   "orig": null,
+   "uhel": "AI zaměstnanec — účetní",
+   "aw": null,
+   "why": [
+    "Čerstvý vstup (27 dní) — zachyceno na startu",
+    "Úhel „AI zaměstnanec — účetní“ — sporné (5)",
+    "Poptávka po AI v roli potvrzena — my nabízíme celý tým"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/ad-ucetni-evoluce-21.jpg",
+   "media": "image",
+   "video_url": null
+  },
+  {
+   "poradi": 23,
+   "inzerent": "RankPill",
+   "site": [
+    "facebook",
+    "instagram"
+   ],
+   "score": 44,
+   "dosah_eu": 4930,
+   "dni": 36,
+   "varianty": 1,
+   "url": "https://www.facebook.com/ads/library/?id=1331474312488707",
+   "nm": "Organická návštěvnost webu bez práce — najde ji AI agent.",
+   "orig": "Get organic traffic to your website without lifting a finger — let our AI agent find you the best keywords.",
+   "uhel": "AI tvorba obsahu",
+   "aw": null,
+   "why": [
+    "Čerstvý vstup (36 dní) — zachyceno na startu",
+    "Úhel „AI tvorba obsahu“ — málo obsazené",
+    "Kreativní use-case přitahuje pozornost"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/ad-rankpill-22.jpg",
+   "media": "video",
+   "video_url": null
+  },
+  {
+   "poradi": 24,
+   "inzerent": "Forpsi",
+   "site": [
+    "facebook",
+    "instagram"
+   ],
+   "score": 43,
+   "dosah_eu": 3164,
+   "dni": 24,
+   "varianty": 4,
+   "url": "https://www.facebook.com/ads/library/?id=1332011148361984",
+   "nm": "Chcete vlastní web na Wordpressu?",
+   "orig": null,
+   "uhel": "postav si agenta bez kódu",
+   "aw": null,
+   "why": [
+    "4 variant = systematické testování konceptu",
+    "Úhel „postav si agenta bez kódu“ — sporné (3)",
+    "DIY poptávka existuje — protiúhel: hotový tým bez stavění"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/ad-forpsi-23.jpg",
+   "media": "image",
+   "video_url": null
+  },
+  {
+   "poradi": 25,
+   "inzerent": "Pruchisoft.cz",
+   "site": [
+    "facebook",
+    "instagram"
+   ],
+   "score": 37,
+   "dosah_eu": 7132,
+   "dni": 2,
+   "varianty": 1,
+   "url": "https://www.facebook.com/ads/library/?id=1075077161674987",
+   "nm": "Jednou mi propadla STK.",
+   "orig": null,
+   "uhel": "AI nástroj — obecně",
+   "aw": null,
+   "why": [
+    "Čerstvý vstup (2 dní) — zachyceno na startu",
+    "Úhel „AI nástroj — obecně“ — málo obsazené",
+    "Sledovat vývoj inzerenta"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/ad-pruchisoft-cz-24.jpg",
+   "media": "video",
+   "video_url": null
+  },
+  {
+   "poradi": 26,
+   "inzerent": "AurisOne",
+   "site": [
+    "facebook",
+    "instagram"
+   ],
+   "score": 35,
+   "dosah_eu": 2560,
+   "dni": 10,
+   "varianty": 1,
+   "url": "https://www.facebook.com/ads/library/?id=1033859202668025",
+   "nm": "Auris One: AI píše lékařům zprávy z vyšetření za ně.",
+   "orig": null,
+   "uhel": "AI zaměstnanec — zdravotnictví",
+   "aw": null,
+   "why": [
+    "Čerstvý vstup (10 dní) — zachyceno na startu",
+    "Úhel „AI zaměstnanec — zdravotnictví“ — sporné (5)",
+    "Poptávka po AI v roli potvrzena — my nabízíme celý tým"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/ad-aurisone-25.jpg",
+   "media": "image",
+   "video_url": null
+  }
+ ],
+ "search": [
+  {
+   "poradi": 1,
+   "brand": "KOMBAIN",
+   "head": "AI automatizace + leadership pro vedení firem",
+   "url": "https://kombain.cz",
+   "score": 70,
+   "sov": 2,
+   "total": 4,
+   "sov_pct": 50,
+   "stav": "silná pozice",
+   "uhel": "produktivita / úspora času",
+   "aw": "intent capture",
+   "why": [
+    "Objevuje se na 2 ze 4 sledovaných klíčových slov (50 %)",
+    "Úhel „produktivita / úspora času“ — přeplněno (9+)",
+    "Kupuje poptávku, kterou trh po AI agentech už aktivně hledá"
+   ]
+  },
+  {
+   "poradi": 2,
+   "brand": "DX Heroes",
+   "head": "AI agenti na míru pro firmy",
+   "url": "https://dxheroes.io",
+   "score": 70,
+   "sov": 2,
+   "total": 4,
+   "sov_pct": 50,
+   "stav": "silná pozice",
+   "uhel": "produktivita / úspora času",
+   "aw": "intent capture",
+   "why": [
+    "Objevuje se na 2 ze 4 sledovaných klíčových slov (50 %)",
+    "Úhel „produktivita / úspora času“ — přeplněno (9+)",
+    "Kupuje poptávku, kterou trh po AI agentech už aktivně hledá"
+   ]
+  },
+  {
+   "poradi": 3,
+   "brand": "Napojeno",
+   "head": "Napojení AI do firemních procesů",
+   "url": "https://napojeno.cz",
+   "score": 60,
+   "sov": 1,
+   "total": 4,
+   "sov_pct": 25,
+   "stav": "okrajová",
+   "uhel": "produktivita / úspora času",
+   "aw": "intent capture",
+   "why": [
+    "Objevuje se na 1 ze 4 sledovaných klíčových slov (25 %)",
+    "Úhel „produktivita / úspora času“ — přeplněno (9+)",
+    "Kupuje poptávku, kterou trh po AI agentech už aktivně hledá"
+   ]
+  },
+  {
+   "poradi": 4,
+   "brand": "Digitari",
+   "head": "Program který mění firmu — praktická AI",
+   "url": "https://digitari.czhttp",
+   "score": 60,
+   "sov": 1,
+   "total": 4,
+   "sov_pct": 25,
+   "stav": "okrajová",
+   "uhel": "produktivita / úspora času",
+   "aw": "intent capture",
+   "why": [
+    "Objevuje se na 1 ze 4 sledovaných klíčových slov (25 %)",
+    "Úhel „produktivita / úspora času“ — přeplněno (9+)",
+    "Kupuje poptávku, kterou trh po AI agentech už aktivně hledá"
+   ]
+  },
+  {
+   "poradi": 5,
+   "brand": "Macaly",
+   "head": "Tvorba AI agentů a aplikací",
+   "url": "https://macaly.comhtt",
+   "score": 60,
+   "sov": 1,
+   "total": 4,
+   "sov_pct": 25,
+   "stav": "okrajová",
+   "uhel": "edukace / adopce ve firmě",
+   "aw": "intent capture",
+   "why": [
+    "Objevuje se na 1 ze 4 sledovaných klíčových slov (25 %)",
+    "Úhel „edukace / adopce ve firmě“ — málo obsazené",
+    "Kupuje poptávku, kterou trh po AI agentech už aktivně hledá"
+   ]
+  },
+  {
+   "poradi": 6,
+   "brand": "EROKO Tech",
+   "head": "Nasazení AI do firmy",
+   "url": "https://erokotech.cz",
+   "score": 60,
+   "sov": 1,
+   "total": 4,
+   "sov_pct": 25,
+   "stav": "okrajová",
+   "uhel": "edukace / adopce ve firmě",
+   "aw": "intent capture",
+   "why": [
+    "Objevuje se na 1 ze 4 sledovaných klíčových slov (25 %)",
+    "Úhel „edukace / adopce ve firmě“ — málo obsazené",
+    "Kupuje poptávku, kterou trh po AI agentech už aktivně hledá"
+   ]
+  },
+  {
+   "poradi": 7,
+   "brand": "AutoArti",
+   "head": "AI konzultace a automatizace",
+   "url": "https://autoarti.com",
+   "score": 60,
+   "sov": 1,
+   "total": 4,
+   "sov_pct": 25,
+   "stav": "okrajová",
+   "uhel": "edukace / adopce ve firmě",
+   "aw": "intent capture",
+   "why": [
+    "Objevuje se na 1 ze 4 sledovaných klíčových slov (25 %)",
+    "Úhel „edukace / adopce ve firmě“ — málo obsazené",
+    "Kupuje poptávku, kterou trh po AI agentech už aktivně hledá"
+   ]
+  },
+  {
+   "poradi": 8,
+   "brand": "LER Studio",
+   "head": "Zaveďte AI ve firmě smysluplně",
+   "url": "https://lerstudio.czhttp",
+   "score": 60,
+   "sov": 1,
+   "total": 4,
+   "sov_pct": 25,
+   "stav": "okrajová",
+   "uhel": "edukace / adopce ve firmě",
+   "aw": "intent capture",
+   "why": [
+    "Objevuje se na 1 ze 4 sledovaných klíčových slov (25 %)",
+    "Úhel „edukace / adopce ve firmě“ — málo obsazené",
+    "Kupuje poptávku, kterou trh po AI agentech už aktivně hledá"
+   ]
+  }
+ ],
+ "viralni": [
+  {
+   "poradi": 1,
+   "sit": "tiktok",
+   "kdo": "@a.pavelka",
+   "score": 81,
+   "zhlednuti": 52100,
+   "likes": 1482,
+   "cmts": 11,
+   "url": "https://www.tiktok.com/@a.pavelka/video/7542885604283976993",
+   "nm": "AI appka, co obrátí tvůj salon vzhůru nohama",
+   "uhel": "praktický návod",
+   "why": [
+    "52 100 zhlédnutí · ER 2.8 % — @a.pavelka",
+    "Úhel „praktický návod“",
+    "Návodový formát = předloha pro mid-funnel obsah"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/vir-tiktok-1.jpg",
+   "dur": "0:37",
+   "geo": "cz"
+  },
+  {
+   "poradi": 2,
+   "sit": "tiktok",
+   "kdo": "@editee.com",
+   "score": 81,
+   "zhlednuti": 51000,
+   "likes": 1354,
+   "cmts": 6,
+   "url": "https://www.tiktok.com/@editee.com/video/7324742932123176224",
+   "nm": "Nejlepší AI aplikace pro marketing 2024",
+   "uhel": "žebříček nástrojů",
+   "why": [
+    "51 000 zhlédnutí · ER 2.7 % — @editee.com",
+    "Úhel „žebříček nástrojů“",
+    "Formát srovnání táhne — udělat vlastní"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/vir-tiktok-2.jpg",
+   "dur": "",
+   "geo": "cz"
+  },
+  {
+   "poradi": 3,
+   "sit": "tiktok",
+   "kdo": "@chatgptriky",
+   "score": 78,
+   "zhlednuti": 24700,
+   "likes": 704,
+   "cmts": 5,
+   "url": "https://www.tiktok.com/@chatgptriky/video/7469074430430514434",
+   "nm": "Nejlepší AI weby pro rok 2025",
+   "uhel": "praktický návod",
+   "why": [
+    "24 700 zhlédnutí · ER 2.9 % — @chatgptriky",
+    "Úhel „praktický návod“",
+    "Návodový formát = předloha pro mid-funnel obsah"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/vir-tiktok-3.jpg",
+   "dur": "0:26",
+   "geo": "cz"
+  },
+  {
+   "sit": "instagram",
+   "kdo": "@hermesaiagent",
+   "score": 80,
+   "zhlednuti": null,
+   "likes": 3,
+   "cmts": 0,
+   "url": "https://www.instagram.com/p/Dark7FNijkA/",
+   "nm": "Kdybyste mohli ve firmě hned zautomatizovat jednu činnost — kterou?",
+   "uhel": "automatizace firmy",
+   "why": [
+    "Interaktivní otázka — vtáhne do komentářů",
+    "Úhel „automatizace firmy“",
+    "Formát ankety si vypůjčit do reklamy"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/vir-instagram-4.jpg",
+   "dur": "",
+   "geo": "cz",
+   "poradi": 4
+  },
+  {
+   "sit": "instagram",
+   "kdo": "@proinvestiq",
+   "score": 78,
+   "zhlednuti": null,
+   "likes": 0,
+   "cmts": 0,
+   "url": "https://www.instagram.com/p/Dasa8uQAqYL/",
+   "nm": "AI asistent Q — zeptejte se svých dat: Kde utrácíte zbytečně?",
+   "uhel": "AI asistent na data",
+   "why": [
+    "Konkrétní otázka na bolest (kde utrácím)",
+    "Úhel „AI asistent na data“",
+    "Přenositelné na finanční use-case"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/vir-instagram-5.jpg",
+   "dur": "",
+   "geo": "cz",
+   "poradi": 5
+  },
+  {
+   "sit": "instagram",
+   "kdo": "@braintechfeed",
+   "score": 74,
+   "zhlednuti": null,
+   "likes": 1,
+   "cmts": 0,
+   "url": "https://www.instagram.com/p/Dasj5dioGxN/",
+   "nm": "Prompt, který z nápadu udělá reálný plán do 7 dní.",
+   "uhel": "praktický návod",
+   "why": [
+    "Hotový prompt = okamžitá hodnota",
+    "Úhel „praktický návod“",
+    "Formát „ulož si prompt“ táhne uložení"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/vir-instagram-6.jpg",
+   "dur": "",
+   "geo": "cz",
+   "poradi": 6
+  },
+  {
+   "sit": "instagram",
+   "kdo": "@1pprvnipozice",
+   "score": 72,
+   "zhlednuti": null,
+   "likes": 1,
+   "cmts": 0,
+   "url": "https://www.instagram.com/p/DapLrKpDnZZ/",
+   "nm": "Nepotřebujete nejchytřejší AI. Potřebujete tu správnou.",
+   "uhel": "edukace / výběr AI",
+   "why": [
+    "Silný kontrastní hook (nejchytřejší vs správná)",
+    "Úhel „edukace / výběr AI“",
+    "B2B rámování pro firmy"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/vir-instagram-7.jpg",
+   "dur": "",
+   "geo": "cz",
+   "poradi": 7
+  },
+  {
+   "sit": "instagram",
+   "kdo": "@tvujtvurce",
+   "score": 70,
+   "zhlednuti": null,
+   "likes": 8,
+   "cmts": 8,
+   "url": "https://www.instagram.com/p/DanynygILcO/",
+   "nm": "AI za tebe: 50+ hotových promptů pro každý den.",
+   "uhel": "praktický návod",
+   "why": [
+    "Nejvyšší zapojení výběru (8 komentářů)",
+    "Úhel „praktický návod“",
+    "Lead magnet formát (e-book za follow)"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/vir-instagram-8.jpg",
+   "dur": "",
+   "geo": "cz",
+   "poradi": 8
+  },
+  {
+   "poradi": 9,
+   "sit": "youtube",
+   "kdo": "Petr Mára",
+   "score": 77,
+   "zhlednuti": 50115,
+   "likes": 1100,
+   "cmts": 176,
+   "url": "https://www.youtube.com/watch?v=MmRfp4iL5CM",
+   "nm": "AI agenti berou práci: lokální vs. cloud modely",
+   "uhel": "FOMO — v reklamách VOLNÝ",
+   "why": [
+    "50 tis. zhlédnutí · ER 2,2 % — nejsilnější CZ organika",
+    "FOMO úhel „berou práci“ — v reklamách ho nikdo nejede",
+    "Hotový úhel + jazyk pro naši kampaň"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/vir-youtube-3.jpg",
+   "dur": "01:14:41",
+   "geo": "cz"
+  },
+  {
+   "poradi": 10,
+   "sit": "youtube",
+   "kdo": "Filip Oborník | AI s rozumem",
+   "score": 77,
+   "zhlednuti": 49848,
+   "likes": 1100,
+   "cmts": 124,
+   "url": "https://www.youtube.com/watch?v=YHwdGv2yL0w",
+   "nm": "Vše co byste měli vědět o Claude aplikaci - do 30 minut [duben 2026]",
+   "uhel": "praktický návod",
+   "why": [
+    "49 tis. zhlédnutí na 27minutovém návodu",
+    "Publikum chce „jak na to“, ne výčet funkcí",
+    "Návodový formát = předloha pro obsah"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/vir-youtube-4.jpg",
+   "dur": "27:12",
+   "geo": "cz"
+  },
+  {
+   "poradi": 11,
+   "sit": "tiktok",
+   "kdo": "@chatgptriky",
+   "score": 77,
+   "zhlednuti": 20000,
+   "likes": 845,
+   "cmts": 220,
+   "url": "https://www.tiktok.com/@chatgptriky/video/7439779322975587617",
+   "nm": "Napiš do komentářů web a pošlu ti odkaz",
+   "uhel": "AI agenti — obecně",
+   "why": [
+    "20 000 zhlédnutí · ER 4.2 % — @chatgptriky",
+    "Úhel „AI agenti — obecně“",
+    "Formát si vypůjčit do kampaně"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/vir-tiktok-11.jpg",
+   "dur": "0:27",
+   "geo": "cz"
+  },
+  {
+   "poradi": 12,
+   "sit": "youtube",
+   "kdo": "AI Univerzita",
+   "score": 73,
+   "zhlednuti": 6388,
+   "likes": 164,
+   "cmts": 5,
+   "url": "https://www.youtube.com/watch?v=fwUsp-SxAA0",
+   "nm": "6 AI trendů roku 2026: Tohle ZMĚNÍ vaše podnikání (Musíte vidět)",
+   "uhel": "trendy",
+   "why": [
+    "6 388 zhlédnutí · ER 2.6 % — AI Univerzita",
+    "Úhel „trendy“",
+    "Zdroj témat do kalendáře"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/vir-youtube-6.jpg",
+   "dur": "18:50",
+   "geo": "cz"
+  },
+  {
+   "poradi": 13,
+   "sit": "tiktok",
+   "kdo": "@tobyecomreels",
+   "score": 72,
+   "zhlednuti": 6000,
+   "likes": 163,
+   "cmts": 3,
+   "url": "https://www.tiktok.com/@tobyecomreels/video/7493570634417523990",
+   "nm": "AI ti naprogramuje appku i bez programátorů",
+   "uhel": "AI agenti — obecně",
+   "why": [
+    "6 000 zhlédnutí · ER 2.7 % — @tobyecomreels",
+    "Úhel „AI agenti — obecně“",
+    "Formát si vypůjčit do kampaně"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/vir-tiktok-13.jpg",
+   "dur": "1:01",
+   "geo": "cz"
+  },
+  {
+   "poradi": 14,
+   "sit": "tiktok",
+   "kdo": "@toby_ecom",
+   "score": 72,
+   "zhlednuti": 5450,
+   "likes": 172,
+   "cmts": 7,
+   "url": "https://www.tiktok.com/@toby_ecom/video/7522130648165797142",
+   "nm": "Příjmy z digitálních produktů bez slávy na sítích",
+   "uhel": "praktický návod",
+   "why": [
+    "5 450 zhlédnutí · ER 3.2 % — @toby_ecom",
+    "Úhel „praktický návod“",
+    "Návodový formát = předloha pro mid-funnel obsah"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/vir-tiktok-14.jpg",
+   "dur": "1:51",
+   "geo": "cz"
+  },
+  {
+   "poradi": 15,
+   "sit": "youtube",
+   "kdo": "AI Univerzita",
+   "score": 71,
+   "zhlednuti": 4470,
+   "likes": 131,
+   "cmts": 19,
+   "url": "https://www.youtube.com/watch?v=L9ALD8QQIHQ",
+   "nm": "Petr Panzner: Jak mluvit s AI, aby si přestala „vymýšlet“",
+   "uhel": "praktický návod",
+   "why": [
+    "4 470 zhlédnutí · ER 2.9 % — AI Univerzita",
+    "Úhel „praktický návod“",
+    "Návodový formát = předloha pro mid-funnel obsah"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/vir-youtube-9.jpg",
+   "dur": "01:36:53",
+   "geo": "cz"
+  },
+  {
+   "poradi": 16,
+   "sit": "tiktok",
+   "kdo": "@integrafu",
+   "score": 70,
+   "zhlednuti": 5573,
+   "likes": 132,
+   "cmts": 4,
+   "url": "https://www.tiktok.com/@integrafu/video/7536132357112204566",
+   "nm": "Jak vytvořit AI video na TikToku",
+   "uhel": "AI agenti — obecně",
+   "why": [
+    "5 573 zhlédnutí · ER 2.4 % — @integrafu",
+    "Úhel „AI agenti — obecně“",
+    "Formát si vypůjčit do kampaně"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/vir-tiktok-16.jpg",
+   "dur": "0:25",
+   "geo": "cz"
+  },
+  {
+   "poradi": 17,
+   "sit": "youtube",
+   "kdo": "Jiri Benedikt",
+   "score": 69,
+   "zhlednuti": 26990,
+   "likes": 468,
+   "cmts": 79,
+   "url": "https://www.youtube.com/watch?v=33SD2BVCMGM",
+   "nm": "👑 Můj kompletní AI workflow 2025: ChatGPT, NotebookLM a 100+ tipů a hacků pro chytrou práci",
+   "uhel": "praktický návod",
+   "why": [
+    "26 990 zhlédnutí · ER 1.7 % — Jiri Benedikt",
+    "Úhel „praktický návod“",
+    "Návodový formát = předloha pro mid-funnel obsah"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/vir-youtube-11.jpg",
+   "dur": "04:49:09",
+   "geo": "cz"
+  },
+  {
+   "poradi": 18,
+   "sit": "youtube",
+   "kdo": "Filip Oborník | AI s rozumem",
+   "score": 69,
+   "zhlednuti": 12159,
+   "likes": 246,
+   "cmts": 67,
+   "url": "https://www.youtube.com/watch?v=0Yp17hye3YI",
+   "nm": "Open Claw: Moje zkušenost s AI agentem, který ovládne celý počítač [Coffee break s Filipem]",
+   "uhel": "AI agenti — obecně",
+   "why": [
+    "12 159 zhlédnutí · ER 2.0 % — Filip Oborník | AI s rozumem",
+    "Úhel „AI agenti — obecně“",
+    "Formát si vypůjčit do kampaně"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/vir-youtube-12.jpg",
+   "dur": "34:47",
+   "geo": "cz"
+  },
+  {
+   "poradi": 19,
+   "sit": "youtube",
+   "kdo": "Martinova AI",
+   "score": 66,
+   "zhlednuti": 1234,
+   "likes": 96,
+   "cmts": 23,
+   "url": "https://www.youtube.com/watch?v=0BrLoz8cf0E",
+   "nm": "Postav si AI marketéra. Konec klikačů reklam! 🔥",
+   "uhel": "praktický návod",
+   "why": [
+    "1 234 zhlédnutí · ER 7.8 % — Martinova AI",
+    "Úhel „praktický návod“",
+    "Návodový formát = předloha pro mid-funnel obsah"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/vir-youtube-13.jpg",
+   "dur": "24:42",
+   "geo": "cz"
+  },
+  {
+   "poradi": 20,
+   "sit": "youtube",
+   "kdo": "AI Univerzita",
+   "score": 65,
+   "zhlednuti": 2547,
+   "likes": 55,
+   "cmts": 10,
+   "url": "https://www.youtube.com/watch?v=93j6x7ZTXlA",
+   "nm": "Peter Cigáň: Jak ve firmě šetří statisíce korun ročně díky AI automatizacím za pár korun",
+   "uhel": "praktický návod",
+   "why": [
+    "2 547 zhlédnutí · ER 2.2 % — AI Univerzita",
+    "Úhel „praktický návod“",
+    "Návodový formát = předloha pro mid-funnel obsah"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/vir-youtube-14.jpg",
+   "dur": "01:28:34",
+   "geo": "cz"
+  },
+  {
+   "poradi": 21,
+   "sit": "youtube",
+   "kdo": "AI pro všechny",
+   "score": 64,
+   "zhlednuti": 672,
+   "likes": 25,
+   "cmts": 0,
+   "url": "https://www.youtube.com/watch?v=jBAmXJH-tZs",
+   "nm": "AI agenti a context engineering jednoduše",
+   "uhel": "AI agenti — obecně",
+   "why": [
+    "672 zhlédnutí · ER 3.7 % — AI pro všechny",
+    "Úhel „AI agenti — obecně“",
+    "Formát si vypůjčit do kampaně"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/vir-youtube-15.jpg",
+   "dur": "04:45",
+   "geo": "cz"
+  },
+  {
+   "poradi": 22,
+   "sit": "youtube",
+   "kdo": "AI Univerzita",
+   "score": 63,
+   "zhlednuti": 8408,
+   "likes": 134,
+   "cmts": 1,
+   "url": "https://www.youtube.com/watch?v=SxW7H1bfDZg",
+   "nm": "AgentKit od OpenAI: Postavte si AI agenta během 10 minut!",
+   "uhel": "praktický návod",
+   "why": [
+    "8 408 zhlédnutí · ER 1.6 % — AI Univerzita",
+    "Úhel „praktický návod“",
+    "Návodový formát = předloha pro mid-funnel obsah"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/vir-youtube-16.jpg",
+   "dur": "17:16",
+   "geo": "cz"
+  },
+  {
+   "poradi": 23,
+   "sit": "youtube",
+   "kdo": "Filip Oborník | AI s rozumem",
+   "score": 62,
+   "zhlednuti": 3563,
+   "likes": 64,
+   "cmts": 17,
+   "url": "https://www.youtube.com/watch?v=6M_8ELtoIPg",
+   "nm": "Claude Code Goal: AI agent už konečně dokončí úkol sám",
+   "uhel": "FOMO — v reklamách VOLNÝ",
+   "why": [
+    "3 563 zhlédnutí · ER 1.8 % — Filip Oborník | AI s rozumem",
+    "Úhel „FOMO — v reklamách VOLNÝ“",
+    "Úhel s trakcí a nulovou inzercí — použít"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/vir-youtube-17.jpg",
+   "dur": "14:04",
+   "geo": "cz"
+  },
+  {
+   "poradi": 24,
+   "sit": "tiktok",
+   "kdo": "@naklikam",
+   "score": 61,
+   "zhlednuti": 293000,
+   "likes": 814,
+   "cmts": 15,
+   "url": "https://www.tiktok.com/@naklikam/video/7535933528064707862",
+   "nm": "Chtěl jsem web pro autodetailing, napsala ho AI",
+   "uhel": "use-case z oboru",
+   "why": [
+    "293 000 zhlédnutí · ER 0.3 % — @naklikam",
+    "Úhel „use-case z oboru“",
+    "Konkrétní obor = relatable příběh"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/vir-tiktok-24.jpg",
+   "dur": "0:56",
+   "geo": "cz"
+  },
+  {
+   "poradi": 25,
+   "sit": "youtube",
+   "kdo": "AI Univerzita",
+   "score": 60,
+   "zhlednuti": 1693,
+   "likes": 32,
+   "cmts": 3,
+   "url": "https://www.youtube.com/watch?v=GDSKv3F-P5w",
+   "nm": "Roman Berglowiec (CEO Everbot): Jak automatizovat firmu pomocí AI",
+   "uhel": "praktický návod",
+   "why": [
+    "1 693 zhlédnutí · ER 1.9 % — AI Univerzita",
+    "Úhel „praktický návod“",
+    "Návodový formát = předloha pro mid-funnel obsah"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/vir-youtube-19.jpg",
+   "dur": "01:26:53",
+   "geo": "cz"
+  },
+  {
+   "poradi": 26,
+   "sit": "youtube",
+   "kdo": "Kryštof Dvořák",
+   "score": 60,
+   "zhlednuti": 688,
+   "likes": 15,
+   "cmts": 0,
+   "url": "https://www.youtube.com/watch?v=O46KcE9EMqA",
+   "nm": "Kompletní průvodce AI Agenty v roce 2026! (a jak je skutečně používat)",
+   "uhel": "praktický návod",
+   "why": [
+    "688 zhlédnutí · ER 2.2 % — Kryštof Dvořák",
+    "Úhel „praktický návod“",
+    "Návodový formát = předloha pro mid-funnel obsah"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/vir-youtube-20.jpg",
+   "dur": "08:45",
+   "geo": "cz"
+  },
+  {
+   "poradi": 27,
+   "sit": "youtube",
+   "kdo": "AI Univerzita",
+   "score": 59,
+   "zhlednuti": 949,
+   "likes": 19,
+   "cmts": 3,
+   "url": "https://www.youtube.com/watch?v=Y1BrnxvyO30",
+   "nm": "Firma čitelná pro AI: Business as a Code metodika (Miroslav Michalko)",
+   "uhel": "AI agenti — obecně",
+   "why": [
+    "949 zhlédnutí · ER 2.0 % — AI Univerzita",
+    "Úhel „AI agenti — obecně“",
+    "Formát si vypůjčit do kampaně"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/vir-youtube-21.jpg",
+   "dur": "01:21:04",
+   "geo": "cz"
+  },
+  {
+   "poradi": 28,
+   "sit": "tiktok",
+   "kdo": "@ai.silenec",
+   "score": 59,
+   "zhlednuti": 1619,
+   "likes": 29,
+   "cmts": 1,
+   "url": "https://www.tiktok.com/@ai.silenec/video/7512518292444138774",
+   "nm": "AI nástroj pro podnikatele: plán, logo i web",
+   "uhel": "praktický návod",
+   "why": [
+    "1 619 zhlédnutí · ER 1.8 % — @ai.silenec",
+    "Úhel „praktický návod“",
+    "Návodový formát = předloha pro mid-funnel obsah"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/vir-tiktok-28.jpg",
+   "dur": "0:28",
+   "geo": "cz"
+  },
+  {
+   "poradi": 29,
+   "sit": "youtube",
+   "kdo": "Next mind",
+   "score": 58,
+   "zhlednuti": 150,
+   "likes": 7,
+   "cmts": 0,
+   "url": "https://www.youtube.com/watch?v=37gQLMmyIY0",
+   "nm": "Ondřej Rozinek: Jak AI agenti mění firmy i běžný život | Next Mind Podcast #2",
+   "uhel": "praktický návod",
+   "why": [
+    "150 zhlédnutí · ER 4.7 % — Next mind",
+    "Úhel „praktický návod“",
+    "Návodový formát = předloha pro mid-funnel obsah"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/vir-youtube-23.jpg",
+   "dur": "25:19",
+   "geo": "cz"
+  },
+  {
+   "poradi": 30,
+   "sit": "youtube",
+   "kdo": "Digiskills cz",
+   "score": 57,
+   "zhlednuti": 3588,
+   "likes": 50,
+   "cmts": 1,
+   "url": "https://www.youtube.com/watch?v=LTCbOpM3Uy0",
+   "nm": "Jak postavit AI agenta v n8n: Kompletní průvodce",
+   "uhel": "praktický návod",
+   "why": [
+    "3 588 zhlédnutí · ER 1.4 % — Digiskills cz",
+    "Úhel „praktický návod“",
+    "Návodový formát = předloha pro mid-funnel obsah"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/vir-youtube-24.jpg",
+   "dur": "05:19",
+   "geo": "cz"
+  },
+  {
+   "poradi": 31,
+   "sit": "youtube",
+   "kdo": "AI v kostce",
+   "score": 56,
+   "zhlednuti": 4622,
+   "likes": 56,
+   "cmts": 15,
+   "url": "https://www.youtube.com/watch?v=5jZuSqov05A",
+   "nm": "59. AI agenti v praxi: Jak jsme si postavili vlastní AI agenty (a proč už není cesty zpět)",
+   "uhel": "praktický návod",
+   "why": [
+    "4 622 zhlédnutí · ER 1.2 % — AI v kostce",
+    "Úhel „praktický návod“",
+    "Návodový formát = předloha pro mid-funnel obsah"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/vir-youtube-25.jpg",
+   "dur": "40:00",
+   "geo": "cz"
+  },
+  {
+   "poradi": 32,
+   "sit": "tiktok",
+   "kdo": "@naklikam",
+   "score": 56,
+   "zhlednuti": 83700,
+   "likes": 250,
+   "cmts": 15,
+   "url": "https://www.tiktok.com/@naklikam/video/7535931918324469014",
+   "nm": "Nástroj na faktury bez programování?",
+   "uhel": "praktický návod",
+   "why": [
+    "83 700 zhlédnutí · ER 0.3 % — @naklikam",
+    "Úhel „praktický návod“",
+    "Návodový formát = předloha pro mid-funnel obsah"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/vir-tiktok-32.jpg",
+   "dur": "0:47",
+   "geo": "cz"
+  },
+  {
+   "poradi": 33,
+   "sit": "tiktok",
+   "kdo": "@hackni_zivot_ai",
+   "score": 55,
+   "zhlednuti": 3160,
+   "likes": 40,
+   "cmts": 58,
+   "url": "https://www.tiktok.com/@hackni_zivot_ai/video/7622017428767247618",
+   "nm": "Zapomeň na klasickou práci",
+   "uhel": "praktický návod",
+   "why": [
+    "3 160 zhlédnutí · ER 1.3 % — @hackni_zivot_ai",
+    "Úhel „praktický návod“",
+    "Návodový formát = předloha pro mid-funnel obsah"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/vir-tiktok-33.jpg",
+   "dur": "",
+   "geo": "cz"
+  },
+  {
+   "poradi": 34,
+   "sit": "youtube",
+   "kdo": "WIREDCZ",
+   "score": 53,
+   "zhlednuti": 48825,
+   "likes": 94,
+   "cmts": 17,
+   "url": "https://www.youtube.com/watch?v=c5p5CSjH8C8",
+   "nm": "Kódování končí. AI agenti převezmou vývoj i byrokracii kolem, říká šéf CodeNOW",
+   "uhel": "FOMO — v reklamách VOLNÝ",
+   "why": [
+    "48 tis. zhlédnutí, ale ER 0,2 % — dosah bez zapojení",
+    "Mediální FOMO funguje hůř než osobní podání",
+    "FOMO říkat tváří, ne titulkem"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/vir-youtube-28.jpg",
+   "dur": "43:37",
+   "geo": "cz"
+  },
+  {
+   "poradi": 35,
+   "sit": "youtube",
+   "kdo": "AI v kostce",
+   "score": 49,
+   "zhlednuti": 12805,
+   "likes": 42,
+   "cmts": 8,
+   "url": "https://www.youtube.com/watch?v=bY4xLeBWv34",
+   "nm": "62. OpenClaw a AI agenti: Kde končí sliby a začíná realita?",
+   "uhel": "skepse / realita",
+   "why": [
+    "12 805 zhlédnutí · ER 0.3 % — AI v kostce",
+    "Úhel „skepse / realita“",
+    "Odpovídat obsahem na „co je reálné“"
+   ],
+   "thumb": "/Users/pavelhrdlicka/Documents/Claude/Projects/CliqSales/documents/ads/scout/assets/vir-youtube-29.jpg",
+   "dur": "39:38",
+   "geo": "cz"
+  }
+ ],
+ "mapa_uhlu": {
+  "plno": [
+   {
+    "uhel": "úspora času / produktivita",
+    "pocet": "9+"
+   }
+  ],
+  "sporne": [
+   {
+    "uhel": "AI zaměstnanec na jednu roli",
+    "pocet": "5"
+   },
+   {
+    "uhel": "postav si agenta bez kódu",
+    "pocet": "3"
+   }
+  ],
+  "volno": [
+   "celý AI tým, ne jeden agent",
+   "FOMO — konkurence už AI má",
+   "case study s čísly (CZ)"
+  ]
+ },
+ "hook_navrh": "Zatímco vy čtete inzeráty, konkurence už najala celý AI tým.",
+ "jazyk_zakaznika": {
+  "namitky": [
+   {
+    "q": "Zní to skvěle, ale u nás v malé firmě to nikdo neumí nastavit.",
+    "e": "Obava z náročnosti nasazení. V reklamě slibte: nasadíme za vás, vy jen používáte."
+   },
+   {
+    "q": "Bojím se, že to nahradí lidi a pak zjistím, že to nefunguje.",
+    "e": "Strach ze selhání náhrady. Ukažte, že AI lidi doplní, nepřevezme rizika."
+   },
+   {
+    "q": "Kolik to reálně stojí měsíčně? Nikde není cena.",
+    "e": "Cenová neprůhlednost brzdí rozhodnutí. Uveďte konkrétní měsíční částku."
+   },
+   {
+    "q": "Zkoušel jsem chatbota a byl to trapas před zákazníky.",
+    "e": "Špatná minulá zkušenost. Jasně se odlište od hloupého chatbota."
+   },
+   {
+    "q": "Nemám čas se učit další složitý nástroj.",
+    "e": "Bariéra složitosti. Zdůrazněte: bez učení, funguje hned první den."
+   }
+  ],
+  "touhy": [
+   {
+    "q": "Konečně přestat dělat pořád dokola tu samou administrativu.",
+    "e": "Touha zbavit se rutiny. Hook: konec ruční administrativy."
+   },
+   {
+    "q": "Chci, aby mi někdo hlídal maily a objednávky, i když nejsem u počítače.",
+    "e": "Přání 24/7 zastoupení. Slibte: běží, i když spíte."
+   },
+   {
+    "q": "Víc času na obchod, míň na papírování.",
+    "e": "Touha po fokusu na růst. Rámování: vy prodáváte, AI papíruje."
+   },
+   {
+    "q": "Dohnat konkurenci, co už AI nasadila.",
+    "e": "Strach ze zaostání = motivace. Úhel: nenechte se předběhnout."
+   },
+   {
+    "q": "Chci to mít nastavené a nemuset to pořád řešit.",
+    "e": "Přání bezúdržbovosti. Slibte: nastavíme a jede samo."
+   }
+  ],
+  "fraze": [
+   "utopený v mailech",
+   "dělám práci za tři lidi",
+   "než to vysvětlím, udělám to radši sám",
+   "zase další nástroj, co se musím učit",
+   "kdyby to fakt fungovalo, beru hned"
+  ],
+  "zdroj_pocet": {
+   "youtube": 176,
+   "tiktok": 58
+  },
+  "frustrace": [
+   {
+    "q": "Zkoušeli jsme n8n, ale nikdo v týmu to neuměl udržovat.",
+    "e": "Bolest údržby DIY nástrojů. Úhel: my to spravujeme za vás."
+   },
+   {
+    "q": "Chatbot uměl jen odpovídat na FAQ, nic víc.",
+    "e": "Zklamání z omezených botů. Úhel: skutečný agent, ne odpovídač na FAQ."
+   },
+   {
+    "q": "Koupili jsme kurz, ale zůstalo to u teorie.",
+    "e": "Kurzy bez výsledku. Úhel: hotové nasazení, ne teorie."
+   },
+   {
+    "q": "Agentura nám to nasadila a pak zmizela.",
+    "e": "Opuštění po nasazení. Úhel: dlouhodobá péče, ne jednorázovka."
+   },
+   {
+    "q": "Máme deset nástrojů, co spolu nemluví.",
+    "e": "Roztříštěnost systémů. Úhel: jeden AI tým místo deseti nástrojů."
+   }
+  ],
+  "otazky": [
+   {
+    "q": "Musím kvůli tomu umět programovat?",
+    "e": "Odpovězte přímo v reklamě: bez jediného řádku kódu."
+   },
+   {
+    "q": "Jak dlouho trvá, než to reálně běží?",
+    "e": "Uveďte konkrétní dobu: do 7 dní v provozu."
+   },
+   {
+    "q": "Co když to udělá chybu před zákazníkem?",
+    "e": "Řešte důvěru: kontrolní schvalování, žádné trapasy."
+   },
+   {
+    "q": "Kolik lidí tím reálně nahradím?",
+    "e": "Buďte konkrétní: práce za 2 až 3 lidi, měřitelně."
+   },
+   {
+    "q": "Co když to nebude fungovat pro můj obor?",
+    "e": "Nabídněte důkaz z oboru: případová studie z vaší branže."
+   }
+  ],
+  "triggery": [
+   "strach ze zaostání za konkurencí",
+   "únava z rutiny",
+   "nedůvěra po špatné zkušenosti",
+   "touha po volném čase",
+   "tlak na náklady"
+  ]
+ },
+ "search_uhly": [
+  {
+   "uhel": "produktivita / úspora času",
+   "pocet": 4,
+   "insight": "Nejpřeplněnější úhel — každý slibuje úsporu času. Těžké se odlišit.",
+   "priklady": [
+    {
+     "head": "AI automatizace + leadership pro vedení firem",
+     "kdo": "KOMBAIN"
+    },
+    {
+     "head": "AI agenti na míru pro firmy",
+     "kdo": "DX Heroes"
+    },
+    {
+     "head": "Napojení AI do firemních procesů",
+     "kdo": "Napojeno"
+    },
+    {
+     "head": "Program, který mění firmu — praktická AI",
+     "kdo": "Digitari"
+    }
+   ]
+  },
+  {
+   "uhel": "edukace / adopce ve firmě",
+   "pocet": 4,
+   "insight": "Otevřený prostor — trh se teprve učí, edukační úhel má dveře otevřené.",
+   "priklady": [
+    {
+     "head": "Tvorba AI agentů a aplikací",
+     "kdo": "Macaly"
+    },
+    {
+     "head": "Nasazení AI do firmy",
+     "kdo": "EROKO Tech"
+    },
+    {
+     "head": "AI konzultace a automatizace",
+     "kdo": "AutoArti"
+    },
+    {
+     "head": "Zaveďte AI ve firmě smysluplně",
+     "kdo": "LER Studio"
+    }
+   ]
+  }
+ ]
+}

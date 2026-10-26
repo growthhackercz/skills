@@ -23,8 +23,11 @@ timeZone
 userId
 ```
 
-`GHL_USER` is accepted as the campaign `userId` in the current CliqSales
-location. If a distinct HighLevel user id is required, set `GHL_USER_ID`.
+`userId` must be a HighLevel user id. The Control Center integration stores the
+user e-mail in `GHL_USER`, so the helper resolves it through
+`GET /users/?locationId=:locationId` (users scope required) unless the already
+resolved `GHL_USER_ID` is set. Sending the e-mail as `userId` is accepted by the
+API and then processes zero recipients, so never pass `GHL_USER` through.
 
 Official docs:
 

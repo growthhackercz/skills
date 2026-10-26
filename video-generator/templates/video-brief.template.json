@@ -1,0 +1,52 @@
+{
+  "briefVersion": 2,
+  "dialogueQa": {
+    "required": true,
+    "aliases": {}
+  },
+  "campaign_slug": "[kampan-slug]",
+  "version": "0.1",
+  "language": "cs",
+  "engine": "omni",
+  "aspect_ratio": "9:16",
+  "style": "Vertical 9:16, cinematic anamorphic 35mm, warm morning light, deep navy and cyan brand tones, shallow depth of field. Two businessmen at a cafe table: the man on the LEFT matches reference <IMAGE_REF_0>, the man on the RIGHT matches reference <IMAGE_REF_1>; keep their look consistent with the references. ",
+  "no_music_suffix": " No background music at all — only the spoken Czech line and quiet ambience. No English, no subtitles, no on-screen text.",
+  "characters": [
+    {"id": "A", "ref_image": "refs/refA.png", "description": "[postava A — vek, vzhled, obleceni, energie]"},
+    {"id": "B", "ref_image": "refs/refB.png", "description": "[postava B — vek, vzhled, obleceni, energie]"}
+  ],
+  "scenes": [
+    {
+      "id": "s1a", "mode": "ref2v", "duration": 5,
+      "line": {"speaker": "A", "text": "[replika A — verbatim, i pro titulky]"},
+      "prompt": "Medium two-shot at the table, slow push-in. The LEFT man leans forward and says, in natural fluent Czech with accurate lip-sync, exactly: „[replika A]“"
+    },
+    {
+      "id": "s1b", "mode": "ref2v", "duration": 5,
+      "line": {"speaker": "B", "text": "[replika B]"},
+      "prompt": "Medium two-shot with both men in frame. The man on the RIGHT answers calmly, in natural fluent Czech with accurate lip-sync, exactly: „[replika B]“"
+    },
+    {
+      "id": "s2b", "mode": "img2v", "duration": 5, "start_image": "screens/s2b-keyframe.png",
+      "line": {"speaker": "VO", "text": "[VO veta]"},
+      "prompt": "Product insert; the on-screen UI stays FIXED, sharp and readable, never warping, morphing or changing text; only light, camera and ambience move. A calm male Czech voice-over says exactly: „[VO veta]“",
+      "trim": {"lead": 0.3, "out": 4.8}
+    },
+    {
+      "id": "s3b", "mode": "img2v", "duration": 5, "start_image": "images/endcard.png",
+      "line": {"speaker": "VO", "text": "[CTA veta + znacka]"},
+      "prompt": "Premium brand end card holding steady with a soft gradient glow; the text stays sharp and correct, very subtle glow pulse only. A warm confident male Czech voice-over says exactly: „[CTA veta]“"
+    }
+  ],
+  "subtitles": {
+    "enabled": true, "font": "Poppins", "gradient": ["#5AE8FF", "#14A8FF", "#0056C8"], "bottom_px": 420,
+    "lines": {
+      "s1a": [["[bezna slova]", "[jedno-klicove-slovo]", "[bezna slova za]"]],
+      "s1b": [["[replika A pre]", "[big]", ""], ["[replika B druheho mluvciho]", "", ""]]
+    }
+  },
+  "flashes": ["s1b", "s2b"],
+  "punch": {"text": "NE!", "scene": "s1b", "word": "ne"},
+  "music": {"query": "cinematic build epic", "arc": true},
+  "_sfx": []
+}

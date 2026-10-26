@@ -1,0 +1,16 @@
+{
+  "contractVersion": 1,
+  "taskCheckpoints": {
+    "product-offer": {
+      "requires": [
+        {
+          "fileManifest": {
+            "path": "/documents/brand/products/{product_slug}/.100m-offer-manifest.json",
+            "target": "/documents/brand/products/{product_slug}/productDNA.md",
+            "skillVersion": "1.1"
+          }
+        }
+      ]
+    }
+  }
+}

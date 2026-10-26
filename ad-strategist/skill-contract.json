@@ -1,0 +1,37 @@
+{
+  "contractVersion": 1,
+  "taskCheckpoints": {
+    "campaign-package": {
+      "requires": [
+        {
+          "file": "/documents/ads/campaigns/{slug}/ad-strategy.md"
+        },
+        {
+          "file": "/documents/ads/campaigns/{slug}/ad-plan.json"
+        },
+        {
+          "file": "/documents/ads/campaigns/{slug}/ad-image-briefs.json"
+        },
+        {
+          "file": "/documents/ads/campaigns/{slug}/ad-drafts.json"
+        }
+      ]
+    },
+    "autopilot-setup": {
+      "requires": [
+        {
+          "file": "/documents/ads/campaigns/{slug}/ad-plan.json"
+        },
+        {
+          "cronsDeclared": "autopilot"
+        }
+      ]
+    }
+  },
+  "declaredCrons": {
+    "autopilot": {
+      "min": 1,
+      "namePrefix": "Týdenní vyhodnocení reklam"
+    }
+  }
+}

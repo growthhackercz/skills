@@ -1,0 +1,477 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Scorecard prodejního hovoru",
+  "description": "Výstup sales-mentor per-call scoringu. Single-writer: zapisuje jen mentor. Čte analytik + mentor batch.",
+  "type": "object",
+  "required": [
+    "meta",
+    "scores",
+    "coaching",
+    "verdict",
+    "parts",
+    "objections",
+    "closing_rozbor",
+    "signaly_cteni"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": [
+        "obchodnik",
+        "datum",
+        "firma"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "obchodnik": {
+          "type": "string",
+          "description": "jméno/ID obchodníka"
+        },
+        "datum": {
+          "type": "string",
+          "description": "YYYY-MM-DD hovoru"
+        },
+        "firma": {
+          "type": "string",
+          "description": "protistrana / zákazník"
+        },
+        "contact_id": {
+          "type": "string",
+          "description": "GHL contactId, pokud známý"
+        },
+        "produkt": {
+          "type": "string"
+        },
+        "vysledek": {
+          "type": "string",
+          "enum": [
+            "won",
+            "lost",
+            "open",
+            "no_show",
+            "neznamy"
+          ]
+        },
+        "zdroj_prepisu": {
+          "type": "string",
+          "enum": [
+            "fireflies",
+            "manual",
+            "jiny"
+          ]
+        },
+        "audio_dostupne": {
+          "type": "boolean",
+          "description": "false = tonalitu hodnoť jen textově"
+        },
+        "kb_verze": {
+          "type": "string"
+        }
+      }
+    },
+    "call_stages": {
+      "type": "array",
+      "description": "detekované fáze dle TAXONOMY (opening..post_call) + zda proběhly/chybí",
+      "items": {
+        "type": "object"
+      }
+    },
+    "scores": {
+      "type": "object",
+      "required": [
+        "total",
+        "categories"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "total": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "categories": {
+          "type": "array",
+          "minItems": 8,
+          "maxItems": 8,
+          "items": {
+            "type": "object",
+            "required": [
+              "key",
+              "vaha",
+              "skore",
+              "duvod"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "key": {
+                "type": "string",
+                "enum": [
+                  "vedeni_struktura",
+                  "discovery",
+                  "kvalifikace",
+                  "hodnota_jistota",
+                  "prezentace",
+                  "namitky",
+                  "closing",
+                  "etika"
+                ]
+              },
+              "vaha": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "skore": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100,
+                "description": "% naplnění kategorie"
+              },
+              "duvod": {
+                "type": "string",
+                "description": "1–2 věty s citací z hovoru"
+              }
+            }
+          }
+        }
+      }
+    },
+    "objections": {
+      "type": "array",
+      "description": "Námitky DO HLOUBKY — u každé skutečná příčina, přepis, co se stalo a postup krok za krokem. Typ VŽDY dle TAXONOMY (klíč do dat, ve výstupu český název).",
+      "items": {
+        "type": "object",
+        "required": [
+          "typ"
+        ],
+        "properties": {
+          "typ": {
+            "type": "string",
+            "enum": [
+              "price",
+              "affordability",
+              "timing",
+              "urgency",
+              "trust_product",
+              "trust_company",
+              "trust_salesperson",
+              "self_doubt",
+              "fit",
+              "authority",
+              "partner_or_team",
+              "comparison",
+              "risk",
+              "implementation",
+              "effort",
+              "past_failure",
+              "need_to_think",
+              "information_request",
+              "polite_rejection",
+              "hidden_objection",
+              "not_qualified"
+            ]
+          },
+          "citace": {
+            "type": "string",
+            "description": "úsek hovoru, kde námitka padla"
+          },
+          "osetreni": {
+            "type": "string",
+            "description": "jak byla ošetřena (looping/reframe/logika/neošetřena)"
+          },
+          "vyreseno": {
+            "type": "boolean"
+          },
+          "pricina": {
+            "type": "string",
+            "description": "skutečná příčina pod námitkou (co klient reálně řeší)"
+          },
+          "reakce": {
+            "type": "string",
+            "description": "jak na námitku odpověděl obchodník (přepis)"
+          },
+          "postup": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "3–4 kroky s konkrétními větami, jak námitku zvládnout příště"
+          }
+        }
+      }
+    },
+    "three_tens": {
+      "type": "object",
+      "properties": {
+        "produkt": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "obchodnik": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "firma": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10
+        }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "description": "evidence-first nálezy: citace + interpretace + dopad + doporučení",
+      "items": {
+        "type": "object",
+        "properties": {
+          "finding": {
+            "type": "string"
+          },
+          "quote": {
+            "type": "string"
+          },
+          "interpretation": {
+            "type": "string"
+          },
+          "impact": {
+            "type": "string"
+          },
+          "recommendation": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "strengths": {
+      "type": "array",
+      "description": "tři nejsilnější momenty s citací",
+      "items": {
+        "type": "string"
+      }
+    },
+    "coaching": {
+      "type": "object",
+      "required": [
+        "drill",
+        "focus_skill",
+        "metric",
+        "next_behavior",
+        "plan",
+        "primary_issue"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "primary_issue": {
+          "type": "string"
+        },
+        "focus_skill": {
+          "type": "string"
+        },
+        "next_behavior": {
+          "type": "string"
+        },
+        "drill": {
+          "type": "string"
+        },
+        "metric": {
+          "type": "string"
+        },
+        "plan": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "plán na příští hovor, 4–5 konkrétních kroků"
+        },
+        "drills": {
+          "type": "array",
+          "description": "Cvičení do příště — 3–5 kusů, každé s konkrétními větami k nácviku. Samostatná sekce na konci detailního rozboru.",
+          "items": {
+            "type": "object",
+            "required": [
+              "nazev",
+              "vety"
+            ],
+            "properties": {
+              "nazev": {
+                "type": "string",
+                "description": "název cvičení, např. Otázky na náklad nečinnosti"
+              },
+              "cil": {
+                "type": "string",
+                "description": "co se tím obchodník naučí"
+              },
+              "trvani": {
+                "type": "string",
+                "description": "odhad času, např. 10 minut"
+              },
+              "vety": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "konkrétní věty k nácviku (2–5)"
+              },
+              "jak_trenovat": {
+                "type": "string",
+                "description": "praktický postup nácviku"
+              }
+            }
+          }
+        },
+        "metriky": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Co měříme na příštím hovoru — 3–4 měřitelné věci s cílem."
+        }
+      }
+    },
+    "ethics": {
+      "type": "object",
+      "properties": {
+        "penalties": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "manipulace_detekovana": {
+          "type": "boolean"
+        }
+      }
+    },
+    "uncertainties": {
+      "type": "array",
+      "description": "nejistoty z chybějících dat (např. audio pro tonalitu)",
+      "items": {
+        "type": "string"
+      }
+    },
+    "conversation_intelligence": {
+      "type": "object",
+      "description": "VOLITELNÉ. Signály z nahrávky (Fireflies Conversation Intelligence) — dodává fireflies skill v insightu, mentor je jen zkopíruje sem. Když chybí (klient bez plánu / free tarif), vynech celý objekt; karta sekci Dynamika hovoru pak neukáže.",
+      "additionalProperties": true,
+      "properties": {
+        "talk_ratio_obchodnik": {
+          "type": "number",
+          "description": "% mluvení obchodníka"
+        },
+        "talk_ratio_lead": {
+          "type": "number"
+        },
+        "longest_monologue": {
+          "type": "string",
+          "description": "mm:ss nejdelšího monologu obchodníka"
+        },
+        "questions_obchodnik": {
+          "type": "integer"
+        },
+        "filler_words": {
+          "type": "integer"
+        },
+        "sentiment": {
+          "type": "string",
+          "description": "sentiment klienta (pozitivní/neutrální/negativní)"
+        },
+        "source": {
+          "type": "string",
+          "description": "např. fireflies"
+        }
+      }
+    },
+    "verdict": {
+      "type": "string",
+      "description": "1–2 věty celkového verdiktu (do hlavičky detailu i karty)"
+    },
+    "parts": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": [
+          "nazev",
+          "co_se_stalo"
+        ],
+        "properties": {
+          "nazev": {
+            "type": "string"
+          },
+          "cas": {
+            "type": "string"
+          },
+          "faze": {
+            "type": "string"
+          },
+          "co_se_stalo": {
+            "type": "string"
+          },
+          "jak_melo_znit": {
+            "type": "string"
+          },
+          "dopad": {
+            "type": "string"
+          },
+          "dialog": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "kdo",
+                "text"
+              ],
+              "properties": {
+                "kdo": {
+                  "type": "string"
+                },
+                "text": {
+                  "type": "string"
+                },
+                "poznamka": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "closing_rozbor": {
+      "type": "object",
+      "description": "Hloubkový rozbor závěru hovoru — klíčová oblast, kde se obchody ztrácejí.",
+      "properties": {
+        "citace": {
+          "type": "string"
+        },
+        "chyby": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "jak_melo_znit": {
+          "type": "string"
+        },
+        "postup": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "dopad": {
+          "type": "string"
+        }
+      }
+    },
+    "signaly_cteni": {
+      "type": "string",
+      "description": "interpretace signálů (Three Tens + dynamika) jednou větou"
+    }
+  },
+  "$comment": "Audit P1-14: pole slíbená v SKILL.md jsou nyní skutečně povinná. Když námitka nebyla, patří do objections prázdné pole [].",
+  "schemaVersion": "1.1"
+}

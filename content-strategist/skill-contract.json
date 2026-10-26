@@ -1,0 +1,47 @@
+{
+  "contractVersion": 1,
+  "taskCheckpoints": {
+    "blog-draft-package": {
+      "requires": [
+        {
+          "file": "/documents/content/blog/{slug}/article.html"
+        },
+        {
+          "file": "/documents/content/blog/{slug}/article-metadata.json"
+        },
+        {
+          "glob": "/documents/content/blog/{slug}/images/*.png",
+          "min": 2
+        },
+        {
+          "file": "/documents/content/blog/{slug}/image-manifest.json"
+        },
+        {
+          "fileContains": {
+            "path": "/documents/content/blog/{slug}/handoff.md",
+            "contains": "draft"
+          }
+        }
+      ]
+    },
+    "autopilot-setup": {
+      "requires": [
+        {
+          "file": "/documents/content/autopilot/config.json"
+        },
+        {
+          "cronsDeclared": "autopilot"
+        }
+      ]
+    }
+  },
+  "declaredCrons": {
+    "autopilot": {
+      "min": 2,
+      "namePrefix": "Obsah — "
+    }
+  },
+  "versionedArtifacts": [
+    "/documents/content/autopilot/config.json"
+  ]
+}

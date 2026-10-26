@@ -1,0 +1,20 @@
+# Next.js 15 SSR na Netlify — explicit Next.js runtime plugin generuje
+# serverless funkce pro /api/submit + SSR routy /vysledek a /online/[contactId].
+# (Bez tohoto netlify deploy --no-build nahraje jen statické .next → 404.)
+[build]
+  command = "node scripts/ensure-fields.mjs --verify && npm ci && next build"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[functions]
+  node_bundler = "esbuild"
+
+# Bezpečné hlavičky, které nemění embed/pop-up kontrakt funnelu. Frame policy,
+# COOP a CSP vyžadují samostatné rozhodnutí podle custom-domain/embed použití.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=(), browsing-topics=()"

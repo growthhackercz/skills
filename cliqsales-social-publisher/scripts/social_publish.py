@@ -337,6 +337,45 @@ def post_id_from_response(payload: Any) -> str | None:
     return post_id_from_known_shape(payload)
 
 
+def post_object_from_known_shape(payload: Any) -> dict[str, Any] | None:
+    if isinstance(payload, dict):
+        for key in POST_NAMED_CONTAINER_KEYS:
+            nested = payload.get(key)
+            if nested is payload:
+                continue
+            found = post_object_from_known_shape(nested)
+            if found:
+                return found
+
+        if direct_post_id_from_object(payload):
+            return payload
+
+        for key in POST_GENERIC_CONTAINER_KEYS:
+            nested = payload.get(key)
+            if nested is payload:
+                continue
+            found = post_object_from_known_shape(nested)
+            if found:
+                return found
+
+        for key in ("posts", "items"):
+            nested = payload.get(key)
+            if isinstance(nested, list) and len(nested) == 1:
+                found = post_object_from_known_shape(nested[0])
+                if found:
+                    return found
+
+    if isinstance(payload, list) and len(payload) == 1:
+        return post_object_from_known_shape(payload[0])
+
+    return None
+
+
+def post_platform_from_response(payload: Any) -> str | None:
+    post = post_object_from_known_shape(payload)
+    return normalize_lookup_key(post.get("platform")) if post else None
+
+
 def media_url_from_response(payload: Any) -> str | None:
     value = find_in_tree(payload, {"url", "fileUrl", "publicUrl", "sourceUrl", "cdnUrl", "signedUrl"})
     if isinstance(value, str) and value.strip():
@@ -345,7 +384,22 @@ def media_url_from_response(payload: Any) -> str | None:
 
 
 def media_items_from_urls(urls: list[str]) -> list[dict[str, str]]:
-    return [{"url": url, "type": "image"} for url in urls if url.strip()]
+    items: list[dict[str, str]] = []
+    for raw_url in urls:
+        url = raw_url.strip()
+        if not url:
+            continue
+        # Inspect only the decoded path; signed query strings/fragments must
+        # not turn a JPEG into a video or invalidate a recognized extension.
+        media_path = urllib.parse.unquote(urllib.parse.urlsplit(url).path).lower()
+        mime_type, encoding = mimetypes.guess_type(media_path)
+        recognized = mime_type and (
+            mime_type.startswith(("image/", "video/")) or mime_type == "application/pdf"
+        ) and not encoding
+        # Preserve the legacy fallback for opaque/extensionless media URLs.
+        # Inferring bytes would require an additional network request.
+        items.append({"url": url, "type": mime_type if recognized else "image"})
+    return items
 
 
 def assert_success_response(payload: Any, action: str) -> None:
@@ -469,6 +523,9 @@ class SocialClient:
     def update_post(self, post_id: str, payload: dict[str, Any]) -> Any:
         return self.request("PUT", f"/social-media-posting/{self.location_id}/posts/{post_id}", data=payload)
 
+    def delete_post(self, post_id: str) -> Any:
+        return self.request("DELETE", f"/social-media-posting/{self.location_id}/posts/{post_id}")
+
     def upload_media(self, file_path: str) -> Any:
         body, boundary = build_multipart_body("file", file_path)
         headers = {
@@ -531,6 +588,20 @@ def resolve_user_reference(client: SocialClient, reference: str | None, source: 
         )
 
     if not is_email_reference(value):
+        # Not an e-mail, so it should already be a user id. Verify it when the token
+        # can read /users/ — a placeholder such as "admin" is accepted by the payload
+        # and then silently reaches nobody.
+        try:
+            users_payload = client.users()
+        except SocialError:
+            return value
+        known = {user_id_from_object(user) for user in normalize_items(users_payload, ("users", "data", "items"))}
+        known.discard(None)
+        if known and value not in known:
+            raise SocialError(
+                f"{source} is not a GHL user ID of this location: {value}. "
+                "Set the user e-mail in the Control Center integration."
+            )
         return value
 
     try:
@@ -549,11 +620,19 @@ def resolve_user_reference(client: SocialClient, reference: str | None, source: 
     raise SocialError(f"Unable to resolve {source} email to exactly one GHL user: {value}")
 
 
+def configured_user_values() -> tuple[str | None, str | None]:
+    """(resolved user id, user reference) from the credential profile, then env."""
+    creds = _resolve_ghl_credentials() or {}
+    user_id = first_string(creds.get("user_id"), os.environ.get("GHL_USER_ID"))
+    reference = first_string(creds.get("user"), os.environ.get("GHL_USER"))
+    return user_id, reference
+
+
 def default_user_reference(explicit: str | None) -> str | None:
-    return first_string(
-        explicit,
-        os.environ.get("GHL_USER"),
-    )
+    user_id, reference = configured_user_values()
+    # The resolved id wins: an e-mail only works with users scope, and a location
+    # whose /users/ lookup is ambiguous cannot be resolved at all.
+    return first_string(explicit, user_id, reference)
 
 
 def item_user_reference(item: dict[str, Any]) -> str | None:
@@ -722,6 +801,52 @@ def create_payload_from_item(
     return payload
 
 
+def verify_created_post_platform(
+    client: SocialClient,
+    response: Any,
+    expected_platform: Any,
+) -> dict[str, Any] | None:
+    expected = normalize_lookup_key(expected_platform)
+    if not expected:
+        return None
+
+    actual = post_platform_from_response(response)
+    if actual == expected:
+        return {"verified": True, "expected": expected, "actual": actual}
+
+    post_id = post_id_from_response(response)
+    rollback: dict[str, Any] = {
+        "attempted": False,
+        "deleted": False,
+        "post_id": post_id,
+    }
+    if post_id:
+        rollback["attempted"] = True
+        try:
+            delete_response = client.delete_post(post_id)
+            assert_success_response(delete_response, "Rollback wrong-platform post")
+            rollback["deleted"] = True
+        except Exception as error:  # noqa: BLE001
+            rollback["error"] = str(error)
+
+    detail = {
+        "code": "platform_mismatch",
+        "expected_platform": expected,
+        "actual_platform": actual,
+        "rollback": rollback,
+    }
+    if not post_id:
+        detail["reason"] = "created_post_id_unavailable"
+    elif not rollback["deleted"]:
+        detail["reason"] = "rollback_unconfirmed"
+
+    actual_label = actual or "missing"
+    raise SocialError(
+        f"Created post platform mismatch: expected {expected}, received {actual_label}.",
+        detail=detail,
+    )
+
+
 def command_test(client: SocialClient, _args: argparse.Namespace) -> int:
     accounts = normalize_items(client.accounts(), ("accounts", "data", "items"))
     posts = client.posts_list(limit="3", skip="0")
@@ -813,6 +938,7 @@ def command_draft(client: SocialClient, args: argparse.Namespace) -> int:
     response = client.create_post(payload)
     assert_success_response(response, "Create post")
     post_id = post_id_from_response(response)
+    platform_check = verify_created_post_platform(client, response, args.platform)
 
     result = {
         "ok": True,
@@ -823,6 +949,8 @@ def command_draft(client: SocialClient, args: argparse.Namespace) -> int:
         "uploaded_media": media_uploads,
         "response": response,
     }
+    if platform_check:
+        result["platform"] = platform_check
     if not post_id:
         result["warning"] = "Create post response did not include a recognizable social post id."
     print(json.dumps(result, ensure_ascii=False, indent=2))
@@ -929,6 +1057,11 @@ def command_batch_draft(client: SocialClient, args: argparse.Namespace) -> int:
             response = client.create_post(payload)
             assert_success_response(response, "Create post")
             post_id = post_id_from_response(response)
+            platform_check = verify_created_post_platform(
+                client,
+                response,
+                item.get("platform"),
+            )
 
             ok_count += 1
             result = {
@@ -940,12 +1073,20 @@ def command_batch_draft(client: SocialClient, args: argparse.Namespace) -> int:
                 "media_count": len(payload.get("media", [])),
                 "uploaded_media": media_uploads,
             }
+            if platform_check:
+                result["platform"] = platform_check
             if not post_id:
                 result["warning"] = "Create post response did not include a recognizable social post id."
             results.append(result)
         except Exception as error:  # noqa: BLE001
             failed_count += 1
-            results.append({"index": index, "id": item_id, "ok": False, "error": str(error)})
+            results.append({
+                "index": index,
+                "id": item_id,
+                "ok": False,
+                "error": str(error),
+                **({"detail": error.detail} if isinstance(error, SocialError) and error.detail is not None else {}),
+            })
             if mode == "strict":
                 break
 
@@ -1023,6 +1164,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     draft = sub.add_parser("draft")
     draft.add_argument("--account-id", action="append", required=True)
+    draft.add_argument("--platform", help="Expected platform returned by GHL, e.g. facebook")
     draft.add_argument("--summary", required=True)
     draft.add_argument("--type", default="post")
     draft.add_argument("--status", choices=sorted(ALLOWED_STATUSES), default="draft")

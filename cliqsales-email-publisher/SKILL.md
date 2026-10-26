@@ -3,8 +3,8 @@ name: cliqsales-email-publisher
 description: "Vytvari draft email kampane v CliqSales/GoHighLevel Campaigns V2 z HTML/TXT/manifest vystupu email-draft-orchestratoru. Default je draft; schedule/send jen po explicitnim potvrzeni."
 category: integrations
 status: ready
-version: "1.0"
-publishedAt: "2026-05-08"
+version: "1.1"
+publishedAt: "2026-09-21"
 ---
 # CliqSales Email Publisher
 
@@ -60,6 +60,11 @@ GHL_FROM_NAME
 GHL_FROM_EMAIL
 GHL_REPLY_TO
 ```
+
+`GHL_USER` je hodnota z integrace, obvykle email uzivatele. Campaign `userId` ale musi byt
+HighLevel user ID, takze skill email prelozi pres `GET /users/?locationId=`. `GHL_USER_ID`
+je uz vyresene ID a ma prednost; doplnuje ho integrace pri ulozeni nebo testu. Email se nikdy
+neposila jako `userId` ani jako odesilatel.
 
 ## Workflow
 

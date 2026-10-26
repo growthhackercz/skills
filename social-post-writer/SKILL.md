@@ -3,13 +3,15 @@ name: social-post-writer
 description: "Píše texty pro sociální sítě (jednotlivé posty, kampaně, obsahové plány) a k nim zadání pro vizuály a videa — sám žádné médium negeneruje, předává briefy specializovaným skillům. Zvládá Facebook, Instagram, LinkedIn, TikTok, YouTube, Pinterest, Threads, Bluesky i Google firemní profil. Výstup: hotové texty ke schválení + strukturované podklady pro obrázkový a video generátor a pro publikaci."
 category: content
 status: ready
-version: "2.0"
-publishedAt: "2026-04-30"
+version: "2.1"
+publishedAt: "2026-07-10"
 metadata: {"openclaw":{"emoji":"✍️"}}
 ---
 # Social Post Writer
 
 Textová a koncepční vrstva Content Engine 2.0. Píše **posty** a k nim **briefy pro média** — sám nevyrábí obrázky ani videa. Klient dostane hotové texty ke schválení; výrobní dělníci a publisher dostanou strukturované podklady.
+
+**Precedence: jednorázové social zadání od klienta/operátora vlastní `content-strategist`.** Když je nainstalovaný, na „napište mi post/karusel o X" VŽDY spusť jeho (dotáhne vizuály a publikaci) — tenhle skill v tom běhu funguje jen jako jeho dělník. Sólo režim použij pouze, když `content-strategist` k dispozici není, nebo když si klient výslovně řekne jen o texty. Po sólo běhu do handoffu napiš, že chybí vizuály a publikace — neoznačuj to za hotový post k vypuštění.
 
 ## Co writer dělá a co NE (hranice — důležité)
 
@@ -125,10 +127,10 @@ Zdroj pravdy pro odstupy = `content-log.md`. Když si nejsi jistý, ber konzerva
 1. Identifikuj téma, platformy, tón, CTA, klíčová slova a publish intent. Načti kontext (viz výše).
 2. **Vyber typ postu** podle cíle kusu (návod / příběh / kontrariánský / case study / social proof / promo) — kostry v `references/writing-playbook.md`.
 3. Pro každou cílovou síť napiš **samostatnou verzi textu** (ne jednu sadu pro všechno). Drž strukturu **hook → (re-hook) → tělo → CTA**. Délku, hashtagy, link a CTA řiď dle „Platform writing rules" + `references/platform-params.md`; techniku (hook archetypy, formátování, anti-AI-slop) dle `references/writing-playbook.md`.
-4. Napiš 2–3 hook varianty, vyber finální `hook`; zbylé nech v `hookVariants` (A/B pro publisher/klienta).
+4. Napiš hook **v typech** (kontrariánský / pattern interrupt / identity / curiosity / stat) a **označ 2 nejlepší**; finální do `hook`, zbylé do `hookVariants`. **Climax-led** — míř k vrcholu obsahu, ne forced kontroverze (viz `references/writing-playbook.md`).
 5. Urči **doporučený formát** postu (text / single obrázek / karusel / reel / video).
 6. **Podle formátu vytvoř brief médií (writer NEGENERUJE médium):**
-   - obrázek / karusel / quote/stat/hook karta / story cover → záznam do `visual-briefs.json` (typ, texty na vizuál, formát, alt). Karusel: texty po slidech (slide 1 = hook, slidy 2–N = 1 myšlenka ≤15 slov, poslední = CTA; 5–8 slidů).
+   - obrázek / karusel / quote/stat/hook karta / story cover → záznam do `visual-briefs.json` (typ, texty na vizuál, formát, alt). **Karusel: nejdřív 5řádkový brief** (idea · hook · payoff · struktura · CTA), pak texty po slidech dle **6 beatů** (slide 1 = hook + cover rule „vyznač klíčové slovo", slide 2 = promise, slidy 3–N = 1 myšlenka ≤15 slov s open loops, poslední = ask/CTA; 5–8 slidů).
    - video / reel → záznam do `video-briefs.json` (hook, scénář po záběrech, délka, CTA).
    - čistě textový post → žádný brief.
 7. Sestav `social-posts.md` (člověk) a `social-posts.json` (API) se **stejným** finálním textem.
@@ -203,8 +205,8 @@ Zadání pro `social-image-generator`. Ten z něj vyrobí obrázky + `image-mani
       "aspectRatio": "4:5|1:1|9:16",
       "platform": "instagram",
       "slides": [
-        {"order": 1, "role": "hook", "text": "Krátký hook — zvědavost, bez vyzrazení pointy", "alt": "Alt slidu 1"},
-        {"order": 2, "role": "point", "text": "Myšlenka 1 (max ~15 slov)", "alt": "Alt slidu 2"}
+        {"order": 1, "role": "hook", "text": "Krátký hook — zvědavost", "keyWord": "1 slovo pro akcent + zvětšení (cover rule)", "alt": "Alt slidu 1"},
+        {"order": 2, "role": "promise", "text": "Co čtenář získá když doswipuje", "alt": "Alt slidu 2"}
       ],
       "text": "Text na single vizuál / kartu (u non-carousel typů)",
       "note": "vizuální námět / nálada (ne prompt — jen záměr)",
@@ -215,6 +217,7 @@ Zadání pro `social-image-generator`. Ten z něj vyrobí obrázky + `image-mani
 ```
 
 - `type` volí writer podle obsahu: návod/kroky/mýty/tipy → `carousel`; citát → `quote-card`; jedno číslo → `stat-card`; jinak `single` nebo `hook-card`.
+- **Slide `role` = 6 beatů:** `hook` → `promise` → `point` (opakuje se) → `payoff` → `cta`. **`keyWord`** u hooku/coveru = 1 slovo, které image-generator zvětší a dá do akcentní barvy (cover rule: 3 elementy · 2 barvy · 1 slovo větší).
 - `aspectRatio` default per síť: IG/FB feed a karusel `4:5`, LinkedIn `1:1`, story/reel cover `9:16`.
 - **6 typů `type` odpovídá tomu, co `social-image-generator` umí** (karusel · single · quote/stat/hook karta · story/reel cover). Neposílej typ mimo tento výčet.
 - **LinkedIn karusel = `type: carousel` + `platform: linkedin` (poměr 4:5).** `social-image-generator` z něj složí **PDF dokument** — nejsilnější LinkedIn formát (dokument/carousel ≫ text). Pro jednoduchý vizuál použij `type: single` (1:1).
@@ -284,6 +287,7 @@ Než vrátíš hand-off, projdi u KAŽDÉHO postu:
 - [ ] **Link** není v těle FB/LinkedIn postu (→ 1. komentář nebo vynech); u odkazu je vyplněné `utm`.
 - [ ] **AI-slop** (`writing-playbook.md` §6): žádné „není to X, je to Y", žádný generický closer, em-dash střídmě, žádný zakázaný slovník.
 - [ ] **Jedna myšlenka** na post; CTA konkrétní a jedno; vykání + brand hlas.
+- [ ] **Audience Gaps:** 3 tiché otázky, které si čtenář klade a post je neřeší → doplň, nebo vědomě odlož (ne nechat viset).
 - [ ] **JSON**: `summary` = finální text, žádný placeholder v `scheduleLocal`, `mediaFiles` prázdné (doplní dělníci).
 - [ ] **Brief konzistence**: každý post s `mediaRequired: true` má odpovídající záznam a **formát sedí na správný brief** — obrázek/karusel/karta → `visual-briefs.json`, reel/video → `video-briefs.json`; `type`/`format` odpovídá `recommendedFormat`.
 - [ ] **Rozprostření (batch/plán)**: ne dva posty tentýž den na stejné síti; rozlož přes dny/sloty.

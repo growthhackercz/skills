@@ -3,12 +3,13 @@ name: ad-writer
 description: "Píše platformově specifické reklamní texty pro Meta, LinkedIn a Google Ads včetně RSA headlines, social primary textu, CTA, carousel karet a publisher JSON hand-offu."
 category: content
 status: ready
-version: "1.0"
-publishedAt: "2026-05-08"
+version: "1.1"
+publishedAt: "2026-07-15"
+metadata: {"openclaw":{"emoji":"📣"}}
 ---
 # Ad Writer
 
-Tento skill píše finální reklamní copy a strukturovaný JSON pro další kroky. Nepublikuje a negeneruje assety.
+Tento skill píše finální reklamní copy a strukturovaný JSON pro další kroky. Nepublikuje a negeneruje assety. **Maker Ads Enginu** (rodina: `ad-strategist` → **ad-writer** → `ad-image-generator`/`ad-set-image-generator` → `cliqsales-ads-publisher`/`meta-ads-publisher`).
 
 ## Kdy použít
 
@@ -16,12 +17,10 @@ Použij při tvorbě textu pro placené reklamy, ad variants, carousel card copy
 
 ## Vstup
 
-Preferovaný vstup je `ad-plan.json` od `meta-ad-strategist` nebo
-`cliqsales-ad-strategist`; starší tasky mohou přijít přes `ad-strategist`
-router:
+Preferovaný vstup je `ad-plan.json` od `ad-strategist`:
 
 ```text
-/documents/brand/ads/{campaign-slug}/ad-plan.json
+/documents/ads/campaigns/{campaign-slug}/ad-plan.json
 ```
 
 Načti také dostupné brand/product podklady. Pokud chybí brand/product podklady a `ad-plan.json` nemá `brandContextConfirmedWithoutDocs: true`, nevymýšlej brand voice a vrať se na `ad-strategist` pro potvrzení `missing_needs_confirmation`. Pokud potvrzení existuje, piš copy jen z dodaného zadání, landing page a dostupných veřejných informací a označ to v `ad-copy.md`. Pokud chybí landing URL pro draft, copy můžeš připravit, ale publisher readiness označ jako `blocked_missing_landing_url`.
@@ -43,7 +42,7 @@ Načti také dostupné brand/product podklady. Pokud chybí brand/product podkla
 ## Výstupní složka
 
 ```text
-/documents/brand/ads/{campaign-slug}/
+/documents/ads/campaigns/{campaign-slug}/
 ```
 
 Povinné soubory:
@@ -93,6 +92,7 @@ ad-copy.json
 ```
 
 ## Quality rules
+- **🔒 Cesty — struktura `/documents/ads/` je FIXNÍ.** 1. úroveň (`campaigns/ · scout/ · sets/ · video/ · reports/ · pixel-capi-audits/ · ad-score/ · evergreen-ads.json`) je daná — **NIKDY tam nezakládej novou složku** (žádná složka se jménem kampaně/značky přímo pod `ads/`, jinak se v tom reporty ztratí). Nové kampaně/běhy/sady = vždy **PODsložka**. Ukládej **jen** do `/documents/ads/campaigns/{campaign-slug}/`.
 
 - Každá reklama má jednu hlavní myšlenku.
 - Nepoužívej generický AI jazyk typu „v dnešním digitálním světě“, „posuňte podnikání na další úroveň“, „revoluční řešení“.
@@ -104,10 +104,10 @@ ad-copy.json
 
 ```markdown
 Copy je připravená:
-- Manual: `/documents/brand/ads/{campaign-slug}/ad-copy.md`
-- JSON: `/documents/brand/ads/{campaign-slug}/ad-copy.json`
+- Manual: `/documents/ads/campaigns/{campaign-slug}/ad-copy.md`
+- JSON: `/documents/ads/campaigns/{campaign-slug}/ad-copy.json`
 - Platformy: {platforms}
-- Další krok: `ad-image-creator`, `ad-video-creator` nebo `ad-publisher`
+- Další krok: `ad-image-generator` / `ad-set-image-generator`, video větev nebo `cliqsales-ads-publisher` / `meta-ads-publisher`
 ```
 
 Pokud jde o orchestrátor workflow, nevracej toto jako finální výsledek; je to mezikrok.

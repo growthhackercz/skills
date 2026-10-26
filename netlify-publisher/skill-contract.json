@@ -1,0 +1,153 @@
+{
+  "contractVersion": 1,
+  "taskCheckpoints": {
+    "draft-deploy": {
+      "requires": [
+        {
+          "fileContains": {
+            "path": "/documents/sites/{slug}/.netlify-state.json",
+            "contains": "\"skillVersion\": \"1.3.4\""
+          }
+        },
+        {
+          "fileContains": {
+            "path": "/documents/sites/{slug}/.netlify-state.json",
+            "contains": "\"stateVersion\": 2"
+          }
+        },
+        {
+          "fileContains": {
+            "path": "/documents/sites/{slug}/.netlify-state.json",
+            "contains": "\"siteId\": \""
+          }
+        },
+        {
+          "fileContains": {
+            "path": "/documents/sites/{slug}/.netlify-state.json",
+            "contains": "\"draftUrl\": \"https://"
+          }
+        },
+        {
+          "fileContains": {
+            "path": "/documents/sites/{slug}/.netlify-state.json",
+            "contains": "\"draftDeployId\": \""
+          }
+        }
+      ]
+    },
+    "production-deploy": {
+      "requires": [
+        {
+          "fileContains": {
+            "path": "/documents/sites/{slug}/.netlify-state.json",
+            "contains": "\"skillVersion\": \"1.3.4\""
+          }
+        },
+        {
+          "fileContains": {
+            "path": "/documents/sites/{slug}/.netlify-state.json",
+            "contains": "\"stateVersion\": 2"
+          }
+        },
+        {
+          "fileContains": {
+            "path": "/documents/sites/{slug}/.netlify-state.json",
+            "contains": "\"prodUrl\": \"https://"
+          }
+        },
+        {
+          "fileContains": {
+            "path": "/documents/sites/{slug}/.netlify-state.json",
+            "contains": "\"prodDeployId\": \""
+          }
+        },
+        {
+          "fileContains": {
+            "path": "/documents/sites/{slug}/.netlify-state.json",
+            "contains": "\"promotedDeployId\": null"
+          }
+        },
+        {
+          "fileContains": {
+            "path": "/documents/sites/{slug}/.netlify-state.json",
+            "contains": "\"rolledBackDeployId\": null"
+          }
+        }
+      ]
+    },
+    "production-promote": {
+      "requires": [
+        {
+          "fileContains": {
+            "path": "/documents/sites/{slug}/.netlify-state.json",
+            "contains": "\"skillVersion\": \"1.3.4\""
+          }
+        },
+        {
+          "fileContains": {
+            "path": "/documents/sites/{slug}/.netlify-state.json",
+            "contains": "\"stateVersion\": 2"
+          }
+        },
+        {
+          "fileContains": {
+            "path": "/documents/sites/{slug}/.netlify-state.json",
+            "contains": "\"prodUrl\": \"https://"
+          }
+        },
+        {
+          "fileContains": {
+            "path": "/documents/sites/{slug}/.netlify-state.json",
+            "contains": "\"promotedDeployId\": \""
+          }
+        },
+        {
+          "fileContains": {
+            "path": "/documents/sites/{slug}/.netlify-state.json",
+            "contains": "\"draftUrl\": null"
+          }
+        },
+        {
+          "fileContains": {
+            "path": "/documents/sites/{slug}/.netlify-state.json",
+            "contains": "\"draftDeployId\": null"
+          }
+        }
+      ]
+    },
+    "production-rollback": {
+      "requires": [
+        {
+          "fileContains": {
+            "path": "/documents/sites/{slug}/.netlify-state.json",
+            "contains": "\"skillVersion\": \"1.3.4\""
+          }
+        },
+        {
+          "fileContains": {
+            "path": "/documents/sites/{slug}/.netlify-state.json",
+            "contains": "\"stateVersion\": 2"
+          }
+        },
+        {
+          "fileContains": {
+            "path": "/documents/sites/{slug}/.netlify-state.json",
+            "contains": "\"prodUrl\": \"https://"
+          }
+        },
+        {
+          "fileContains": {
+            "path": "/documents/sites/{slug}/.netlify-state.json",
+            "contains": "\"rolledBackDeployId\": \""
+          }
+        },
+        {
+          "fileContains": {
+            "path": "/documents/sites/{slug}/.netlify-state.json",
+            "contains": "\"promotedDeployId\": null"
+          }
+        }
+      ]
+    }
+  }
+}

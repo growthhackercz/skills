@@ -1,0 +1,7 @@
+{
+  "_generated": false,
+  "_note": "PLACEHOLDER — nahradí ho potvrzený GHL field apply nebo read-only verify nad kompletním schematem. Produkční build nikdy nevytváří GHL pole. Nikdy needituj ručně; slouží jen k tomu, aby lib/fields.ts měl co importovat před prvním buildem.",
+  "persona": {},
+  "temperature_field_id": null,
+  "scheduled_ids_field_id": null
+}

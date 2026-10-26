@@ -1,0 +1,97 @@
+{
+  "contractVersion": 1,
+  "taskCheckpoints": {
+    "prospect-package": {
+      "requires": [
+        {
+          "file": "/documents/sales/prospects/{campaign}/prospects.csv"
+        },
+        {
+          "file": "/documents/sales/prospects/{campaign}/prospects-review.md"
+        },
+        {
+          "file": "/documents/sales/prospects/{campaign}/idealni-klient.md"
+        },
+        {
+          "file": "/documents/sales/prospects/{campaign}/plan-vyhledavani.md"
+        },
+        {
+          "file": "/documents/sales/prospects/{campaign}/meta.json"
+        }
+      ]
+    },
+    "prospect-actions": {
+      "requires": [
+        {
+          "file": "/documents/sales/prospects/{campaign}/prospects.csv"
+        },
+        {
+          "file": "/documents/sales/prospects/{campaign}/prospects-review.md"
+        },
+        {
+          "file": "/documents/sales/prospects/{campaign}/meta.json"
+        },
+        {
+          "salesGhlPlanArtifact": {
+            "path": "/documents/sales/prospects/{campaign}/ghl-plan.json",
+            "skillVersion": "1.3",
+            "sourceAgent": "cso",
+            "taskContract": "sales-prospector:prospect-actions"
+          }
+        }
+      ]
+    },
+    "prospect-package-v1-4": {
+      "requires": [
+        {
+          "file": "/documents/sales/prospects/{campaign}/prospects-review.md"
+        },
+        {
+          "file": "/documents/sales/prospects/{campaign}/idealni-klient.md"
+        },
+        {
+          "file": "/documents/sales/prospects/{campaign}/plan-vyhledavani.md"
+        },
+        {
+          "salesProspectPackage": {
+            "metaPath": "/documents/sales/prospects/{campaign}/meta.json",
+            "csvPath": "/documents/sales/prospects/{campaign}/prospects.csv",
+            "skillVersion": "1.4",
+            "sourceAgent": "cso",
+            "taskContract": "sales-prospector:prospect-package-v1-4"
+          }
+        }
+      ]
+    },
+    "prospect-actions-v1-4": {
+      "requires": [
+        {
+          "file": "/documents/sales/prospects/{campaign}/prospects-review.md"
+        },
+        {
+          "file": "/documents/sales/prospects/{campaign}/idealni-klient.md"
+        },
+        {
+          "file": "/documents/sales/prospects/{campaign}/plan-vyhledavani.md"
+        },
+        {
+          "salesProspectPackage": {
+            "metaPath": "/documents/sales/prospects/{campaign}/meta.json",
+            "csvPath": "/documents/sales/prospects/{campaign}/prospects.csv",
+            "skillVersion": "1.4",
+            "sourceAgent": "cso",
+            "taskContract": "sales-prospector:prospect-actions-v1-4"
+          }
+        },
+        {
+          "salesGhlPlanArtifact": {
+            "path": "/documents/sales/prospects/{campaign}/ghl-plan.json",
+            "skillVersion": "1.4",
+            "sourceAgent": "cso",
+            "taskContract": "sales-prospector:prospect-actions-v1-4"
+          }
+        }
+      ]
+    }
+  }
+}

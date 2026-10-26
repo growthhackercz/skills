@@ -3,7 +3,7 @@ name: content-ideation
 description: "Zásobník nápadů na obsah: překládá reálné signály trhu (trendy, otázky zákazníků, pozice v Googlu) na konkrétní obsahové nápady s doloženým skóre a spravuje backlog. Použijte na „dejte mi nápady, o čem psát", při týdenním plánování obsahu nebo když je potřeba zaplnit mezeru v obsahu."
 status: ready
 version: "2.0"
-publishedAt: "2026-04-25"
+publishedAt: "2026-07-07"
 category: content
 metadata: {"openclaw":{"emoji":"💡"}}
 ---

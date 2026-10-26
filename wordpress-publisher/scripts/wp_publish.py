@@ -92,10 +92,20 @@ def load_env_file(path: str | None) -> None:
 
 
 def load_wordpress_profile(profile: str | None, force: bool = False) -> None:
-    skills_root = Path(__file__).resolve().parents[2]
-    helper_path = skills_root / "_lib"
-    if helper_path.exists():
-        sys.path.insert(0, str(helper_path))
+    script_path = Path(__file__).resolve()
+    candidates: list[Path] = []
+    for env_name in ("OPENCLAW_HOME", "CC_OPENCLAW_HOME"):
+        raw_home = os.environ.get(env_name, "").strip()
+        if raw_home:
+            home = Path(raw_home).expanduser()
+            candidates.extend((home / "cs-skills" / "_lib", home / ".openclaw" / "cs-skills" / "_lib"))
+    candidates.append(Path.home() / ".openclaw" / "cs-skills" / "_lib")
+    candidates.append(script_path.parents[2] / "_lib")
+    candidates.extend(parent / "cs-skills" / "_lib" for parent in script_path.parents)
+    for helper_path in candidates:
+        if (helper_path / "cc_credentials.py").is_file():
+            sys.path.insert(0, str(helper_path))
+            break
     try:
         import cc_credentials  # type: ignore
     except Exception:

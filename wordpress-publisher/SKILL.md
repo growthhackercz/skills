@@ -3,10 +3,14 @@ name: wordpress-publisher
 description: "Publikujte hotový článek do WordPressu přes REST API jako draft, preview nebo po výslovném potvrzení publish. Umí použít asset manifest s WordPress media IDs/URLs pro vložení obrázků do Gutenberg obsahu."
 category: integrations
 status: ready
-version: "1.0"
-publishedAt: "2026-05-08"
+version: "1.0.1"
+publishedAt: "2026-09-06"
 ---
 # WordPress Publisher
+
+Helper načítá Control Center profily přes společný resolver z runtime katalogu
+`cs-skills/_lib`, také z přiřazené nebo uživatelské kopie skillu. Nekopíruj
+`_lib` mezi skilly agenta. Volba profilu a legacy env fallback se nemění.
 
 Publikuje hotový obsah do WordPressu. Tento skill nepíše článek od nuly a negeneruje obrázky; pro tvorbu textu použij `article-writer`, pro obrázky `article-image-generator`, pro publishing tento skill.
 
