@@ -1,0 +1,160 @@
+{
+  "scope": "static-local-backup-not-live-runtime",
+  "repo_base_sha": "9a2d06fc48faa32abebadbcaa6e11ea5e48d88f8",
+  "restore_zip": {
+    "sha256": "c4813b6e9e3f54b8810e71429d14927d508fcf43a5df04625b6821b38d9182bc",
+    "regular_entries": 7,
+    "crc": "PASS",
+    "embedded_tar_matches_local": true
+  },
+  "continuity_tar": {
+    "sha256": "d8e0bcbe26208bf3cf0a08cc885b2304031162620ee12266977bbdc306a1dcdf",
+    "checksum": "PASS",
+    "manifest_verified": 2521,
+    "regular_files": 2522,
+    "members": 2670,
+    "nonregular_members": 0,
+    "workspace_count": 20,
+    "cc_agent_count": 5,
+    "runtime_agent_ids": [
+      "cmo",
+      "coo",
+      "cso",
+      "cto",
+      "main",
+      "web-builder",
+      "wiki-extractor"
+    ],
+    "user_skills": 26,
+    "assignment_counts": {
+      "ceo": 8,
+      "cmo": 48,
+      "coo": 16,
+      "cso": 7,
+      "cto": 12
+    },
+    "assignment_total": 91
+  },
+  "runtime_config": {
+    "openclaw_version": "OpenClaw 2026.7.1",
+    "platform": "linux/x64",
+    "primary_model": "openai/gpt-5.6-sol",
+    "agent_models": {
+      "cmo": "openai/gpt-5.6-terra",
+      "coo": "openai/gpt-5.6-sol",
+      "cso": "openai/gpt-5.6-sol",
+      "cto": "openai/gpt-5.6-sol",
+      "main": "openai/gpt-5.6-sol",
+      "web-builder": "inherit-default",
+      "wiki-extractor": "inherit-default"
+    },
+    "default_heartbeat": {
+      "every": "0m"
+    },
+    "subagents": {
+      "maxSpawnDepth": 1,
+      "delegationMode": "suggest"
+    },
+    "memory_search_provider": "none",
+    "memory_wiki_enabled": true,
+    "compiled_wiki_digest_in_prompt": false,
+    "autonomous_skill_workshop": false,
+    "workshop_approval_policy": "pending",
+    "cron_config_keys": [],
+    "mcp_server_ids": [
+      "ghl-mcp"
+    ],
+    "cmo_social_publisher_assignments": [
+      "user:user-cliqsales-social-publisher",
+      "user:user-cliqsales-social-publisher-v1-1-2"
+    ]
+  },
+  "skill_library": {
+    "zip_sha256": "25531493aaece492173f1cf8ba565dee7ceadac47ced0601cc251102b56031e5",
+    "crc": "PASS",
+    "archive_skills": 92,
+    "repo_top_level_skills": 150,
+    "common": 92,
+    "identical_normalized": 90,
+    "only_archive": [],
+    "only_repo_count": 58,
+    "only_repo": [
+      "ab-testing-orchestrator",
+      "ad-creative-analysis",
+      "ad-designer",
+      "ad-image-creator",
+      "ad-publisher",
+      "ad-video-creator",
+      "ads-analyst",
+      "brand-guidelines",
+      "campaign-planner",
+      "cliqsales-ad-strategist",
+      "competitive-ads-extractor",
+      "competitor-watch",
+      "content-calendar-manager",
+      "content-research-writer",
+      "creative-director",
+      "crm-opportunity-manager",
+      "cross-team-review",
+      "customer-health-monitor",
+      "domain-name-brainstormer",
+      "executive-briefing",
+      "finance-ops",
+      "frontend-design",
+      "head-of-marketing",
+      "image-generation",
+      "incident-response",
+      "internal-comms",
+      "knowledge-base",
+      "landing-page-analysis",
+      "lead-qualifier",
+      "lead-research-assistant",
+      "meeting-insights-analyzer",
+      "meta-ad-strategist",
+      "meta-ads-analyser",
+      "meta-ads-cli",
+      "meta-ads-extractor",
+      "meta-ads-reporting",
+      "meta-pixel-capi-audit",
+      "multichannel-publisher",
+      "objection-handler",
+      "page-designer",
+      "performance-marketer",
+      "priority-orchestrator",
+      "process-auditor",
+      "proposal-generator",
+      "raffle-winner-picker",
+      "revenue-tracker",
+      "sales-followup-engine",
+      "sales-memory",
+      "sentiment-tracker",
+      "seo-strategy",
+      "sla-queue-manager",
+      "tailored-resume-generator",
+      "team-capacity-manager",
+      "ticket-triage",
+      "twitter-algorithm-optimizer",
+      "upsell-crosssell-planner",
+      "video-production",
+      "website-brand-analysis"
+    ],
+    "differences": {
+      "content-scout": {
+        "only_archive": [],
+        "only_repo": [
+          "SKILL.md.txt"
+        ],
+        "content_changed": []
+      },
+      "social-post-writer": {
+        "only_archive": [],
+        "only_repo": [
+          "references/anti-slop.md"
+        ],
+        "content_changed": []
+      }
+    },
+    "shared_library_files_in_archive": 45,
+    "repo_shared_library_present": false
+  }
+}
